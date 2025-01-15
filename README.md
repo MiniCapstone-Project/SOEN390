@@ -6,8 +6,8 @@ Mini Capstone Project
 |2|Adib Akkari|40216815|Adssib|
 |3|||Omare04|
 |4|||ABALkhabbaz|
-|5||||
-|6||||
+|5|||AbdelrahmanEldeeb11|
+|6|||Alieldeeb1|
 |7||||
 |8||||
 |9||||
