@@ -9,7 +9,7 @@ Mini Capstone Project
 |5| AbdelRahman Eldeeb|40245477|AbdelrahmanEldeeb11|
 |6| Ali Eldeeb|40237796|Alieldeeb1|
 |7| Mostafa Mohamed|40201893|Mustafa-M422|
-|8||||
+|8| Ziad-Tarik Taufeek|40205732|Ziad-Tari|
 
 ## links
 
