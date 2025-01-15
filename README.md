@@ -4,7 +4,7 @@ Mini Capstone Project
 |-|-|-|-|
 |1|Elion Abdyli|40132982|elion-abdyli|
 |2|Adib Akkari|40216815|Adssib|
-|3|||Omare04|
+|3|Omar Elmasaoudi|40255123|Omare04|
 |4|||ABALkhabbaz|
 |5| AbdelRahman Eldeeb| 40245477|AbdelrahmanEldeeb11|
 |6|||Alieldeeb1|
