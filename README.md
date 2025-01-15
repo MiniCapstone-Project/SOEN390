@@ -10,8 +10,6 @@ Mini Capstone Project
 |6| Ali Eldeeb|40237796|Alieldeeb1|
 |7| Mostafa Mohamed|40201893|Mustafa-M422|
 |8||||
-|9||||
-|10||||
 
 ## links
 
