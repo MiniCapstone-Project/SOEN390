@@ -8,7 +8,7 @@ Mini Capstone Project
 |4|||ABALkhabbaz|
 |5|||AbdelrahmanEldeeb11|
 |6|||Alieldeeb1|
-|7||||
+|7| Mostafa Mohamed|40201893|Mustafa-M422|
 |8||||
 |9||||
 |10||||
