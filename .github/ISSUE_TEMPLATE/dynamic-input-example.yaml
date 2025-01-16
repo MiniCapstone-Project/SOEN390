@@ -25,13 +25,13 @@ body:
   #     placeholder: "Describe the issue, steps to reproduce, and expected behavior."
   #     required: true  # Valid usage
 
-  # - type: dropdown
-  #   id: severity
-  #   attributes:
-  #     label: Severity
-  #     description: How severe is the bug?
-  #     options:
-  #       - Low
-  #       - Medium
-  #       - High
-  #     required: true  # Valid usage
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is the bug?
+      options:
+        - Low
+        - Medium
+        - High
+      required: true  # Valid usage
