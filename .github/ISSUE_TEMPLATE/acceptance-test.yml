@@ -1,21 +1,31 @@
 name: Acceptance Test
-about: 'Describe this Acceptance Test template'
-title: ''
-labels: 
-  - acceptance test
-assignees: ''
-
+description: Describe the acceptance test for this feature or task.
+title: "[AT ] "
+labels: ["acceptance test"]
+projects: ["SOEN390"]
 body:
   - type: markdown
     attributes:
       value: |
-        ## Acceptance Criteria:
+        Thanks for taking the time to fill out this Acceptance Test!
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: List the acceptance criteria for this feature or task.
+      placeholder: Describe the criteria here.
+      value: |
         - [ ] Criteria 1: Describe the first acceptance criterion here.
         - [ ] Criteria 2: Describe the second acceptance criterion here.
         - [ ] Criteria 3: Describe additional criteria as needed.
-  
-  - type: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: resources
     attributes:
-      value: |
-        ## Resources:
-        * User Story: [Here goes a URL to the corresponding User Story]
+      label: Resources
+      description: Include any relevant resources, such as a link to the User Story.
+      placeholder: Add any resources or references that may be helpful.
+      value: "User Story: [Here goes a URL to the corresponding User Story]"
+    validations:
+      required: false
