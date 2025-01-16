@@ -17,7 +17,6 @@ body:
       placeholder: |
         Describe the vulnerability, exploit, or risk you’ve encountered.
         Include any important details that can help us understand the issue.
-      required: true
 
   - type: dropdown
     id: security-level
@@ -29,7 +28,6 @@ body:
         - Medium
         - High
         - Critical
-      required: true
 
   - type: checkboxes
     id: infected-systems
@@ -43,7 +41,6 @@ body:
         - label: Authentication
         - label: Third-party integrations
         - label: Other (please specify in description)
-      required: true
 
   - type: textarea
     id: additional-details
@@ -52,4 +49,3 @@ body:
       description: Provide any extra context, evidence, or details about the security issue.
       placeholder: |
         Add any relevant details such as logs, screenshots, or other supporting information.
-      required: false
