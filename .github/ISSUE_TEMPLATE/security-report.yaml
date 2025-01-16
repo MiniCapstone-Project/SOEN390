@@ -1,6 +1,7 @@
 name: Security Report
 description: Use this template to report a security-related issue.
-title: "[security] "
+title: "Security "
+labels: ["security"]
 
 body:
   - type: markdown
@@ -36,8 +37,7 @@ body:
       description: Which systems or components are affected by this vulnerability?
       options:
         - label: Frontend/UI
-        - label: Backend/API
-        - label: Database
+        - label: Backend
         - label: Authentication
         - label: Third-party integrations
         - label: Other (please specify in description)
