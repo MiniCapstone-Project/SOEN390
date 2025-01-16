@@ -21,8 +21,7 @@ assignees: ''
 - [ ] Code is reviewed and approved.
 - [ ] Necessary tests are written and pass.
 - [ ] Documentation is updated, if applicable.
-- [ ] Feature is deployed to the [environment name].
 
-### Resources:
+**Resources:**
 
 * Mockups: [Here goes a URL to or the name of the mockup(s) in inVision];
