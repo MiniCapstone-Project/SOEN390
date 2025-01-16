@@ -12,11 +12,10 @@ body:
     attributes:
       label: Acceptance Criteria
       description: List the acceptance criteria for this feature or US.
-      placeholder: Describe the criteria here.
-      value: |
-        -  Criteria 1: Describe the first acceptance criterion here.
-        -  Criteria 2: Describe the second acceptance criterion here.
-        -  Criteria 3: Describe additional criteria as needed.
+      options:
+        - label: Criteria 1: Describe the first acceptance criterion here.
+        - label: Criteria 2: Describe the second acceptance criterion here.
+        - label: Criteria 3: Describe additional criteria as needed.
     validations:
       required: true
   - type: textarea
@@ -24,7 +23,6 @@ body:
     attributes:
       label: Resources
       description: Include any relevant resources, such as a link to the User Story.
-      placeholder: Add any resources or references that may be helpful.
       value: "User Story: [Here goes a URL to the corresponding User Story]"
     validations:
       required: false
