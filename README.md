@@ -12,7 +12,7 @@ Mini Capstone Project
 |8| Ziad-Tarik Taufeek|40205732|Ziad-Tari|
 |9|||SarOhayon|
 |10| Mahad Khattak|40251021|MahadKhattak|
-|11||||
+
 ## links
 
 [Google Drive Link](https://drive.google.com/drive/folders/1UL6PJ-IIoOIFHoY5S4i67sVe1DtE99dF?usp=sharing)
