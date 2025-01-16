@@ -17,21 +17,21 @@ body:
       placeholder: "Enter a short, descriptive bug title"
       required: true  # Valid usage
 
-  - type: textarea
-    id: bug_description
-    attributes:
-      label: Bug Description
-      description: Provide a detailed description of the bug.
-      placeholder: "Describe the issue, steps to reproduce, and expected behavior."
-      required: true  # Valid usage
+  # - type: textarea
+  #   id: bug_description
+  #   attributes:
+  #     label: Bug Description
+  #     description: Provide a detailed description of the bug.
+  #     placeholder: "Describe the issue, steps to reproduce, and expected behavior."
+  #     required: true  # Valid usage
 
-  - type: dropdown
-    id: severity
-    attributes:
-      label: Severity
-      description: How severe is the bug?
-      options:
-        - Low
-        - Medium
-        - High
-      required: true  # Valid usage
+  # - type: dropdown
+  #   id: severity
+  #   attributes:
+  #     label: Severity
+  #     description: How severe is the bug?
+  #     options:
+  #       - Low
+  #       - Medium
+  #       - High
+  #     required: true  # Valid usage
