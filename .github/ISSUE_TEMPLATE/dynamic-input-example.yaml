@@ -1,8 +1,37 @@
+name: Bug Report
+description: Use this template to report a bug.
+title: "[Bug] "
+
 body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report
+        Please fill out the required fields below to report a bug.
+
   - type: input
     id: bug_title
     attributes:
       label: Bug Title
-      description: Provide a brief title for the bug.
+      description: A brief title for the bug.
       placeholder: "Enter the bug title"
-      required: true  # This is valid because `input` supports `required`.
+      required: true
+
+  - type: textarea
+    id: bug_description
+    attributes:
+      label: Bug Description
+      description: Provide a detailed description of the bug.
+      placeholder: "Describe the bug here"
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How severe is the bug?
+      options:
+        - Low
+        - Medium
+        - High
+      required: true
