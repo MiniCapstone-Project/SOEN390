@@ -11,7 +11,7 @@ Mini Capstone Project
 |7| Mostafa Mohamed|40201893|Mustafa-M422|
 |8| Ziad-Tarik Taufeek|40205732|Ziad-Tari|
 |9|||SarOhayon|
-|10||||
+|10| Mahad Khattak|40251021|MahadKhattak|
 ## links
 
 https://drive.google.com/drive/folders/1UL6PJ-IIoOIFHoY5S4i67sVe1DtE99dF?usp=sharing
