@@ -9,13 +9,13 @@ body:
         ## Bug Report
         Please fill out the form below to report a bug.
 
-  - type: input
-    id: bug_title
-    attributes:
-      label: Bug Title
-      description: A brief title for the bug.
-      placeholder: "Enter a short, descriptive bug title"
-      required: true  # Valid usage
+  # - type: input
+  #   id: bug_title
+  #   attributes:
+  #     label: Bug Title
+  #     description: A brief title for the bug.
+  #     placeholder: "Enter a short, descriptive bug title"
+  #     required: true  # Valid usage
 
   # - type: textarea
   #   id: bug_description
