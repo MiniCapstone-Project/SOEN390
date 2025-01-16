@@ -1,0 +1,32 @@
+name: Add Items
+description: Add as many items as you need by filling in the fields below.
+title: "[Add Items]"
+
+body:
+  - type: input
+    id: item_1
+    attributes:
+      label: Item 1
+      description: Provide the first item.
+      placeholder: "Enter your first item"
+      required: true
+
+  - type: input
+    id: item_2
+    attributes:
+      label: Item 2
+      description: Provide the second item, if needed.
+      placeholder: "Enter your second item"
+    if:
+      field: item_1
+      contains: "."
+
+  - type: input
+    id: item_3
+    attributes:
+      label: Item 3
+      description: Provide the third item, if needed.
+      placeholder: "Enter your third item"
+    if:
+      field: item_2
+      contains: "."
