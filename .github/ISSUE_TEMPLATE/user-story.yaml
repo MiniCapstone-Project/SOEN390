@@ -19,16 +19,17 @@ body:
         **So that [a reason or benefit].**
     validations:
       required: true
+
   - type: checkboxes
     id: definition-of-done
     attributes:
       label: Definition of Done
       description: List the criteria for the user story to be considered "done."
       options: 
-        - label:  All acceptance criteria are met.
-        - Label: Code is reviewed and approved.
-        - label: Necessary tests are written and pass.
-        - label: Documentation is updated, if applicable.
+        - label: "All acceptance criteria are met."
+        - label: "Code is reviewed and approved."
+        - label: "Necessary tests are written and pass."
+        - label: "Documentation is updated, if applicable."
     validations:
       required: true
 
