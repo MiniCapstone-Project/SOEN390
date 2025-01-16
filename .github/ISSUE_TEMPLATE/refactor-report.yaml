@@ -25,7 +25,6 @@ body:
       description: List the types of refactoring you've implemented.
       placeholder: |
         For example: "Encapsulation", "Rename Variable", "Extract Method", "Replace Loop with Pipeline", etc.
-      value: ""
 
   - type: textarea
     id: code-area
