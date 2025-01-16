@@ -34,7 +34,7 @@ body:
       label: What Is The Expected Result?
       description: Describe what you expected to happen.
       placeholder: Describe the expected result here.
-      value: "[Describe what you expected to happen."
+      value: ""
     validations:
       required: true
   - type: textarea
@@ -43,7 +43,7 @@ body:
       label: What Is The Actual Result?
       description: Describe what actually happened.
       placeholder: Describe the actual result here.
-      value: "Describe what actually happened.]"
+      value: ""
     validations:
       required: true
   - type: checkboxes
