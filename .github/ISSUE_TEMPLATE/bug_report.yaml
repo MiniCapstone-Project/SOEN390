@@ -13,7 +13,6 @@ body:
       label: Bug Description
       description: Provide a brief description of the bug.
       placeholder: Describe the bug here.
-      value: "Bug Description"
     validations:
       required: true
   - type: textarea
@@ -61,6 +60,5 @@ body:
       label: Additional Details/Screenshots
       description: Provide any additional context, error messages, or screenshots.
       placeholder: Add any additional details here.
-      value: "Additional context, error messages, or screenshots."
     validations:
       required: false
