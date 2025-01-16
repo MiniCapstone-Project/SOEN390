@@ -1,6 +1,6 @@
 name: Refactoring
 description: Create an Issue for a Refactoring Task
-title: "Refactor: "
+title: "Refactor "
 labels: ["refactoring"]
 body:
   - type: markdown
