@@ -24,6 +24,5 @@ body:
     attributes:
       label: Resources
       description: Include any relevant resources, such as a link to the User Story.
-      value: "User Story: [Here goes a URL to the corresponding User Story](Link Here)"
     validations:
       required: false
