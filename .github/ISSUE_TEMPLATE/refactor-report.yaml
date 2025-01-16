@@ -1,0 +1,61 @@
+name: Refactoring
+description: Create an Issue for a Refactoring Task
+title: "Refactor: "
+labels: ["refactoring"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to create a Refactoring task!
+
+  - type: textarea
+    id: refactoring-description
+    attributes:
+      label: Refactoring Description
+      description: Provide a description of the refactoring task and the problem you're solving.
+      placeholder: |
+        Explain what part of the code needs to be refactored, why it needs to be refactored, and the expected benefits (e.g., improved readability, performance improvements, better modularity, etc.).
+    validations:
+      required: true
+
+  - type: textarea
+    id: code-area
+    attributes:
+      label: Code Area
+      description: Identify the part of the code that will be affected by the refactoring.
+      placeholder: |
+        Specify which files, functions, or modules will be modified as part of this refactoring.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: refactor-strategy
+    attributes:
+      label: Refactoring Strategy
+      description: Choose the strategy you will use for this refactoring task.
+      options:
+        - label: "Improve code readability"
+        - label: "Optimize performance"
+        - label: "Modularize code"
+        - label: "Remove duplicated code"
+        - label: "Other (please describe in the description)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: test-coverage
+    attributes:
+      label: Test Coverage
+      description: Specify any new or existing tests that should be written or run to validate the refactored code.
+      placeholder: "Describe tests or specify if existing tests are sufficient to verify correctness after refactoring."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-details
+    attributes:
+      label: Additional Details
+      description: Add any extra context or considerations for the refactoring task.
+      placeholder: "Provide any additional information or context that could help with the refactoring."
+    validations:
+      required: false
