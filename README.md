@@ -14,4 +14,4 @@ Mini Capstone Project
 |10| Mahad Khattak|40251021|MahadKhattak|
 ## links
 
-https://drive.google.com/drive/folders/1UL6PJ-IIoOIFHoY5S4i67sVe1DtE99dF?usp=sharing
+[Google Drive Link](https://drive.google.com/drive/folders/1UL6PJ-IIoOIFHoY5S4i67sVe1DtE99dF?usp=sharing)
