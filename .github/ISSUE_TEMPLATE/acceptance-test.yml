@@ -7,15 +7,16 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this Acceptance Test!
-  - type: checkboxes
+  - type: textarea
     id: acceptance-criteria
     attributes:
       label: Acceptance Criteria
       description: List the acceptance criteria for this feature or US.
-      options:
-        - label: Criteria 1: Describe the first acceptance criterion here.
-        - label: Criteria 2: Describe the second acceptance criterion here.
-        - label: Criteria 3: Describe additional criteria as needed.
+      placeholder: Describe the criteria here.
+      value: |
+        - [ ] Criteria 1: Describe the first acceptance criterion here.
+        - [ ] Criteria 2: Describe the second acceptance criterion here.
+        - [ ] Criteria 3: Describe additional criteria as needed.
     validations:
       required: true
   - type: textarea
