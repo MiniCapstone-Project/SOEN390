@@ -1,11 +1,8 @@
-name: Add Items
-description: Add as many items as you need by filling in the fields below.
-title: "[Add Items]"
-
 body:
   - type: input
-    id: item_1
+    id: bug_title
     attributes:
-      description: Provide the first item.
-      placeholder: "Enter your first item"
-      required: true
+      label: Bug Title
+      description: Provide a brief title for the bug.
+      placeholder: "Enter the bug title"
+      required: true  # This is valid because `input` supports `required`.
