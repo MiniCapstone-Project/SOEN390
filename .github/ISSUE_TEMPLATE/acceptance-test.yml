@@ -1,17 +1,17 @@
 name: Acceptance Test
 description: Describe the acceptance test for this feature or task.
-title: "[AT # ]"
+title: "AT "
 labels: ["acceptance test"]
 body:
   - type: markdown
     attributes:
       value: |
         Thanks for taking the time to fill out this Acceptance Test!
-  - type: textarea
+  - type: checkboxes
     id: acceptance-criteria
     attributes:
       label: Acceptance Criteria
-      description: List the acceptance criteria for this feature or task.
+      description: List the acceptance criteria for this feature or US.
       placeholder: Describe the criteria here.
       value: |
         -  Criteria 1: Describe the first acceptance criterion here.
