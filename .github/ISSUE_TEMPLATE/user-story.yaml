@@ -1,5 +1,5 @@
 name: User Story
-description: Describe a specific User Story
+description: Create an Issue for a User Story
 title: "US #"
 labels: ["user story"]
 body:
@@ -12,36 +12,23 @@ body:
     id: user-story
     attributes:
       label: User Story
-      description: Provide the details of the user story.
+      description: Provide a description of the user story.
       placeholder: |
         **As a [role],**
         **I want [an action or feature],**
         **So that [a reason or benefit].**
     validations:
       required: true
-
-  - type: textarea
-    id: acceptance-criteria
-    attributes:
-      label: Acceptance Criteria
-      description: List the acceptance criteria for this User Story.
-      placeholder: |
-        - [ ] Criteria 1: Describe the first acceptance criterion here.
-        - [ ] Criteria 2: Describe the second acceptance criterion here.
-        - [ ] Criteria 3: Describe additional criteria as needed.
-    validations:
-      required: true
-
-  - type: textarea
+  - type: checkboxes
     id: definition-of-done
     attributes:
       label: Definition of Done
       description: List the criteria for the user story to be considered "done."
-      placeholder: |
-        - [ ] All acceptance criteria are met.
-        - [ ] Code is reviewed and approved.
-        - [ ] Necessary tests are written and pass.
-        - [ ] Documentation is updated, if applicable.
+      options: 
+        - label:  All acceptance criteria are met.
+        - Label: Code is reviewed and approved.
+        - label: Necessary tests are written and pass.
+        - label: Documentation is updated, if applicable.
     validations:
       required: true
 
