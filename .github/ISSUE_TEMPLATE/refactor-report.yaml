@@ -17,6 +17,15 @@ body:
         Explain what part of the code needs to be refactored, why it needs to be refactored, and the expected benefits (e.g., improved readability, performance improvements, better modularity, etc.).
     validations:
       required: true
+      
+  - type: textarea
+    id: refactoring-types
+    attributes:
+      label: Types of Refactoring
+      description: List the types of refactoring you've implemented.
+      placeholder: |
+        For example: "Encapsulation", "Rename Variable", "Extract Method", "Replace Loop with Pipeline", etc.
+      value: ""
 
   - type: textarea
     id: code-area
