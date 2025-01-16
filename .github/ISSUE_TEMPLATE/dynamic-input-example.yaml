@@ -6,7 +6,6 @@ body:
   - type: input
     id: item_1
     attributes:
-      label: Item 1
       description: Provide the first item.
       placeholder: "Enter your first item"
       required: true
