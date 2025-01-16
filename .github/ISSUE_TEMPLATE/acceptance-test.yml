@@ -1,0 +1,21 @@
+name: Acceptance Test
+about: 'Describe this Acceptance Test template'
+title: ''
+labels: 
+  - acceptance test
+assignees: ''
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Acceptance Criteria:
+        - [ ] Criteria 1: Describe the first acceptance criterion here.
+        - [ ] Criteria 2: Describe the second acceptance criterion here.
+        - [ ] Criteria 3: Describe additional criteria as needed.
+  
+  - type: markdown
+    attributes:
+      value: |
+        ## Resources:
+        * User Story: [Here goes a URL to the corresponding User Story]
