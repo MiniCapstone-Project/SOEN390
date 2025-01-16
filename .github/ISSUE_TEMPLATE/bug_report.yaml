@@ -1,6 +1,6 @@
 name: Bug report
 description: Create an Issue for a Bug Report
-title: "BUG #"
+title: "Bug #"
 labels: ["bug"]
 body:
   - type: markdown
@@ -13,7 +13,7 @@ body:
       label: Bug Description
       description: Provide a brief description of the bug.
       placeholder: Describe the bug here.
-      value: "[Provide a brief description of the bug.]"
+      value: "Bug Description"
     validations:
       required: true
   - type: textarea
@@ -23,9 +23,9 @@ body:
       description: Provide the steps to reproduce the bug.
       placeholder: List the steps to reproduce the issue here.
       value: |
-        1. [Step 1]
-        2. [Step 2]
-        3. [Step 3]
+        1. Step 1
+        2. Step 2
+        3. Step 3
     validations:
       required: true
   - type: textarea
@@ -34,7 +34,7 @@ body:
       label: What Is The Expected Result?
       description: Describe what you expected to happen.
       placeholder: Describe the expected result here.
-      value: "[Describe what you expected to happen.]"
+      value: "[Describe what you expected to happen."
     validations:
       required: true
   - type: textarea
@@ -43,7 +43,7 @@ body:
       label: What Is The Actual Result?
       description: Describe what actually happened.
       placeholder: Describe the actual result here.
-      value: "[Describe what actually happened.]"
+      value: "Describe what actually happened.]"
     validations:
       required: true
   - type: checkboxes
@@ -63,6 +63,6 @@ body:
       label: Additional Details/Screenshots
       description: Provide any additional context, error messages, or screenshots.
       placeholder: Add any additional details here.
-      value: "[Provide any additional context, error messages, or screenshots.]"
+      value: "Additional context, error messages, or screenshots."
     validations:
       required: false
