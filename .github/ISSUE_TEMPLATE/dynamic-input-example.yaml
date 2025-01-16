@@ -34,4 +34,4 @@ body:
         - Low
         - Medium
         - High
-      required: true  # Valid usage
+      # required: true  # Valid usage
