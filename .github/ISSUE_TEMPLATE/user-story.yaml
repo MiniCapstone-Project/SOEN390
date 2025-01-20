@@ -19,7 +19,16 @@ body:
         So that [a reason or benefit].
     validations:
       required: true
-
+  - type: dropdown
+    id: Priority
+    attributes:
+      label: Priority Level
+      description: What is the Priority of the US?
+      options:
+        - Low
+        - Medium
+        - High
+        - Critical
   - type: checkboxes
     id: definition-of-done
     attributes:
