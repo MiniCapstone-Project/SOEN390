@@ -29,6 +29,20 @@ body:
         - Medium
         - High
         - Critical
+  - type: dropdown
+    id: Estimate
+    attributes:
+      label: Estimate Level
+      description: What is the US estimate?
+      options:
+        - 1
+        - 2
+        - 3
+        - 5
+        - 8
+        - 13 
+        - 21 
+        - 34
   - type: checkboxes
     id: definition-of-done
     attributes:
