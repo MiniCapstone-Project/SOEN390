@@ -19,6 +19,7 @@ body:
         So that [a reason or benefit].
     validations:
       required: true
+      
   - type: dropdown
     id: Priority
     attributes:
@@ -29,6 +30,7 @@ body:
         - Medium
         - High
         - Critical
+        
     - type: textarea
     id: acceptance-criteria
     attributes:
@@ -39,6 +41,7 @@ body:
         - [ ] Criteria 1: Describe the first acceptance criterion here.
         - [ ] Criteria 2: Describe the second acceptance criterion here.
         - [ ] Criteria 3: Describe additional criteria as needed.
+        
   - type: checkboxes
     id: definition-of-done
     attributes:
