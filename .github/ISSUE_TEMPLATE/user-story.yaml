@@ -20,17 +20,6 @@ body:
     validations:
       required: true
       
-  - type: dropdown
-    id: Priority
-    attributes:
-      label: Priority Level
-      description: What is the Priority of the US?
-      options:
-        - Low
-        - Medium
-        - High
-        - Critical
-        
   - type: textarea
     id: acceptance-criteria
     attributes:
@@ -38,9 +27,9 @@ body:
       description: List the acceptance criteria for this feature or US.
       placeholder: Describe the criteria here.
       value: |
-        - [ ] Criteria 1: Describe the first acceptance criterion here.
-        - [ ] Criteria 2: Describe the second acceptance criterion here.
-        - [ ] Criteria 3: Describe additional criteria as needed.
+        - Criteria 1: Describe the first acceptance criterion here.
+        - Criteria 2: Describe the second acceptance criterion here.
+        - Criteria 3: Describe additional criteria as needed.
 
         
   - type: checkboxes
