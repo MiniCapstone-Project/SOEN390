@@ -29,6 +29,16 @@ body:
         - Medium
         - High
         - Critical
+    - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: List the acceptance criteria for this feature or US.
+      placeholder: Describe the criteria here.
+      value: |
+        - [ ] Criteria 1: Describe the first acceptance criterion here.
+        - [ ] Criteria 2: Describe the second acceptance criterion here.
+        - [ ] Criteria 3: Describe additional criteria as needed.
   - type: checkboxes
     id: definition-of-done
     attributes:
