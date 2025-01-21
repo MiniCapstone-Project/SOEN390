@@ -21,3 +21,5 @@ Mini Capstone Project
 [Zenhub Invite Link](https://app.zenhub.com/workspaces/soen-390-6785c9d2f2ee60000fc8d2a6?invite=9v9fCTSgxfCL6V9QY4ANQrYo)
 
 [Eraser.io Link](https://app.eraser.io/workspace/W9TVlnh83LWdJerkN8y6?origin=share)
+
+[When2Meet: General weekly (un)availabilities](https://www.when2meet.com/?28532537-3BhGM)
