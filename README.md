@@ -10,7 +10,7 @@ Mini Capstone Project
 |6| Ali Eldeeb|40237796|Alieldeeb1|
 |7| Mostafa Mohamed|40201893|Mustafa-M422|
 |8| Ziad-Tarik Taufeek|40205732|Ziad-Tari|
-|9|||SarOhayon|
+|9| Sarah Ohayon|40209765|SarOhayon|
 |10| Mahad Khattak|40251021|MahadKhattak|
 |11| | | |
 
