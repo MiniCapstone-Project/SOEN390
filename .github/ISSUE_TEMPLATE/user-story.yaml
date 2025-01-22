@@ -44,12 +44,3 @@ body:
         - label: "Documentation is updated, if applicable."
     validations:
       required: true
-
-  - type: textarea
-    id: resources
-    attributes:
-      label: Resources
-      description: Include any relevant resources, such as mockups or design documents.
-      placeholder: "Mockups: [Here goes a URL to or the name of the mockup(s) in inVision]"
-    validations:
-      required: false
