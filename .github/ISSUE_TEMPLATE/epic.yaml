@@ -1,0 +1,24 @@
+name: Epic
+description: Create an Issue for an Epic
+title: "Epic #"
+labels: ["epic"]
+body:
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: Provide a description of the user story.
+      placeholder: |
+        As a [role],
+        I want [an action or feature],
+        So that [a reason or benefit].
+    validations:
+      required: true
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources
+      description: Include any relevant resources, such as mockups or design documents.
+      placeholder: "Mockups: [Here goes a URL to or the name of the mockup(s) in inVision]"
+    validations:
+      required: false
