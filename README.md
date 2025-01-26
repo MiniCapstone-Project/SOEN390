@@ -12,7 +12,7 @@ Mini Capstone Project
 |8| Ziad-Tarik Taufeek|40205732|Ziad-Tari|
 |9| Sarah Ohayon|40209765|SarOhayon|
 |10| Mahad Khattak|40251021|MahadKhattak|
-|11| | | |
+|11| Merouane Issad|40209533 |logithss |
 
 ## links
 
