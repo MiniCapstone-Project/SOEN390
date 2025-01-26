@@ -13,6 +13,7 @@ Mini Capstone Project
 |9| Sarah Ohayon|40209765|SarOhayon|
 |10| Mahad Khattak|40251021|MahadKhattak|
 |11| Merouane Issad|40209533 |logithss |
+|12| Johnny Morcos|40172039 |Johnnyghub |
 
 ## links
 
