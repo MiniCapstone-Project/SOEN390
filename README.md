@@ -23,3 +23,5 @@ Mini Capstone Project
 [Eraser.io Link](https://app.eraser.io/workspace/W9TVlnh83LWdJerkN8y6?origin=share)
 
 [When2Meet: General weekly (un)availabilities](https://www.when2meet.com/?28532537-3BhGM)
+
+[Figma UI mockups link](https://www.figma.com/design/fTTZ2zZodQatstIwAD9umn/SOEN-390-Mockups?node-id=0-1&p=f&t=d3mWkRT2RNe5vkSy-0)
