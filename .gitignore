@@ -34,3 +34,7 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# environmental variables 
+GoogleKey.ts
+constants/GoogleKey.ts
