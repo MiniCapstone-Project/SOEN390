@@ -6,6 +6,7 @@ import React, { useRef, useState } from 'react';
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import { Dimensions, StyleSheet, TextInput, TouchableOpacity, View, Text, Keyboard } from 'react-native';
 import { GOOGLE_MAPS_API_KEY } from '../GoogleKey';
+import { searchPlaces } from '@/services/PlacesService';
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -39,21 +40,10 @@ export default function MapExplorerScreen() {
   const [results, setResults] = useState<any[]>([]);
   const map = useRef<MapView | null>(null);
 
-  const searchPlaces = async () => {
-    if (!searchText.trim()) return;
-
-    const location = `${INITIAL_LAT},${INITIAL_LNG}`;
-    const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchText}&location=${location}&radius=500&key=${GOOGLE_MAPS_API_KEY}`;
-
+  const handleSearch = async () => {
     try {
-      const response = await fetch(url);
-      const json = await response.json();
-      const coords: LatLng[] = json.results.map((item: any) => ({
-        latitude: item.geometry.location.lat,
-        longitude: item.geometry.location.lng,
-      }));
-
-      setResults(json.results);
+      const { results, coords } = await searchPlaces(searchText, INITIAL_LAT, INITIAL_LNG, GOOGLE_MAPS_API_KEY);
+      setResults(results);
 
       if (coords.length) {
         map.current?.fitToCoordinates(coords, {
@@ -62,12 +52,39 @@ export default function MapExplorerScreen() {
         });
         Keyboard.dismiss();
       }
-      // setSearchText('');
-      // this needs to be discussed as it will have some reflection on the UX  
     } catch (error) {
-      console.error(error);
+      console.error("Error during search:", error);
     }
   };
+  // const searchPlaces = async () => {
+  //   if (!searchText.trim()) return;
+
+  //   const location = `${INITIAL_LAT},${INITIAL_LNG}`;
+  //   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchText}&location=${location}&radius=500&key=${GOOGLE_MAPS_API_KEY}`;
+
+  //   try {
+  //     const response = await fetch(url);
+  //     const json = await response.json();
+  //     const coords: LatLng[] = json.results.map((item: any) => ({
+  //       latitude: item.geometry.location.lat,
+  //       longitude: item.geometry.location.lng,
+  //     }));
+
+  //     setResults(json.results);
+
+  //     if (coords.length) {
+  //       map.current?.fitToCoordinates(coords, {
+  //         edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+  //         animated: true,
+  //       });
+  //       Keyboard.dismiss();
+  //     }
+  //     // setSearchText('');
+  //     // this needs to be discussed as it will have some reflection on the UX  
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -106,7 +123,7 @@ export default function MapExplorerScreen() {
               value={searchText}
               onChangeText={setSearchText}
             />
-            <TouchableOpacity style={styles.searchButton} onPress={searchPlaces}>
+            <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
               <Text style={styles.searchButtonText}>Search</Text>
             </TouchableOpacity>
           </View>
