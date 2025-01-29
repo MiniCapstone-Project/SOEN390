@@ -1,112 +1,90 @@
-/**
- * This screen will be our main Map where the user iteacts 
- */
-
-import React, { useRef, useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { View, StyleSheet, Keyboard, Dimensions } from 'react-native';
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
-import { Dimensions, StyleSheet, TextInput, TouchableOpacity, View, Text, Keyboard } from 'react-native';
+import SearchBar from '../components/SearchBar';
+import CustomButton from '../components/CustomButton';
+import { searchPlaces } from '../services/PlacesService';
 import { GOOGLE_MAPS_API_KEY } from '../GoogleKey';
-import { searchPlaces } from '@/services/PlacesService';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const INITIAL_LAT = 28.46254;
-const INITIAL_LNG = -81.397272;
-const INITIAL_POS = {
-  latitude: INITIAL_LAT,
-  longitude: INITIAL_LNG,
-  latitudeDelta: LATITUDE_DELTA,
-  longitudeDelta: LONGITUDE_DELTA,
-};
 
 const SGW_CAMPUS: Region = {
   latitude: 45.497092,
   longitude: -73.578800,
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
 };
 
 const LOY_CAMPUS: Region = {
   latitude: 45.458705,
   longitude: -73.640523,
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
 };
 
 export default function MapExplorerScreen() {
+  const mapRef = useRef<MapView | null>(null);
   const [searchText, setSearchText] = useState('');
   const [results, setResults] = useState<any[]>([]);
-  const map = useRef<MapView | null>(null);
+  const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
 
   const handleSearch = async () => {
     try {
-      const { results, coords } = await searchPlaces(searchText, INITIAL_LAT, INITIAL_LNG, GOOGLE_MAPS_API_KEY);
+      const { results, coords } = await searchPlaces(
+        searchText,
+        currentCampus.latitude,
+        currentCampus.longitude,
+        GOOGLE_MAPS_API_KEY
+      );
       setResults(results);
 
       if (coords.length) {
-        map.current?.fitToCoordinates(coords, {
+        mapRef.current?.fitToCoordinates(coords, {
           edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
           animated: true,
         });
         Keyboard.dismiss();
       }
     } catch (error) {
-      console.error("Error during search:", error);
+      console.error('Error during search:', error);
     }
   };
-  // const searchPlaces = async () => {
-  //   if (!searchText.trim()) return;
 
-  //   const location = `${INITIAL_LAT},${INITIAL_LNG}`;
-  //   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchText}&location=${location}&radius=500&key=${GOOGLE_MAPS_API_KEY}`;
+  const handleSwitchToSGW = () => {
+    setCurrentCampus(SGW_CAMPUS);
+    mapRef.current?.animateToRegion(SGW_CAMPUS, 1000);
+  };
 
-  //   try {
-  //     const response = await fetch(url);
-  //     const json = await response.json();
-  //     const coords: LatLng[] = json.results.map((item: any) => ({
-  //       latitude: item.geometry.location.lat,
-  //       longitude: item.geometry.location.lng,
-  //     }));
-
-  //     setResults(json.results);
-
-  //     if (coords.length) {
-  //       map.current?.fitToCoordinates(coords, {
-  //         edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-  //         animated: true,
-  //       });
-  //       Keyboard.dismiss();
-  //     }
-  //     // setSearchText('');
-  //     // this needs to be discussed as it will have some reflection on the UX  
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const handleSwitchToLoyola = () => {
+    setCurrentCampus(LOY_CAMPUS);
+    mapRef.current?.animateToRegion(LOY_CAMPUS, 1000);
+  };
 
   return (
     <View style={styles.container}>
-      <MapView 
-          ref={map} 
-          style={styles.map} 
-          provider={PROVIDER_GOOGLE} 
-          initialRegion={INITIAL_POS}
-          customMapStyle={[
-            {
-              featureType: 'poi',
-              elementType: 'labels',
-              stylers: [{ visibility: 'off' }],
-            },
-            {
-              featureType: 'poi.business',
-              stylers: [{ visibility: 'off' }],
-            },
-          ]}>
-        {results.map((item, i) => (
+      <MapView
+        ref={mapRef}
+        style={styles.map}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={SGW_CAMPUS}
+        customMapStyle={[
+          {
+            featureType: 'poi',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }],
+          },
+          {
+            featureType: 'poi.business',
+            stylers: [{ visibility: 'off' }],
+          },
+        ]}
+      >
+        {results.map((item, index) => (
           <Marker
-            key={`marker-${i}`}
+            key={`marker-${index}`}
             coordinate={{
               latitude: item.geometry.location.lat,
               longitude: item.geometry.location.lng,
@@ -115,83 +93,54 @@ export default function MapExplorerScreen() {
           />
         ))}
       </MapView>
-        <View style={styles.searchBox}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Search place"
-              value={searchText}
-              onChangeText={setSearchText}
-            />
-            <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-              <Text style={styles.searchButtonText}>Search</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.actionButtons}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>SWG</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>LOY</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+
+      <SearchBar
+        searchText={searchText}
+        onSearchTextChange={setSearchText}
+        onSearchPress={handleSearch}
+        style={styles.searchBox}
+      />
+
+      <View style={styles.campusButtons}>
+        <CustomButton
+          title="Switch to SGW"
+          onPress={handleSwitchToSGW}
+          style={styles.campusButton}
+        />
+        <CustomButton
+          title="Switch to Loyola"
+          onPress={handleSwitchToLoyola}
+          style={styles.campusButton}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  map: { width: '100%', height: '100%' },
+  container: {
+    flex: 1,
+  },
+  map: {
+    width: '100%',
+    height: '100%',
+  },
   searchBox: {
     position: 'absolute',
     top: 10,
     width: '90%',
     alignSelf: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 10,
-    shadowOpacity: 0.2,
-    elevation: 3,
   },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    height: 40,
-  },
-  button: {
-    flex: 1,
-    backgroundColor: '#722F37',
-    alignItems: 'center',
-    paddingVertical: 7,
-    borderRadius: 5,
-    marginHorizontal: 5,
-  },
-  buttonText: { 
-    color: '#fff', 
-    fontWeight: 'bold' 
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  searchButton: {
-    backgroundColor: '#722F37',
-    borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginLeft: 10,
-  },
-  searchButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  actionButtons: {
+  campusButtons: {
+    position: 'absolute',
+    bottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: '90%',
+    alignSelf: 'center',
+  },
+  campusButton: {
+    flex: 1,
+    marginHorizontal: 5,
   },
 });
