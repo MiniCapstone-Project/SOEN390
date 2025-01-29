@@ -3,8 +3,10 @@ import { View, StyleSheet, Keyboard, Dimensions } from 'react-native';
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import SearchBar from '../components/SearchBar';
 import CustomButton from '../components/CustomButton';
+import MarkerInfoBox from '../components/MarkerInfoBox';
 import { searchPlaces } from '../services/PlacesService';
 import { GOOGLE_MAPS_API_KEY } from '../GoogleKey';
+import buildings  from '../Cartography/BuildingCampusMarkers';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -30,6 +32,8 @@ export default function MapExplorerScreen() {
   const [searchText, setSearchText] = useState('');
   const [results, setResults] = useState<any[]>([]);
   const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
+  const [selectedMarker, setSelectedMarker] = useState<any>(null);
+  const [showInfoBox, setShowInfoBox] = useState(false);
 
   const handleSearch = async () => {
     try {
@@ -53,6 +57,11 @@ export default function MapExplorerScreen() {
     }
   };
 
+  const handleClearSearch = () => {
+    setSearchText('');
+    setResults([]);
+  };
+
   const handleSwitchToSGW = () => {
     setCurrentCampus(SGW_CAMPUS);
     mapRef.current?.animateToRegion(SGW_CAMPUS, 1000);
@@ -61,6 +70,27 @@ export default function MapExplorerScreen() {
   const handleSwitchToLoyola = () => {
     setCurrentCampus(LOY_CAMPUS);
     mapRef.current?.animateToRegion(LOY_CAMPUS, 1000);
+  };
+
+  const handleMarkerPress = (marker: any) => {
+    if (selectedMarker === marker) {
+      // Double click
+      setShowInfoBox(true);
+    } else {
+      // Single click
+      setSelectedMarker(marker);
+      setShowInfoBox(false);
+    }
+  };
+
+  const handleCloseInfoBox = () => {
+    setShowInfoBox(false);
+    setSelectedMarker(null);
+  };
+
+  const handleDirections = () => {
+    // TODO: Implement directions functionality
+    console.log('Directions button pressed');
   };
 
   return (
@@ -90,6 +120,19 @@ export default function MapExplorerScreen() {
               longitude: item.geometry.location.lng,
             }}
             title={item.name}
+            onPress={() => handleMarkerPress(item)}
+          />
+        ))}
+        {buildings.map((building: { Latitude: any; Longitude: any; BuildingName: string | undefined; Campus: string; }, index: any) => (
+          <Marker
+            key={`building-${index}`}
+            coordinate={{
+              latitude: building.Latitude,
+              longitude: building.Longitude,
+            }}
+            title={building.BuildingName}
+            pinColor="#4A90E2"// Different colors for SGW and Loyola
+            onPress={() => handleMarkerPress(building)}
           />
         ))}
       </MapView>
@@ -99,6 +142,7 @@ export default function MapExplorerScreen() {
           searchText={searchText}
           onSearchTextChange={setSearchText}
           onSearchPress={handleSearch}
+          onClearPress={handleClearSearch}
           style={styles.searchBox}
         />
 
@@ -115,6 +159,15 @@ export default function MapExplorerScreen() {
           />
         </View>
       </View>
+
+      {showInfoBox && selectedMarker && (
+        <MarkerInfoBox
+          title={selectedMarker.BuildingName || selectedMarker.name}
+          address={selectedMarker.Address || selectedMarker.vicinity}
+          onClose={handleCloseInfoBox}
+          onDirections={handleDirections}
+        />
+      )}
     </View>
   );
 }
@@ -134,7 +187,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   searchBox: {
-    marginBottom: 10, // Add spacing between search bar and buttons
+    marginBottom: 10,
   },
   campusButtons: {
     flexDirection: 'row',

@@ -5,10 +5,11 @@ type SearchBarProps = {
   searchText: string;
   onSearchTextChange: (text: string) => void;
   onSearchPress: () => void;
+  onClearPress: () => void;
   style?: ViewStyle;
 };
 
-const SearchBar: React.FC<SearchBarProps> = ({ searchText, onSearchTextChange, onSearchPress, style }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ searchText, onSearchTextChange, onSearchPress, onClearPress, style }) => {
   return (
     <View style={[styles.searchBox, style]}>
       <TextInput
@@ -20,6 +21,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchText, onSearchTextChange, o
       <TouchableOpacity style={styles.searchButton} onPress={onSearchPress}>
         <Text style={styles.searchButtonText}>Search</Text>
       </TouchableOpacity>
+      {searchText.length > 0 && (
+        <TouchableOpacity style={styles.clearButton} onPress={onClearPress}>
+          <Text style={styles.clearButtonText}>X</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -51,6 +57,14 @@ const styles = StyleSheet.create({
   },
   searchButtonText: {
     color: '#fff',
+    fontWeight: 'bold',
+  },
+  clearButton: {
+    marginLeft: 10,
+    padding: 5,
+  },
+  clearButtonText: {
+    color: '#722F37',
     fontWeight: 'bold',
   },
 });
