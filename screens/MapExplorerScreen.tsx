@@ -94,24 +94,26 @@ export default function MapExplorerScreen() {
         ))}
       </MapView>
 
-      <SearchBar
-        searchText={searchText}
-        onSearchTextChange={setSearchText}
-        onSearchPress={handleSearch}
-        style={styles.searchBox}
-      />
+      <View style={styles.controlsContainer}>
+        <SearchBar
+          searchText={searchText}
+          onSearchTextChange={setSearchText}
+          onSearchPress={handleSearch}
+          style={styles.searchBox}
+        />
 
-      <View style={styles.campusButtons}>
-        <CustomButton
-          title="Switch to SGW"
-          onPress={handleSwitchToSGW}
-          style={styles.campusButton}
-        />
-        <CustomButton
-          title="Switch to Loyola"
-          onPress={handleSwitchToLoyola}
-          style={styles.campusButton}
-        />
+        <View style={styles.campusButtons}>
+          <CustomButton
+            title="Switch to SGW"
+            onPress={handleSwitchToSGW}
+            style={styles.campusButton}
+          />
+          <CustomButton
+            title="Switch to Loyola"
+            onPress={handleSwitchToLoyola}
+            style={styles.campusButton}
+          />
+        </View>
       </View>
     </View>
   );
@@ -125,19 +127,18 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  searchBox: {
+  controlsContainer: {
     position: 'absolute',
     top: 10,
     width: '90%',
     alignSelf: 'center',
   },
+  searchBox: {
+    marginBottom: 10, // Add spacing between search bar and buttons
+  },
   campusButtons: {
-    position: 'absolute',
-    bottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '90%',
-    alignSelf: 'center',
   },
   campusButton: {
     flex: 1,
