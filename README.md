@@ -1,21 +1,10 @@
-# SOEN390
-Mini Capstone Project
-|#|Name|ID|username|
-|-|-|-|-|
-|1|Elion Abdyli|40132982|elion-abdyli|
-|2|Adib Akkari|40216815|Adssib|
-|3|Omar Elmasaoudi|40255123|Omare04|
-|4| Abdelrahman Alkhabbaz|40258582|ABALkhabbaz|
-|5| AbdelRahman Eldeeb|40245477|AbdelrahmanEldeeb11|
-|6| Ali Eldeeb|40237796|Alieldeeb1|
-|7| Mostafa Mohamed|40201893|Mustafa-M422|
-|8| Ziad-Tarik Taufeek|40205732|Ziad-Tari|
-|9| Sarah Ohayon|40209765|SarOhayon|
-|10| Mahad Khattak|40251021|MahadKhattak|
-|11| Merouane Issad|40209533 |logithss |
-|12| Johnny Morcos|40172039 |Johnnyghub |
+# Mini Capstone Project
+
+Dont forget to checkout the [Wiki](https://github.com/MiniCapstone-Project/SOEN390/wiki), especially [Git Rules](https://github.com/MiniCapstone-Project/SOEN390/wiki/Git-Rules)!! 
 
 ## links
+
+[Setting up React Native Environemnt](https://reactnative.dev/docs/set-up-your-environment)
 
 [Google Drive Link](https://drive.google.com/drive/folders/1UL6PJ-IIoOIFHoY5S4i67sVe1DtE99dF?usp=sharing)
 
@@ -26,3 +15,34 @@ Mini Capstone Project
 [When2Meet: General weekly (un)availabilities](https://www.when2meet.com/?28532537-3BhGM)
 
 [Figma UI mockups link](https://www.figma.com/design/fTTZ2zZodQatstIwAD9umn/SOEN-390-Mockups?node-id=0-1&p=f&t=d3mWkRT2RNe5vkSy-0)
+
+## How to Run the project ?
+
+- Make sure to have Android studio emulator Set up
+- Make sure you have npm set up using
+```bash
+npm --version
+```
+- Clone the repository
+```bash
+git clone https://github.com/MiniCapstone-Project/SOEN390.git
+```
+- Install dependencies
+```bash
+npm install
+```
+- Create `.env` File in the same level as `package.json` file 
+```bash
+GOOGLE_MAPS_API_KEY=API_KEY_HERE
+```
+- Run the Project
+```bash
+npm start
+```
+- For tests, install jest and run then using
+```bash
+npm install jest --global
+```
+```bash
+jest --updateSnapshot
+```
