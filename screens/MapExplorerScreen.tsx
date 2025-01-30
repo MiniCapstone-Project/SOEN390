@@ -6,11 +6,8 @@ import CustomButton from '../components/CustomButton';
 import MarkerInfoBox from '../components/MarkerInfoBox';
 import { searchPlaces } from '../services/PlacesService';
 import buildings  from '../Cartography/BuildingCampusMarkers';
-import { GOOGLE_MAPS_API_KEY } from '@env';
 
-console.log('Google Maps API Key:', GOOGLE_MAPS_API_KEY);
-
-const googleMapsKey: string = GOOGLE_MAPS_API_KEY!; // Asserts that it's always defined
+const googleMapsKey: string = process.env.GOOGLE_MAPS_API_KEY! ;  // Asserts that it's always defined
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
