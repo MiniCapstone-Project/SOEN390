@@ -9,7 +9,7 @@ export const searchPlaces = async (
   if (!searchText.trim()) return { results: [], coords: [] };
 
   const location = `${initialLat},${initialLng}`;
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchText}&location=${location}&radius=500&key=${apiKey}`;
+  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchText}&location=${location}&radius=50&key=${apiKey}`;
 
   try {
     const response = await fetch(url);

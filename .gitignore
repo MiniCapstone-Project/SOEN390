@@ -38,3 +38,6 @@ yarn-error.*
 # environmental variables 
 GoogleKey.ts
 constants/GoogleKey.ts
+
+# env file
+.env
