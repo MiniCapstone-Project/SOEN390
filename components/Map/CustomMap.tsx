@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import MapView, { LatLng, Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
+import React, { useRef, forwardRef } from 'react';
+import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import { StyleSheet, Dimensions } from 'react-native';
 
 type CustomMapProps = {
@@ -7,17 +7,15 @@ type CustomMapProps = {
   markers: Array<{ latitude: number; longitude: number; title: string }>;
 };
 
-const { width, height } = Dimensions.get('window');
-
-const CustomMap: React.FC<CustomMapProps> = ({ initialRegion, markers }) => {
-  const mapRef = useRef<MapView | null>(null);
-
+// Use forwardRef to allow refs to be passed properly
+const CustomMap = forwardRef<MapView, CustomMapProps>(({ initialRegion, markers }, ref) => {
   return (
     <MapView
-      ref={mapRef}
+      ref={ref} // Now it works!
       style={styles.map}
       provider={PROVIDER_GOOGLE}
       initialRegion={initialRegion}
+      testID="custom-map"
       customMapStyle={[
         {
           featureType: 'poi',
@@ -35,11 +33,12 @@ const CustomMap: React.FC<CustomMapProps> = ({ initialRegion, markers }) => {
           key={`marker-${index}`}
           coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
           title={marker.title}
+          testID={`map-marker-${index}`}
         />
       ))}
     </MapView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   map: {
