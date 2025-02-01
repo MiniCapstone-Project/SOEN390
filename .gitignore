@@ -42,4 +42,6 @@ constants/GoogleKey.ts
 # env file
 .env
 
+.idea/
+
 
