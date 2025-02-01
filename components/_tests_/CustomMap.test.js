@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import CustomMap from '../Map/CustomMap';
 
-// Mock react-native-maps for Jest compatibility
+
 jest.mock('react-native-maps', () => {
   const { View } = require('react-native');
   return {

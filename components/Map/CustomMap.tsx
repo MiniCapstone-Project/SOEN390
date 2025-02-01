@@ -7,11 +7,11 @@ type CustomMapProps = {
   markers: Array<{ latitude: number; longitude: number; title: string }>;
 };
 
-// Use forwardRef to allow refs to be passed properly
+
 const CustomMap = forwardRef<MapView, CustomMapProps>(({ initialRegion, markers }, ref) => {
   return (
     <MapView
-      ref={ref} // Now it works!
+      ref={ref}
       style={styles.map}
       provider={PROVIDER_GOOGLE}
       initialRegion={initialRegion}

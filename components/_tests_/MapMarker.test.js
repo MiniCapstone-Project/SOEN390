@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import MapMarker from '../Map/MapMarker';
 
-// Mock react-native-maps
+
 jest.mock('react-native-maps', () => {
   const { View } = require('react-native');
   return {

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import CampusSwitch from '../CampusSwitch';
 
-// Mock Native Modules that cause issues
+
 jest.mock('react-native/Libraries/Settings/NativeSettingsManager', () => ({
   settings: {},
   setValues: jest.fn(),
@@ -19,7 +19,7 @@ describe('CampusSwitch Component', () => {
       <CampusSwitch onSwitchToSGW={() => {}} onSwitchToLoyola={() => {}} />
     );
 
-    // Check that both buttons are rendered
+    // Check that both buttons
     expect(getByText('Switch to SGW')).toBeTruthy();
     expect(getByText('Switch to Loyola')).toBeTruthy();
   });
@@ -33,7 +33,7 @@ describe('CampusSwitch Component', () => {
     // Simulate button press
     fireEvent.press(getByText('Switch to SGW'));
 
-    // Verify the mock function was called
+    // Verify
     expect(mockOnSwitchToSGW).toHaveBeenCalledTimes(1);
   });
 
@@ -46,7 +46,7 @@ describe('CampusSwitch Component', () => {
     // Simulate button press
     fireEvent.press(getByText('Switch to Loyola'));
 
-    // Verify the mock function was called
+    // Verify
     expect(mockOnSwitchToLoyola).toHaveBeenCalledTimes(1);
   });
 });
