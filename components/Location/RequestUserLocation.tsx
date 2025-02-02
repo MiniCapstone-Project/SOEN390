@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { Alert, PermissionsAndroid, Platform } from 'react-native';
 
 const requestLocationPermission = async () => {
+
     if (Platform.OS === 'android') {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -17,3 +19,4 @@ const requestLocationPermission = async () => {
       }
     }
 }
+
