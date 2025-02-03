@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { View, StyleSheet, Keyboard, Dimensions } from "react-native";
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { SearchBar } from "@/components/InputComponents/InputFields";
-import { MapExplorerScreenStyles } from "@/Styles/MapStyles";
+import { DefaultMapStyle } from "@/Styles/MapStyles";
 import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
@@ -96,7 +96,7 @@ export default function MapExplorerScreen() {
   };
 
   return (
-    <View style={MapExplorerScreenStyles.container}>
+    <View style={DefaultMapStyle.container}>
       <MapComponent
         mapRef={mapRef}
         results={results}
@@ -189,25 +189,25 @@ const SearchWrapper = ({
   handleSwitchToLoyola: () => void;
 }) => {
   return (
-    <View style={MapExplorerScreenStyles.controlsContainer}>
+    <View style={DefaultMapStyle.controlsContainer}>
       <SearchBar
         searchText={searchText}
         onSearchTextChange={setSearchText}
         onSearchPress={handleSearch}
         onClearPress={handleClearSearch}
-        style={MapExplorerScreenStyles.searchBox}
+        style={DefaultMapStyle.searchBox}
       />
 
-      <View style={MapExplorerScreenStyles.campusButtons}>
+      <View style={DefaultMapStyle.campusButtons}>
         <CustomButton
           title="Switch to SGW"
           onPress={handleSwitchToSGW}
-          style={MapExplorerScreenStyles.campusButton}
+          style={DefaultMapStyle.campusButton}
         />
         <CustomButton
           title="Switch to Loyola"
           onPress={handleSwitchToLoyola}
-          style={MapExplorerScreenStyles.campusButton}
+          style={DefaultMapStyle.campusButton}
         />
       </View>
     </View>
@@ -230,7 +230,7 @@ const MapComponent = ({
   return (
     <MapView
       ref={mapRef}
-      style={MapExplorerScreenStyles.map}
+      style={DefaultMapStyle.map}
       provider={PROVIDER_GOOGLE}
       initialRegion={currentCampus}
       customMapStyle={[

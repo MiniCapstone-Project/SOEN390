@@ -28,13 +28,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({ searchText, onSearchTextCh
 
 // Return up the tree
 export const InputField: React.FC<SearchBarProps> = ({ searchText, onSearchTextChange, onSearchPress, onClearPress, style }) => {
+  const handleTextChange = (text: string) => {
+    onSearchTextChange(text);
+  };
+
   return (
     <View style={[InputFieldStyles.searchBox, style]}>
       <TextInput
         style={InputFieldStyles.input}
         placeholder="Search place"
         value={searchText}
-        onChangeText={onSearchTextChange}
+        onChangeText={handleTextChange}
       />
       {searchText.length > 0 && (
         <TouchableOpacity style={InputFieldStyles.clearButton} onPress={onClearPress}>

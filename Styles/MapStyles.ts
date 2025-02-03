@@ -41,7 +41,7 @@ export const MarkerInfoBoxStyles = StyleSheet.create({
   },
 });
 
-export const MapExplorerScreenStyles = StyleSheet.create({
+export const DefaultMapStyle = StyleSheet.create({
   container: {
     flex: 1,
   },
