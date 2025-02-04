@@ -3,8 +3,8 @@ import { ViewStyle, TextStyle } from "react-native";
 export type CampusSwitchProps = {
     title: string;
     onPress: () => void;
-    onSwitchToSGW: () => void;
-    onSwitchToLoyola: () => void;
+    onCampusSwitch: () => void;
+    style: () => void; 
 };
 
 export type CustomButtonProps = {
