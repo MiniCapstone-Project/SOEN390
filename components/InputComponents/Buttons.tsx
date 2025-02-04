@@ -7,13 +7,12 @@ import {
 } from "@/types/InputComponentTypes";
 
 export const CampusSwitch: React.FC<CampusSwitchProps> = ({
-  onSwitchToSGW,
-  onSwitchToLoyola,
+  onCampusSwitch,
+  
 }) => {
   return (
     <View style={CampusSwitchButtonStyle.buttonContainer}>
-      <CustomButton title="Switch to SGW" onPress={onSwitchToSGW} />
-      <CustomButton title="Switch to Loyola" onPress={onSwitchToLoyola} />
+      <CustomButton title="Switch to SGW" onPress={onCampusSwitch} />
     </View>
   );
 };
