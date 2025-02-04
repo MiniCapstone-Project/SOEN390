@@ -8,11 +8,12 @@ import {
 
 export const CampusSwitch: React.FC<CampusSwitchProps> = ({
   onCampusSwitch,
-  
+  title,
+  style,
 }) => {
   return (
     <View style={CampusSwitchButtonStyle.buttonContainer}>
-      <CustomButton title="Switch to SGW" onPress={onCampusSwitch} />
+      <CustomButton title={title} onPress={onCampusSwitch} style={style} />
     </View>
   );
 };

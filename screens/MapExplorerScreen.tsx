@@ -201,12 +201,12 @@ const SearchWrapper = ({
       <View style={DefaultMapStyle.campusButtons}>
         <CustomButton
           title="Switch to SGW"
-          onPress={handleSwitchToSGW}
+          onCampusSwitch={handleSwitchToSGW}
           style={DefaultMapStyle.campusButton}
         />
         <CustomButton
           title="Switch to Loyola"
-          onPress={handleSwitchToLoyola}
+          onCampusSwitch={handleSwitchToLoyola}
           style={DefaultMapStyle.campusButton}
         />
       </View>

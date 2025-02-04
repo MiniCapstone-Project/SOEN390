@@ -4,6 +4,7 @@ export type CampusSwitchProps = {
     title: string;
     onPress: () => void;
     onCampusSwitch: () => void;
+    style: () => void; 
 };
 
 export type CustomButtonProps = {
