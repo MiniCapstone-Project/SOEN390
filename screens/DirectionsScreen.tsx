@@ -2,45 +2,54 @@
  * This screen will be responsible for handling directions from one place to another
  */
 import React, { useState, useRef } from "react";
-import { View, StyleSheet, Keyboard, Dimensions, Text } from "react-native";
+import { View, Text } from "react-native";
 import MapView, {
-  LatLng,
-  Marker,
   PROVIDER_GOOGLE,
   Region,
 } from "react-native-maps";
-import {
-  InputField,
-  SearchBar,
-} from "@/components/InputComponents/InputFields";
+import { InputField } from "@/components/InputComponents/InputFields";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
 import buildings from "@/Cartography/BuildingCampusMarkers";
+
+// Import environment variables using react-native-config
+import Config from "react-native-config";
 import { useRequestLocationPermission } from "@/hooks/RequestUserLocation";
 
-const googleMapsKey: string = process.env.GOOGLE_MAPS_API_KEY!; // Asserts that it's always defined
+// Use Config to retrieve the API key
+const googleMapsKey: string = Config.GOOGLE_MAPS_API_KEY!;
 
 export default function DirectionsScreen() {
   const mapRef = useRef<MapView | null>(null);
-  const currentCampus = {
-    ...useRequestLocationPermission(),
+  
+  // Attempt to get the user's location using a custom hook
+  const userLocation = useRequestLocationPermission();
+  
+  // get actual coordinates and switch to user location 
+  const currentCampus: Region = {
+    latitude: 45.497092,
+    longitude: -73.5788,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
-
-  return (
-    <View style={DefaultMapStyle.container}>
-
-      {currentCampus ? (
-        <MapComponent mapRef={mapRef} currentCampus={currentCampus} />
-      ) : (
-        <Text>Fetching location...</Text>
-      )}
-
+  
+  // If location isn't available yet, display a loading state.
+  if (!userLocation || !userLocation.latitude || !userLocation.longitude) {
+    return (
+      <View style={DefaultMapStyle.container}>
+      <MapComponent mapRef={mapRef} currentCampus={currentCampus} />
       <SearchLocationWrapper />
     </View>
+    );
+  }
+
+  // Build a valid region object for MapView.
+
+  return (
+<>
+</>
   );
 }
 
@@ -72,10 +81,7 @@ const MapComponent = ({
   );
 };
 
-// This functon will return the coordiantes of the location from and to, and will be used
-// To render the markers on the map, and to calculate the route between the two locations
 const SearchLocationWrapper = () => {
-
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
@@ -89,7 +95,8 @@ const SearchLocationWrapper = () => {
 
   const handleSearch = () => {
     console.log("Searching from:", from, "to:", to);
-    // autoCompleteResults = searchPlaces(from, to, googleMapsKey);
+    // You can now use googleMapsKey safely in your searchPlaces function.
+    // Example: const autoCompleteResults = searchPlaces(from, to, googleMapsKey);
   };
 
   const handleClearFrom = () => {
@@ -104,20 +111,20 @@ const SearchLocationWrapper = () => {
     <View style={DefaultMapStyle.controlsContainer}>
       {/* "From" Input */}
       <InputField
+        placeholder="From"
         searchText={from}
         onSearchTextChange={handleFromChange}
         onSearchPress={handleSearch}
         onClearPress={handleClearFrom}
-        style={DefaultMapStyle.inputField}
       />
 
       {/* "To" Input */}
       <InputField
+        placeholder="To"
         searchText={to}
         onSearchTextChange={handleToChange}
         onSearchPress={handleSearch}
         onClearPress={handleClearTo}
-        style={stylDefaultMapStylees.inputField}
       />
     </View>
   );

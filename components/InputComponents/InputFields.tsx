@@ -27,7 +27,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ searchText, onSearchTextCh
 };
 
 // Return up the tree
-export const InputField: React.FC<SearchBarProps> = ({ searchText, onSearchTextChange, onSearchPress, onClearPress, style }) => {
+export const InputField: React.FC<SearchBarProps> = ({ searchText, onSearchTextChange, onSearchPress, onClearPress, style, placeholder }) => {
   const handleTextChange = (text: string) => {
     onSearchTextChange(text);
   };
@@ -36,7 +36,7 @@ export const InputField: React.FC<SearchBarProps> = ({ searchText, onSearchTextC
     <View style={[InputFieldStyles.searchBox, style]}>
       <TextInput
         style={InputFieldStyles.input}
-        placeholder="Search place"
+        placeholder={placeholder}
         value={searchText}
         onChangeText={handleTextChange}
       />

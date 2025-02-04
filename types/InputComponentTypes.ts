@@ -2,9 +2,8 @@ import { ViewStyle, TextStyle } from "react-native";
 
 export type CampusSwitchProps = {
     title: string;
-    onPress: () => void;
     onCampusSwitch: () => void;
-    style: () => void; 
+    style?: ViewStyle; 
 };
 
 export type CustomButtonProps = {
@@ -21,4 +20,5 @@ export type SearchBarProps = {
     onSearchPress: () => void;
     onClearPress: () => void;
     style?: ViewStyle;
+    placeholder: string
 };

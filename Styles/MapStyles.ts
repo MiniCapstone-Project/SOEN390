@@ -59,11 +59,13 @@ export const DefaultMapStyle = StyleSheet.create({
     marginBottom: 10,
   },
   campusButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    
   },
   campusButton: {
-    flex: 1,
-    marginHorizontal: 5,
+    // marginHorizontal: 5,
   },
+  campusButtonWrapper: {
+    flex: 1,
+    justifyContent: 'space-between',
+  }
 });

@@ -195,21 +195,23 @@ const SearchWrapper = ({
         onSearchTextChange={setSearchText}
         onSearchPress={handleSearch}
         onClearPress={handleClearSearch}
-        style={DefaultMapStyle.searchBox}
-      />
+        style={DefaultMapStyle.searchBox} 
+        placeholder="Search Places"     
+        />
 
-      <View style={DefaultMapStyle.campusButtons}>
+      <View style={DefaultMapStyle.campusButtonWrapper}>
         <CustomButton
           title="Switch to SGW"
           onCampusSwitch={handleSwitchToSGW}
-          style={DefaultMapStyle.campusButton}
-        />
+          style={DefaultMapStyle.campusButton} 
+             />
         <CustomButton
           title="Switch to Loyola"
           onCampusSwitch={handleSwitchToLoyola}
-          style={DefaultMapStyle.campusButton}
-        />
+          style={DefaultMapStyle.campusButton} 
+                 />
       </View>
+
     </View>
   );
 };
