@@ -1,22 +1,22 @@
 /**
  * This screen will be responsible for handling directions from one place to another
  */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { View, Text } from "react-native";
 import MapView, {
   PROVIDER_GOOGLE,
   Region,
 } from "react-native-maps";
+import { debounce } from "lodash";
 import { InputField } from "@/components/InputComponents/InputFields";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
 import buildings from "@/Cartography/BuildingCampusMarkers";
-
-// Import environment variables using react-native-config
 import Config from "react-native-config";
 import { useRequestLocationPermission } from "@/hooks/RequestUserLocation";
+
 
 // Use Config to retrieve the API key
 const googleMapsKey: string = Config.GOOGLE_MAPS_API_KEY!;
@@ -81,30 +81,37 @@ const MapComponent = ({
   );
 };
 
+
 const SearchLocationWrapper = () => {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
+  // Debounced search function (prevents excessive API calls)
+  const handleSearch = useCallback(
+    debounce((updatedFrom: string, updatedTo: string) => {
+      console.log("Searching from:", updatedFrom, "to:", updatedTo);
+    }, 500), 
+    []
+  );
+
   const handleFromChange = (text: string) => {
     setFrom(text);
+    handleSearch(text, to); 
   };
 
   const handleToChange = (text: string) => {
     setTo(text);
-  };
-
-  const handleSearch = () => {
-    console.log("Searching from:", from, "to:", to);
-    // You can now use googleMapsKey safely in your searchPlaces function.
-    // Example: const autoCompleteResults = searchPlaces(from, to, googleMapsKey);
+    handleSearch(from, text); 
   };
 
   const handleClearFrom = () => {
     setFrom("");
+    handleSearch("", to); 
   };
 
   const handleClearTo = () => {
     setTo("");
+    handleSearch(from, ""); 
   };
 
   return (
@@ -114,7 +121,7 @@ const SearchLocationWrapper = () => {
         placeholder="From"
         searchText={from}
         onSearchTextChange={handleFromChange}
-        onSearchPress={handleSearch}
+        onSearchPress={() => handleSearch(from, to)}
         onClearPress={handleClearFrom}
       />
 
@@ -123,9 +130,10 @@ const SearchLocationWrapper = () => {
         placeholder="To"
         searchText={to}
         onSearchTextChange={handleToChange}
-        onSearchPress={handleSearch}
+        onSearchPress={() => handleSearch(from, to)}
         onClearPress={handleClearTo}
       />
     </View>
   );
 };
+
