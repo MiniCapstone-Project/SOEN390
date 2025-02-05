@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'; 
+import { StyleSheet, Dimensions } from 'react-native'; 
 
 export const MarkerInfoBoxStyles = StyleSheet.create({
   container: {
@@ -69,3 +69,40 @@ export const DefaultMapStyle = StyleSheet.create({
     justifyContent: 'space-between',
   }
 });
+
+const { width, height } = Dimensions.get("window");
+
+export const DirectionsScreenStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    width,
+    height,
+  },
+  searchContainer: {
+    position: "absolute",
+    width: "90%",
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 8,
+    top: 40, 
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  input: {
+    height: 40,
+    borderColor: "#888",
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+  },
+  stats: {
+    marginTop: 10,
+  },
+});
+
