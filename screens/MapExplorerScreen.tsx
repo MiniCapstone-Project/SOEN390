@@ -1,22 +1,25 @@
-import React, { useState, useRef } from 'react';
-import { View, StyleSheet, Keyboard, Dimensions } from 'react-native';
-import MapView, { LatLng, Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
-import SearchBar from '../components/SearchBar';
-import CustomButton from '../components/CustomButton';
-import MarkerInfoBox from '../components/MarkerInfoBox';
-import { searchPlaces } from '../services/PlacesService';
-import buildings  from '../Cartography/BuildingCampusMarkers';
+import React, { useState, useRef } from "react";
+import { View, StyleSheet, Keyboard, Dimensions } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
+import { SearchBar } from "@/components/InputComponents/InputFields";
+import { DefaultMapStyle } from "@/Styles/MapStyles";
+import CustomButton from "../components/InputComponents/Buttons";
+import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
+import { searchPlaces } from "../services/PlacesService";
+import buildings from "@/Cartography/BuildingCampusMarkers";
+import { GOOGLE_MAPS_API_KEY } from "@/GoogleKey";
 
-const googleMapsKey: string = process.env.GOOGLE_MAPS_API_KEY! ;  // Asserts that it's always defined
+const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
+// const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const SGW_CAMPUS: Region = {
+export const SGW_CAMPUS: Region = {
   latitude: 45.497092,
-  longitude: -73.578800,
+  longitude: -73.5788,
   latitudeDelta: LATITUDE_DELTA,
   longitudeDelta: LONGITUDE_DELTA,
 };
@@ -28,9 +31,107 @@ const LOY_CAMPUS: Region = {
   longitudeDelta: LONGITUDE_DELTA,
 };
 
+const MarkersComponent = ({
+  data,
+  handleMarkerPress,
+}: {
+  data: any[];
+  handleMarkerPress: (marker: any) => void;
+}) => {
+  return data.map((item, index) => (
+    <Marker
+      key={`marker-${index}`}
+      coordinate={{
+        latitude: item.Latitude || item.geometry?.location?.lat,
+        longitude: item.Longitude || item.geometry?.location?.lng,
+      }}
+      title={item.BuildingName || item.name}
+      pinColor={item.BuildingName ? "#4A90E2" : "#FF5733"}
+      onPress={() => handleMarkerPress(item)}
+    />
+  ));
+};
+
+const MapComponent = ({
+  mapRef,
+  results,
+  buildings,
+  currentCampus,
+  handleMarkerPress,
+}: {
+  mapRef: React.RefObject<MapView>;
+  results: any[];
+  buildings: any[];
+  currentCampus: Region;
+  handleMarkerPress: (marker: any) => void;
+}) => {
+  return (
+    <MapView
+      ref={mapRef}
+      style={DefaultMapStyle.map}
+      provider={PROVIDER_GOOGLE}
+      initialRegion={currentCampus}
+      customMapStyle={[
+        {
+          featureType: "poi",
+          elementType: "labels",
+          stylers: [{ visibility: "off" }],
+        },
+        {
+          featureType: "poi.business",
+          stylers: [{ visibility: "off" }],
+        },
+      ]}
+    >
+      <MarkersComponent data={[...results, ...buildings]} handleMarkerPress={handleMarkerPress} />
+    </MapView>
+  );
+};
+
+const SearchWrapper = ({
+  searchText,
+  setSearchText,
+  handleSearch,
+  handleClearSearch,
+  handleSwitchToSGW,
+  handleSwitchToLoyola,
+}: {
+  searchText: string;
+  setSearchText: (text: string) => void;
+  handleSearch: () => void;
+  handleClearSearch: () => void;
+  handleSwitchToSGW: () => void;
+  handleSwitchToLoyola: () => void;
+}) => {
+  return (
+    <View style={DefaultMapStyle.controlsContainer}>
+      <SearchBar
+        searchText={searchText}
+        onSearchTextChange={setSearchText}
+        onSearchPress={handleSearch}
+        onClearPress={handleClearSearch}
+        style={DefaultMapStyle.searchBox}
+        placeholder="Search Places"
+      />
+      <View style={DefaultMapStyle.campusButtonWrapper}>
+        <CustomButton
+          title="Switch to SGW"
+          onCampusSwitch={handleSwitchToSGW}
+          style={DefaultMapStyle.campusButton}
+        />
+        <CustomButton
+          title="Switch to Loyola"
+          onCampusSwitch={handleSwitchToLoyola}
+          style={DefaultMapStyle.campusButton}
+        />
+      </View>
+    </View>
+  );
+};
+
 export default function MapExplorerScreen() {
   const mapRef = useRef<MapView | null>(null);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
@@ -54,12 +155,12 @@ export default function MapExplorerScreen() {
         Keyboard.dismiss();
       }
     } catch (error) {
-      console.error('Error during search:', error);
+      console.error("Error during search:", error);
     }
   };
 
   const handleClearSearch = () => {
-    setSearchText('');
+    setSearchText("");
     setResults([]);
   };
 
@@ -75,10 +176,8 @@ export default function MapExplorerScreen() {
 
   const handleMarkerPress = (marker: any) => {
     if (selectedMarker === marker) {
-      // Double click
       setShowInfoBox(true);
     } else {
-      // Single click
       setSelectedMarker(marker);
       setShowInfoBox(false);
     }
@@ -90,77 +189,26 @@ export default function MapExplorerScreen() {
   };
 
   const handleDirections = () => {
-    // TODO: Implement directions functionality
-    console.log('Directions button pressed');
+    console.log("Directions button pressed");
   };
 
   return (
-    <View style={styles.container}>
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={SGW_CAMPUS}
-        customMapStyle={[
-          {
-            featureType: 'poi',
-            elementType: 'labels',
-            stylers: [{ visibility: 'off' }],
-          },
-          {
-            featureType: 'poi.business',
-            stylers: [{ visibility: 'off' }],
-          },
-        ]}
-      >
-        {results.map((item, index) => (
-          <Marker
-            key={`marker-${index}`}
-            coordinate={{
-              latitude: item.geometry.location.lat,
-              longitude: item.geometry.location.lng,
-            }}
-            title={item.name}
-            onPress={() => handleMarkerPress(item)}
-          />
-        ))}
-        {buildings.map((building: { Latitude: any; Longitude: any; BuildingName: string | undefined; Campus: string; }, index: any) => (
-          <Marker
-            key={`building-${index}`}
-            coordinate={{
-              latitude: building.Latitude,
-              longitude: building.Longitude,
-            }}
-            title={building.BuildingName}
-            pinColor="#4A90E2"// Different colors for SGW and Loyola
-            onPress={() => handleMarkerPress(building)}
-          />
-        ))}
-      </MapView>
-
-      <View style={styles.controlsContainer}>
-        <SearchBar
-          searchText={searchText}
-          onSearchTextChange={setSearchText}
-          onSearchPress={handleSearch}
-          onClearPress={handleClearSearch}
-          style={styles.searchBox}
-        />
-
-        <View style={styles.campusButtons}>
-          <CustomButton
-            title="Switch to SGW"
-            onPress={handleSwitchToSGW}
-            style={styles.campusButton}
-          />
-          <CustomButton
-            title="Switch to Loyola"
-            onPress={handleSwitchToLoyola}
-            style={styles.campusButton}
-          />
-        </View>
-      </View>
-
+    <View style={DefaultMapStyle.container}>
+      <MapComponent
+        mapRef={mapRef}
+        results={results}
+        buildings={buildings}
+        currentCampus={currentCampus}
+        handleMarkerPress={handleMarkerPress}
+      />
+      <SearchWrapper
+        searchText={searchText}
+        setSearchText={setSearchText}
+        handleSearch={handleSearch}
+        handleClearSearch={handleClearSearch}
+        handleSwitchToSGW={handleSwitchToSGW}
+        handleSwitchToLoyola={handleSwitchToLoyola}
+      />
       {showInfoBox && selectedMarker && (
         <MarkerInfoBox
           title={selectedMarker.BuildingName || selectedMarker.name}
@@ -172,30 +220,3 @@ export default function MapExplorerScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    width: '100%',
-    height: '100%',
-  },
-  controlsContainer: {
-    position: 'absolute',
-    top: 10,
-    width: '90%',
-    alignSelf: 'center',
-  },
-  searchBox: {
-    marginBottom: 10,
-  },
-  campusButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  campusButton: {
-    flex: 1,
-    marginHorizontal: 5,
-  },
-});
