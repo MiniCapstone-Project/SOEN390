@@ -18,10 +18,12 @@ import CustomButton from "../components/InputComponents/Buttons";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import { useRequestLocationPermission } from "@/hooks/RequestUserLocation";
 import { DirectionsScreenStyles } from "@/Styles/MapStyles";
+import { GOOGLE_MAPS_API_KEY } from "@/GoogleKey";
+import "react-native-get-random-values";
 
 // Get your Google Maps API key from config
-const googleMapsKey: string = Config.GOOGLE_MAPS_API_KEY!;
-
+// const googleMapsKey: string = Config.GOOGLE_MAPS_API_KEY!;
+const googleMapsKey = GOOGLE_MAPS_API_KEY; 
 // Define the edge padding for fitting markers
 const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
 const { width, height } = Dimensions.get("window");

@@ -7,8 +7,10 @@ import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
 import buildings from "@/Cartography/BuildingCampusMarkers";
+import { GOOGLE_MAPS_API_KEY } from "@/GoogleKey";
 
-const googleMapsKey: string = process.env.GOOGLE_MAPS_API_KEY!;
+const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
+// const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
