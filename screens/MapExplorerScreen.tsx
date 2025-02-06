@@ -17,7 +17,7 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const SGW_CAMPUS: Region = {
+export const SGW_CAMPUS: Region = {
   latitude: 45.497092,
   longitude: -73.5788,
   latitudeDelta: LATITUDE_DELTA,
