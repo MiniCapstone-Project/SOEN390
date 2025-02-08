@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SGW_CAMPUS } from "./MapExplorerScreen";
 import "react-native-get-random-values";
 import { useRoute } from "@react-navigation/native";
+import { retrieveRoutes } from "@/services/DirectionService.ts";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
@@ -23,6 +24,7 @@ export default function DirectionsScreen() {
   const [duration, setDuration] = useState(0);
   const route = useRoute();
   const destinationObject = route.params?.destination; // pass destination to second screen
+  const [directionsRoute, setDirectionsRoute] = useState<LatLng | null>(null);  // create directions route state
 
   useEffect(() => {
     const loadSavedLocations = async () => {
@@ -92,28 +94,32 @@ export default function DirectionsScreen() {
     moveTo(position, zoomLevel);
   };
   
-  const traceRoute = () => {
+  const traceRoute = async () => {
       console.log("Origin: ", origin);
       console.log("Destination ", destination);
       console.log("Attempting to route"); // show debugging
     if (origin && destination) {
-      setShowDirections(true);
-      console.log(showDirections);
+        try {
+            const directions = await retrieveRoutes(origin.latitude, origin.longitude, destination.latitude, destination.longitude, googleMapsKey);
+            setDirectionsRoute(directions);
+        } catch (error) {
+            console.error("Error fetching directions ", error);
+        }
     }
   };
 
   useEffect(() => {
-    if (showDirections) {
+    if (directionsRoute) {
         console.log("Beginning Direction Rendering");
     }
-  }, [showDirections]);
+  }, [directionsRoute]);
 
   return (
     <View style={DirectionsScreenStyles.container}>
       <MapView ref={mapRef} style={DirectionsScreenStyles.map} provider={PROVIDER_GOOGLE} initialRegion={SGW_CAMPUS}>
         {origin && <Marker coordinate={origin} />}
         {destination && <Marker coordinate={destination} />}
-        {showDirections && origin && destination && (
+        {directionsRoute && origin && destination && (
           <MapViewDirections
             key={`${origin?.latitude}-${origin?.longitude}-${destination?.latitude}-${destination?.longitude}`}
             origin={origin}
