@@ -109,8 +109,15 @@ export default function DirectionsScreen() {
   };
 
   useEffect(() => {
+      if (destination) {
+          // automatic refresh to counteract rendering bugs
+          console.log("Refreshed app");
+      }
+  }, [destination]);
+
+  useEffect(() => {
     if (directionsRoute) {
-        console.log("Beginning Direction Rendering");
+        console.log("Beginning Direction Rendering");  // proof that state changed and rendering should begin, if not it is an API or rendering issue
     }
   }, [directionsRoute]);
 
