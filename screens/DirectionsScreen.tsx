@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, Dimensions } from "react-native";
+import { Button, View, Text, Dimensions } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker, Region, LatLng } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -22,7 +22,7 @@ export default function DirectionsScreen() {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
   const route = useRoute();
-  const destinationObject = route.params.destination; // pass destination to second screen
+  const destinationObject = route.params?.destination; // pass destination to second screen
 
   useEffect(() => {
     const loadSavedLocations = async () => {
@@ -93,10 +93,20 @@ export default function DirectionsScreen() {
   };
   
   const traceRoute = () => {
+      console.log("Origin: ", origin);
+      console.log("Destination ", destination);
+      console.log("Attempting to route"); // show debugging
     if (origin && destination) {
       setShowDirections(true);
+      console.log(showDirections);
     }
   };
+
+  useEffect(() => {
+    if (showDirections) {
+        console.log("Beginning Direction Rendering");
+    }
+  }, [showDirections]);
 
   return (
     <View style={DirectionsScreenStyles.container}>
@@ -105,6 +115,7 @@ export default function DirectionsScreen() {
         {destination && <Marker coordinate={destination} />}
         {showDirections && origin && destination && (
           <MapViewDirections
+            key={`${origin?.latitude}-${origin?.longitude}-${destination?.latitude}-${destination?.longitude}`}
             origin={origin}
             destination={destination}
             apikey={GOOGLE_MAPS_API_KEY}
@@ -134,7 +145,7 @@ export default function DirectionsScreen() {
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
           styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
         />
-        <CustomButton title="Route" onPress={traceRoute} />
+        <Button title="Route" color="#733038" onPress={traceRoute} />
         {distance > 0 && duration > 0 && (
           <View style={DirectionsScreenStyles.stats}>
             <Text>Distance: {distance.toFixed(2)} km</Text>
