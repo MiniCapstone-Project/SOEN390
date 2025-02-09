@@ -8,6 +8,8 @@ import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
 import buildings from "@/Cartography/BuildingCampusMarkers";
 import { GOOGLE_MAPS_API_KEY } from "@/GoogleKey";
+import { Platform } from 'react-native';
+
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
 // const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
@@ -16,7 +18,16 @@ const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
+export const setTestID = (testID = '') => {
+  if (Platform.OS === 'ios') {
+    return {
+      tabBarTestID: testID
+    };
+  }
+  return {
+    tabBarAccessibilityLabel: testID
+  };
+};
 export const SGW_CAMPUS: Region = {
   latitude: 45.497092,
   longitude: -73.5788,
@@ -104,7 +115,7 @@ const SearchWrapper = ({
   handleSwitchToLoyola: () => void;
 }) => {
   return (
-    <View style={DefaultMapStyle.controlsContainer}>
+    <View style={DefaultMapStyle.controlsContainer} >
       <SearchBar
         searchText={searchText}
         onSearchTextChange={setSearchText}
@@ -118,6 +129,7 @@ const SearchWrapper = ({
           title="Switch to SGW"
           onCampusSwitch={handleSwitchToSGW}
           style={DefaultMapStyle.campusButton}
+          {...setTestID('switch')}
         />
         <CustomButton
           title="Switch to Loyola"
