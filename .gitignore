@@ -4,8 +4,7 @@
 node_modules/
 
 .idea/
-/android
-android/
+
 # Expo
 .expo/
 dist/
@@ -48,3 +47,5 @@ constants/GoogleKey.ts
 .idea/
 
 
+.vscode/
+/.vscode
