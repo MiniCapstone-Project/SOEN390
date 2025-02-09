@@ -37,4 +37,4 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: unittests
           fail_ci_if_error: true
-          slug: MiniCapstone-Project/ReactNativeMapsTest
+          slug: MiniCapstone-Project/SOEN390
