@@ -7,7 +7,7 @@ import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
 import buildings from "@/Cartography/BuildingCampusMarkers";
-import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey.ts";
+import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
