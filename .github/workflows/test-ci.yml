@@ -1,4 +1,4 @@
-name: Running Unit Tests for React Native
+name: Run Tests for React Native
 
 on:
   push:
@@ -9,19 +9,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      
+name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      
+name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
 
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Install Jest
-        run: npm install jest --global
+      
+name: Install dependencies
+      run: npm ci
+name: Install Jest
+run: npm install jest --global
 
-      - name: Run Tests
-        run: jest --updateSnapshot
+      
+name: Run Tests# run: jest test
+      run: jest --coverage
+
+      
+name: List coverage files
+      run: ls -la ./coverage
+
+      
+name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        files: ./coverage/lcov.info
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: unittests
+        fail_ci_if_error: true
+        slug: MiniCapstone-Project/ReactNativeMapsTest
