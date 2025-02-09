@@ -25,6 +25,7 @@ export default function DirectionsScreen() {
   const route = useRoute();
   const destinationObject = route.params?.destination; // pass destination to second screen
   const [directionsRoute, setDirectionsRoute] = useState<LatLng | null>(null);  // create directions route state
+  const [transportMode, setTransportMode] = useState<"driving"|"walking"|"transit"|"shuttle">("driving");
 
   useEffect(() => {
     const loadSavedLocations = async () => {
@@ -100,7 +101,7 @@ export default function DirectionsScreen() {
       console.log("Attempting to route"); // show debugging
     if (origin && destination) {
         try {
-            const directions = await retrieveRoutes(origin.latitude, origin.longitude, destination.latitude, destination.longitude, googleMapsKey);
+            const directions = await retrieveRoutes(origin.latitude, origin.longitude, destination.latitude, destination.longitude, transportMode, googleMapsKey);
             setDirectionsRoute(directions);
         } catch (error) {
             console.error("Error fetching directions ", error);
@@ -108,15 +109,29 @@ export default function DirectionsScreen() {
     }
   };
 
+    const setWalking = () => {
+        setTransportMode("walking");
+    };
+
+    const setDriving = () => {
+        setTransportMode("driving");
+    };
+
+    const setTransit = () => {
+        setTransportMode("transit");
+    };
+
   useEffect(() => {
       if (destination) {
-          // automatic refresh to counteract rendering bugs
+          // automatic refresh to counteract rendering bugs by deleting this and saving
+          // and then pasting it back in
           console.log("Refreshed app");
       }
   }, [destination]);
 
   useEffect(() => {
     if (directionsRoute) {
+        //console.log("Route distance and duration:", distance, "m", duration, "min");
         console.log("Beginning Direction Rendering");  // proof that state changed and rendering should begin, if not it is an API or rendering issue
     }
   }, [directionsRoute]);
@@ -159,6 +174,9 @@ export default function DirectionsScreen() {
           styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
         />
         <Button title="Route" color="#733038" onPress={traceRoute} />
+        <Button title="Walking" color="#733038" marginBottom="20px" onPress={setWalking} />
+        <Button title="Driving" color="#733038" marginBottom="20px" onPress={setDriving} />
+        <Button title="Transit" color="#733038" marginBottom="20px" onPress={setTransit} />
         {distance > 0 && duration > 0 && (
           <View style={DirectionsScreenStyles.stats}>
             <Text>Distance: {distance.toFixed(2)} km</Text>

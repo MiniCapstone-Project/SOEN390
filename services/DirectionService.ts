@@ -8,14 +8,17 @@ export const retrieveRoutes = async (
     originLong: number,
     destinationLat: number,
     destinationLong: number,
+    transportMode: string,
     apikey: string
     ) => {
         // turn origin and destination into strings
         const start = `${originLat},${originLong}`;
         const end = `${destinationLat},${destinationLong}`;
 
+        console.log("Transport Mode:", transportMode);
+
         //construct api call url
-        const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${end}&key=${apikey}`;
+        const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${end}&mode=${transportMode}&key=${apikey}`;
 
         try {
             const response = await fetch(url);  // attempt api call
