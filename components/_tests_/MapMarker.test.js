@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import MapMarker from '../Map/MapMarker';
-
+import MapMarker from '../MapComponents/MapMarker';
 
 jest.mock('react-native-maps', () => {
   const { View } = require('react-native');
@@ -27,8 +26,6 @@ describe('MapMarker Component', () => {
     );
 
     const marker = getByTestId('map-marker');
-
-    // Ensure coordinate is correctly passed as an object
     expect(marker.props.coordinate.latitude).toBe(40.7128);
     expect(marker.props.coordinate.longitude).toBe(-74.0060);
   });
