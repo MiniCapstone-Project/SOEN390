@@ -7,7 +7,8 @@ import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
 import buildings from "@/Cartography/BuildingCampusMarkers";
-import { GOOGLE_MAPS_API_KEY } from "@/GoogleKey";
+import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
+import { useNavigation } from "@react-navigation/native";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
 // const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
@@ -136,6 +137,7 @@ export default function MapExplorerScreen() {
   const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
   const [showInfoBox, setShowInfoBox] = useState(false);
+  const navi = useNavigation();
 
   const handleSearch = async () => {
     try {
@@ -188,8 +190,11 @@ export default function MapExplorerScreen() {
     setSelectedMarker(null);
   };
 
-  const handleDirections = () => {
-    console.log("Directions button pressed");
+  const handleDirections = (marker: any) => {
+      console.log("Selected marker ", selectedMarker)
+    navi.navigate("Directions", // navigate to directions screen
+        {destination: selectedMarker});
+        // pass address as destination
   };
 
   return (
