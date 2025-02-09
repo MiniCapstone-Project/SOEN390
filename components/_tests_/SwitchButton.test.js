@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import SwitchButtons from '../Map/SwitchButton'; // Make sure the import path is correct
+import SwitchButtons from '../MapComponents/SwitchButton';
 
 describe('SwitchButtons Component', () => {
   it('renders correctly with both buttons', () => {
