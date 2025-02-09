@@ -5,7 +5,7 @@ import MapViewDirections from "react-native-maps-directions";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import CustomButton from "../components/InputComponents/Buttons";
 import { DirectionsScreenStyles } from "@/Styles/MapStyles";
-import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey.ts";
+import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SGW_CAMPUS } from "./MapExplorerScreen";
 import "react-native-get-random-values";
@@ -25,7 +25,7 @@ export default function DirectionsScreen() {
   const route = useRoute();
   const destinationObject = route.params?.destination; // pass destination to second screen
   const [directionsRoute, setDirectionsRoute] = useState<LatLng | null>(null);  // create directions route state
-  const [transportMode, setTransportMode] = useState<"driving"|"walking"|"transit"|"shuttle">("driving");
+  const [transportMode, setTransportMode] = useState<"DRIVING"|"WALKING"|"TRANSIT">("DRIVING");
 
   useEffect(() => {
     const loadSavedLocations = async () => {
@@ -114,15 +114,15 @@ export default function DirectionsScreen() {
   }, [transportMode]);
 
   const setWalking = () => {
-      setTransportMode("walking");
+      setTransportMode("WALKING");
   };
 
   const setDriving = () => {
-      setTransportMode("driving");
+      setTransportMode("DRIVING");
   };
 
   const setTransit = () => {
-       setTransportMode("transit");
+       setTransportMode("TRANSIT");
   };
 
   useEffect(() => {
