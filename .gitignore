@@ -47,3 +47,5 @@ constants/GoogleKey.ts
 .idea/
 
 
+.vscode/
+/.vscode
