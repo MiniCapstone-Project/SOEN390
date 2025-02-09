@@ -5,16 +5,17 @@ appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name 
 # Wait for the button to be visible on the screen
 
 # Verify that the button is visible
-- assertVisible: "Switch to Loyola"
+# - assertVisible: "Switch to SWG"
 #     enabled: true  # Make sure the button is visible on the screen
 
 # Optionally, check the button's text to ensure it's the correct one
 # - assertText: "Switch to Loyola"
   
 # Simulate a tap on the button
-- tapOn: "Switch to Loyola"
+- tapOn: "VA Building"
 
 # Optionally, add checks to verify the behavior after the tap, like ensuring a specific screen appears or an action occurs
 - assertVisible: "Switch to Loyola"  # Adjust this based on what should happen after the button is clicked
+- tapOn: "Switch to SGW"
 
 # If needed, you can also check other elements or actions triggered by the button press
