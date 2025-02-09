@@ -109,17 +109,21 @@ export default function DirectionsScreen() {
     }
   };
 
-    const setWalking = () => {
-        setTransportMode("walking");
-    };
+  useEffect (() => {
+    traceRoute();
+  }, [transportMode]);
 
-    const setDriving = () => {
-        setTransportMode("driving");
-    };
+  const setWalking = () => {
+      setTransportMode("walking");
+  };
 
-    const setTransit = () => {
-        setTransportMode("transit");
-    };
+  const setDriving = () => {
+      setTransportMode("driving");
+  };
+
+  const setTransit = () => {
+       setTransportMode("transit");
+  };
 
   useEffect(() => {
       if (destination) {
@@ -149,6 +153,7 @@ export default function DirectionsScreen() {
             apikey={GOOGLE_MAPS_API_KEY}
             strokeColor="#6644ff"
             strokeWidth={4}
+            mode={transportMode}
             onReady={(args) => {
               setDistance(args.distance);
               setDuration(args.duration);
