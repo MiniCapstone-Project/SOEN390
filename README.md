@@ -46,3 +46,16 @@ npm install jest --global
 ```bash
 jest --updateSnapshot
 ```
+
+if you need to login into expo use this: 
+```bash
+npx expo login
+```
+Username:
+```bash
+i_amtheguy
+```
+Password:
+```bash
+TheBrothers963
+```
