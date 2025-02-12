@@ -9,6 +9,7 @@ import { searchPlaces } from "../services/PlacesService";
 import buildings from "@/Cartography/BuildingCampusMarkers";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
+import { Alert } from "react-native"; 
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
 // const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
@@ -147,6 +148,13 @@ export default function MapExplorerScreen() {
         currentCampus.longitude,
         googleMapsKey
       );
+      if (results.length === 0) {
+        Alert.alert("No Results", "No locations found. Try a different search.", [
+          { text: "OK", onPress: () => console.log("Alert closed") },
+        ]);
+        return;
+      }
+  
       setResults(results);
 
       if (coords.length) {
@@ -158,6 +166,7 @@ export default function MapExplorerScreen() {
       }
     } catch (error) {
       console.error("Error during search:", error);
+      Alert.alert("Error", "Failed to fetch places. Please try again.");
     }
   };
 
