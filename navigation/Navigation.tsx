@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
+
 // Screens
 import MapExplorerScreen from '../screens/MapExplorerScreen';
 import DirectionsScreen from '../screens/DirectionsScreen';
@@ -17,10 +18,10 @@ export default function Navigation() {
         screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
             // Initialize iconName with a valid Ionicons name
-            let iconName: keyof typeof Ionicons.glyphMap = 'help-circle'; // Default fallback
+            let iconName: keyof typeof Ionicons.glyphMap = 'home'; // Default fallback
 
             if (route.name === 'Map') {
-                iconName = focused ? 'map' : 'map-outline';
+                iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Directions') {
                 iconName = focused ? 'navigate' : 'navigate-outline';
             } else if (route.name === 'Settings') {
@@ -36,7 +37,7 @@ export default function Navigation() {
             tabBarInactiveTintColor: 'gray',
         })}
         >
-        <Tab.Screen name="Concordia Campus Guide" component={MapExplorerScreen} />
+        <Tab.Screen name="Campus Guide" component={MapExplorerScreen} />
         <Tab.Screen name="Directions" component={DirectionsScreen} />
         <Tab.Screen name="Updates" component={UpdatesScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
