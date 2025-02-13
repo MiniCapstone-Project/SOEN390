@@ -2,7 +2,6 @@ import { renderHook, act } from "@testing-library/react-hooks";
 import { useRequestLocationPermission } from "../RequestUserLocation";
 import { PermissionsAndroid, Platform } from "react-native";
 
-// ✅ Mock PermissionsAndroid and Platform
 jest.mock("react-native", () => ({
   PermissionsAndroid: {
     request: jest.fn(),
@@ -12,7 +11,6 @@ jest.mock("react-native", () => ({
   Platform: { OS: "android" },
 }));
 
-// ✅ Manually define global navigator for geolocation
 beforeAll(() => {
   global.navigator = {
     geolocation: {
