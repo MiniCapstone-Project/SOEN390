@@ -2,7 +2,6 @@ import { renderHook, act } from "@testing-library/react-hooks";
 import { useRequestLocationPermission } from "../RequestUserLocation";
 import { PermissionsAndroid, Alert, Platform } from "react-native";
 
-// ✅ Mock PermissionsAndroid, Alert, and Platform
 jest.mock("react-native", () => ({
   PermissionsAndroid: {
     request: jest.fn(),
