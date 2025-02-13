@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-
-import CampusSwitch from '../InputComponents/Buttons';
+import { CampusSwitch } from '../InputComponents/Buttons';
 
 describe('CustomButton (tested via CampusSwitch)', () => {
   it('renders correctly with the given title', () => {
@@ -25,8 +24,6 @@ describe('CustomButton (tested via CampusSwitch)', () => {
     const { getByText } = render(
       <CampusSwitch title="Styled Button" onCampusSwitch={() => {}} style={customStyle} />
     );
-    const button = getByText('Styled Button');
-
-    expect(button).toBeTruthy();
+    expect(getByText('Styled Button')).toBeTruthy();
   });
 });
