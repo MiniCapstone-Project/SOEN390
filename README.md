@@ -62,3 +62,9 @@ Password:
 ```bash
 TheBrothers963
 ```
+
+
+running eslint
+```bash 
+npx eslint .
+```
