@@ -3,11 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "../Navigation";
 import React from "react";
 
-// Mock the Google Maps API key to prevent real API usage
-jest.mock("@/constants/GoogleKey", () => ({
-  GOOGLE_MAPS_API_KEY: "FAKE_API_KEY_FOR_TEST",
-}));
 
+// Mock react-native-maps
 jest.mock("react-native-maps", () => {
   const React = require("react");
   const View = require("react-native").View;
@@ -25,13 +22,11 @@ jest.mock("react-native-maps", () => {
   const React = require("react");
   return {
     __esModule: true,
-    default: React.forwardRef(() => null), // 👈 Fix ref issue
+    default: React.forwardRef(() => null),
     Marker: () => null,
     Polyline: () => null,
   };
 });
-
-
 
 // Mock AsyncStorage to prevent Jest errors
 jest.mock("@react-native-async-storage/async-storage", () => ({
@@ -57,5 +52,8 @@ describe("Navigation Component - Icons", () => {
         <Navigation />
       </NavigationContainer>
     );
+
+
   });
 });
+
