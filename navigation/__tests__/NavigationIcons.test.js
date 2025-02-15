@@ -3,6 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "../Navigation";
 import React from "react";
 
+// Mock the Google Maps API key to prevent real API usage
+jest.mock("@/constants/GoogleKey", () => ({
+  GOOGLE_MAPS_API_KEY: "FAKE_API_KEY_FOR_TEST",
+}));
+
 jest.mock("react-native-maps", () => {
   const React = require("react");
   const View = require("react-native").View;
