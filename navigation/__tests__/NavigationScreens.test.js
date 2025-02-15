@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "../Navigation";
 import React from "react";
 
-// ✅ Mock react-native-maps to prevent Jest errors
+// Mock react-native-maps to prevent Jest errors
 jest.mock("react-native-maps", () => {
   const React = require("react");
   const View = require("react-native").View;
@@ -17,7 +17,7 @@ jest.mock("react-native-maps", () => {
   };
 });
 
-// ✅ Fix ref issue in react-native-maps
+// Fix ref issue in react-native-maps
 jest.mock("react-native-maps", () => {
   const React = require("react");
   return {
@@ -28,7 +28,7 @@ jest.mock("react-native-maps", () => {
   };
 });
 
-// ✅ Mock AsyncStorage to prevent Jest errors
+// Mock AsyncStorage to prevent Jest errors
 jest.mock("@react-native-async-storage/async-storage", () => ({
   setItem: jest.fn(),
   getItem: jest.fn(),
@@ -36,13 +36,13 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
   clear: jest.fn(),
 }));
 
-// ✅ Mock expo-font to avoid forEach error
+// Mock expo-font to avoid forEach error
 jest.mock("expo-font", () => ({
   loadAsync: jest.fn(),
   isLoaded: jest.fn().mockReturnValue(true),
 }));
 
-// ✅ Mock react-native-vector-icons to prevent rendering issues
+// Mock react-native-vector-icons to prevent rendering issues
 jest.mock("react-native-vector-icons/Ionicons", () => "Ionicons");
 
 describe("Navigation Component - Screens", () => {
