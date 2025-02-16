@@ -25,7 +25,11 @@
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/"
-    ]
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1"
+    },
+    "setupFiles": ["<rootDir>/navigation/setupTests.js"]
   },
   "overrides": {
     "@testing-library/react-hooks": {
