@@ -1,19 +1,18 @@
-jest.mock("../../screens/DirectionsScreen", () => {
-  const React = require("react");
-  return () => <React.Fragment />;
-});
-
-import { render, waitFor } from "@testing-library/react-native";
+import { render, waitFor, fireEvent, act } from "@testing-library/react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "../Navigation";
 import React from "react";
 
-// 1️⃣ Mock the file referencing @/constants/GoogleKey
+// Mock entire files that reference GoogleKey
 jest.mock("../../screens/MapExplorerScreen", () => {
   const React = require("react");
   return () => <React.Fragment />;
 });
 
+jest.mock("../../screens/DirectionsScreen", () => {
+  const React = require("react");
+  return () => <React.Fragment />;
+});
 
 // Mock react-native-maps
 jest.mock("react-native-maps", () => {
@@ -42,15 +41,39 @@ jest.mock("expo-font", () => ({
   isLoaded: jest.fn().mockReturnValue(true),
 }));
 
-// Mock react-native-vector-icons
+// Mock Ionicons
 jest.mock("react-native-vector-icons/Ionicons", () => "Ionicons");
 
 describe("Navigation Component - Icons", () => {
-  test("renders without using a real API key", async () => {
-    const { getByText } = render(
+  test("renders and navigates between tabs correctly", async () => {
+    const { getAllByText, getByRole, getByText } = render(
       <NavigationContainer>
         <Navigation />
       </NavigationContainer>
     );
+
+    await act(async () => {
+      fireEvent.press(getByRole("button", { name: "Directions" }));
+    });
+
+    await waitFor(() => {
+      expect(getAllByText("Directions")[0]).toBeTruthy(); // Ensures correct selection
+    });
+
+    await act(async () => {
+      fireEvent.press(getByRole("button", { name: "Updates" }));
+    });
+
+    await waitFor(() => {
+      expect(getAllByText("Updates Screen")[0]).toBeTruthy();
+    });
+
+    await act(async () => {
+      fireEvent.press(getByRole("button", { name: "Settings" }));
+    });
+
+    await waitFor(() => {
+      expect(getAllByText("Settings Screen")[0]).toBeTruthy();
+    });
   });
 });
