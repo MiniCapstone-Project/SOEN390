@@ -14,7 +14,8 @@
     "testEnvironment": "node",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "components/**/*.{js,jsx,ts,tsx}",
+      "components/InputComponents/**/*.{js,jsx,ts,tsx}",
+      "components/MapComponents/**/*.{js,jsx,ts,tsx}",
       "screens/**/*.{js,jsx,ts,tsx}",
       "services/**/*.{js,jsx,ts,tsx}",
       "navigation/**/*.{js,jsx,ts,tsx}",
