@@ -1,0 +1,66 @@
+name: CI Pipeline
+
+on:
+  push:  # Runs on all branches
+  pull_request:  # Runs on all PRs
+
+jobs:
+  test_and_coverage:
+    name: Run Unit Tests & Upload Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+      
+      - name: Install Jest globally
+        run: npm install -g jest  # Install Jest globally
+
+      - name: Run Jest Tests with Coverage
+        run: jest --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage/lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: unittests
+          fail_ci_if_error: true
+          slug: MiniCapstone-Project/SOEN390
+
+  sonarcloud:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    needs: test_and_coverage  # Run AFTER Jest & Codecov finish
+    if: github.event_name == 'pull_request'  # Only runs on PRs
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for Sonar history
+
+      - name: Download coverage from Codecov
+        run: |
+          mkdir -p coverage
+          curl -Os https://codecov.io/api/v2/${{ github.repository }}/branches/${{ github.head_ref }}/report
+          jq -r '.commit.totals."COVERAGE_FILE"' > coverage/lcov.info
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+
