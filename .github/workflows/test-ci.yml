@@ -1,34 +1,39 @@
-name: Run Tests for React Native
+name: Test and Coverage
 
 on:
   push:
   pull_request:
 
 jobs:
-  test:
+  test_and_coverage:
+    name: Run Tests & Upload Coverage
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      - name: Restore Jest Coverage Cache
+        uses: actions/cache@v4
+        with:
+          path: ./coverage
+          key: coverage-${{ github.sha }}
+          restore-keys: |
+            coverage-
+
       - name: Install dependencies
-        run: npm install  --legacy-peer-deps
-        
+        run: npm install --legacy-peer-deps
+
       - name: Install Jest
-        run: npm install jest --global
+        run: npm install -g jest
 
-      - name: Run Tests
-        # run: jest test
+      - name: Run Tests and Generate Coverage
         run: jest --coverage
-
-      - name: List coverage files
-        run: ls -la ./coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
@@ -38,3 +43,9 @@ jobs:
           flags: unittests
           fail_ci_if_error: true
           slug: MiniCapstone-Project/SOEN390
+
+      - name: Save Jest Coverage Cache
+        uses: actions/cache@v4
+        with:
+          path: ./coverage
+          key: coverage-${{ github.sha }}
