@@ -50,6 +50,7 @@ jobs:
 
       - name: Download coverage from Codecov
         run: |
+          mkdir -p coverage
           curl -Os https://codecov.io/api/v2/${{ github.repository }}/branches/${{ github.head_ref }}/report
           jq -r '.commit.totals."COVERAGE_FILE"' > coverage/lcov.info
         env:
@@ -62,3 +63,4 @@ jobs:
         with:
           args: >
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+
