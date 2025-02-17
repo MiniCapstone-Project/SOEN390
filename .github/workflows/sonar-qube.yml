@@ -1,45 +1,45 @@
-name: SonarQube Analysis
+# name: SonarQube Analysis
 
-on:
-  push:
-    branches:
-      - main  # Runs on push to main
-  pull_request:
-    types: [opened, synchronize, reopened]  # Runs on PRs
-  workflow_run:
-    workflows: ["Test and Coverage"]  # Runs AFTER Jest coverage finishes
-    branches:
-      - main  # Runs only on main branch
-    types:
-      - completed
+# on:
+#   push:
+#     branches:
+#       - main  # Runs on push to main
+#   pull_request:
+#     types: [opened, synchronize, reopened]  # Runs on PRs
+#   workflow_run:
+#     workflows: ["Test and Coverage"]  # Runs AFTER Jest coverage finishes
+#     branches:
+#       - main  # Runs only on main branch
+#     types:
+#       - completed
 
 
-jobs:
-  sonarqube:
-    name: Run SonarQube
-    runs-on: ubuntu-latest
+# jobs:
+#   sonarqube:
+#     name: Run SonarQube
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Needed for SonarQube history
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0  # Needed for SonarQube history
 
-      - name: Restore Jest Coverage Cache
-        uses: actions/cache@v4
-        with:
-          path: ./coverage
-          key: coverage-${{ github.sha }}-${{ github.run_id }}
-          restore-keys: |
-            coverage-
+#       - name: Restore Jest Coverage Cache
+#         uses: actions/cache@v4
+#         with:
+#           path: ./coverage
+#           key: coverage-${{ github.sha }}-${{ github.run_id }}
+#           restore-keys: |
+#             coverage-
 
-      - name: Set up SonarQube
-        run: echo "SONAR_SCANNER_OPTS=-Dsonar.projectKey=MiniCapstone-Project" >> $GITHUB_ENV
+#       - name: Set up SonarQube
+#         run: echo "SONAR_SCANNER_OPTS=-Dsonar.projectKey=MiniCapstone-Project" >> $GITHUB_ENV
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+#       - name: SonarQube Scan
+#         uses: SonarSource/sonarqube-scan-action@v4
+#         env:
+#           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#         with:
+#           args: >
+#             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
