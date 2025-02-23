@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Keyboard, Dimensions } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { SearchBar } from "@/components/InputComponents/InputFields";
@@ -209,6 +209,12 @@ export default function MapExplorerScreen() {
         // pass address as destination
   };
 
+  useEffect(() => {
+    if (searchText.trim() !== "") {
+      handleSearch();
+    }
+  }, [searchRadius]);
+  
   return (
     <View style={DefaultMapStyle.container}>
       <MapComponent   
