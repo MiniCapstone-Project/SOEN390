@@ -4,12 +4,13 @@ export const searchPlaces = async (
   searchText: string,
   initialLat: number,
   initialLng: number,
-  apiKey: string
+  apiKey: string,
+  radius: number
 ): Promise<{ results: any[]; coords: LatLng[] }> => {
   if (!searchText.trim()) return { results: [], coords: [] };
 
   const location = `${initialLat},${initialLng}`;
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchText}&location=${location}&radius=500&type=point_of_interest&key=${apiKey}`;
+  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchText}&location=${location}&radius=${radius}&type=point_of_interest&key=${apiKey}`;
 
   try {
     const response = await fetch(url);
