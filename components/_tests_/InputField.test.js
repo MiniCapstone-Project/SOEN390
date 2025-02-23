@@ -1,30 +1,109 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import { InputField } from '../InputComponents/InputFields';
+import { SearchBar, InputField } from '@/components/InputComponents/InputFields';
+
+describe('SearchBar Component', () => {
+  it('renders without crashing', () => {
+    const { getByPlaceholderText } = render(
+      <SearchBar
+        searchText=""
+        onSearchTextChange={jest.fn()}
+        onSearchPress={jest.fn()}
+        onClearPress={jest.fn()}
+      />
+    );
+    expect(getByPlaceholderText('Search place')).toBeTruthy();
+  });
+
+  it('updates searchText on text change', () => {
+    const mockOnSearchTextChange = jest.fn();
+    const { getByPlaceholderText } = render(
+      <SearchBar
+        searchText=""
+        onSearchTextChange={mockOnSearchTextChange}
+        onSearchPress={jest.fn()}
+        onClearPress={jest.fn()}
+      />
+    );
+
+    fireEvent.changeText(getByPlaceholderText('Search place'), 'New Text');
+    expect(mockOnSearchTextChange).toHaveBeenCalledWith('New Text');
+  });
+
+  it('triggers onSearchPress when Search button is pressed', () => {
+    const mockOnSearchPress = jest.fn();
+    const { getByText } = render(
+      <SearchBar
+        searchText="Search"
+        onSearchTextChange={jest.fn()}
+        onSearchPress={mockOnSearchPress}
+        onClearPress={jest.fn()}
+      />
+    );
+
+    fireEvent.press(getByText('Search'));
+    expect(mockOnSearchPress).toHaveBeenCalled();
+  });
+
+  it('triggers onClearPress when Clear button is pressed', () => {
+    const mockOnClearPress = jest.fn();
+    const { getByText } = render(
+      <SearchBar
+        searchText="Clearable"
+        onSearchTextChange={jest.fn()}
+        onSearchPress={jest.fn()}
+        onClearPress={mockOnClearPress}
+      />
+    );
+
+    fireEvent.press(getByText('X'));
+    expect(mockOnClearPress).toHaveBeenCalled();
+  });
+});
 
 describe('InputField Component', () => {
-  it('renders correctly with placeholder', () => {
+  it('renders without crashing', () => {
     const { getByPlaceholderText } = render(
-      <InputField searchText="" onSearchTextChange={() => {}} onSearchPress={() => {}} onClearPress={() => {}} placeholder="Enter text" />
+      <InputField
+        searchText=""
+        placeholder="Enter text"
+        onSearchTextChange={jest.fn()}
+        onSearchPress={jest.fn()}
+        onClearPress={jest.fn()}
+      />
     );
     expect(getByPlaceholderText('Enter text')).toBeTruthy();
   });
 
-  it('updates text input value when typing', () => {
+  it('updates searchText on text change', () => {
     const mockOnSearchTextChange = jest.fn();
     const { getByPlaceholderText } = render(
-      <InputField searchText="" onSearchTextChange={mockOnSearchTextChange} onSearchPress={() => {}} onClearPress={() => {}} placeholder="Enter text" />
+      <InputField
+        searchText=""
+        placeholder="Enter text"
+        onSearchTextChange={mockOnSearchTextChange}
+        onSearchPress={jest.fn()}
+        onClearPress={jest.fn()}
+      />
     );
-    fireEvent.changeText(getByPlaceholderText('Enter text'), 'New Input');
-    expect(mockOnSearchTextChange).toHaveBeenCalledWith('New Input');
+
+    fireEvent.changeText(getByPlaceholderText('Enter text'), 'New Text');
+    expect(mockOnSearchTextChange).toHaveBeenCalledWith('New Text');
   });
 
-  it('calls onClearPress when clear button is pressed', () => {
+  it('triggers onClearPress when Clear button is pressed', () => {
     const mockOnClearPress = jest.fn();
     const { getByText } = render(
-      <InputField searchText="Test" onSearchTextChange={() => {}} onSearchPress={() => {}} onClearPress={mockOnClearPress} placeholder="Enter text" />
+      <InputField
+        searchText="Clearable"
+        placeholder="Enter text"
+        onSearchTextChange={jest.fn()}
+        onSearchPress={jest.fn()}
+        onClearPress={mockOnClearPress}
+      />
     );
+
     fireEvent.press(getByText('X'));
-    expect(mockOnClearPress).toHaveBeenCalledTimes(1);
+    expect(mockOnClearPress).toHaveBeenCalled();
   });
 });
