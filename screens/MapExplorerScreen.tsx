@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Keyboard, Dimensions } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { SearchBar } from "@/components/InputComponents/InputFields";
@@ -10,6 +10,7 @@ import buildings from "@/Cartography/BuildingCampusMarkers";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native"; 
+import RadiusSlider from "@/components/MapComponents/RadiusSlider";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
 // const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
@@ -139,6 +140,7 @@ export default function MapExplorerScreen() {
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
   const [showInfoBox, setShowInfoBox] = useState(false);
   const navi = useNavigation();
+  const [searchRadius, setSearchRadius] = useState(500); // Default 500 meters
 
   const handleSearch = async () => {
     try {
@@ -146,7 +148,8 @@ export default function MapExplorerScreen() {
         searchText,
         currentCampus.latitude,
         currentCampus.longitude,
-        googleMapsKey
+        googleMapsKey,
+        searchRadius
       );
       if (results.length === 0) {
         Alert.alert("No Results", "No locations found. Try a different search.", [
@@ -206,9 +209,15 @@ export default function MapExplorerScreen() {
         // pass address as destination
   };
 
+  useEffect(() => {
+    if (searchText.trim() !== "") {
+      handleSearch();
+    }
+  }, [searchRadius]);
+  
   return (
     <View style={DefaultMapStyle.container}>
-      <MapComponent
+      <MapComponent   
         mapRef={mapRef}
         results={results}
         buildings={buildings}
@@ -223,6 +232,10 @@ export default function MapExplorerScreen() {
         handleSwitchToSGW={handleSwitchToSGW}
         handleSwitchToLoyola={handleSwitchToLoyola}
       />
+      <View style={DefaultMapStyle.sliderContainer}>
+        <RadiusSlider searchRadius={searchRadius} setSearchRadius={setSearchRadius} />
+      </View>
+
       {showInfoBox && selectedMarker && (
         <MarkerInfoBox
           title={selectedMarker.BuildingName || selectedMarker.name}

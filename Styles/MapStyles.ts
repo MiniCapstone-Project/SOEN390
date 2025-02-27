@@ -67,7 +67,27 @@ export const DefaultMapStyle = StyleSheet.create({
   campusButtonWrapper: {
     flex: 1,
     justifyContent: 'space-between',
-  }
+  },
+  sliderText: {
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  sliderContainer: {
+    position: "absolute",
+    bottom: 50, // Adjust as needed
+    left: 20,
+    right: 20,
+    backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent background
+    borderRadius: 10,
+    padding: 10,
+    elevation: 5, // For Android shadow
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
 });
 
 const { width, height } = Dimensions.get("window");
