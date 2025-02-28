@@ -1,0 +1,1263 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "AD",
+        "Building_Name": "AD Building",
+        "Building_Long_Name": "Administration Building",
+        "Address": "7141, Sherbrooke West"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.639834,
+          45.457984
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "B",
+        "Building_Name": "B Building",
+        "Building_Long_Name": "B Annex",
+        "Address": "2160 Bishop Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579588,
+          45.497856
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "BB",
+        "Building_Name": "BB Building",
+        "Building_Long_Name": "BB-BH Annex",
+        "Address": "3502 Bermore Avenue"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.639174,
+          45.459793
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "BH",
+        "Building_Name": "BH Building",
+        "Building_Long_Name": "BB-BH Annex",
+        "Address": "3500 Bermore Avenue"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.639152,
+          45.459819
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "CC",
+        "Building_Name": "CC Building",
+        "Building_Long_Name": "Central Building",
+        "Address": "7141 Sherbrooke West"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.6403,
+          45.458204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "CI",
+        "Building_Name": "CI Building",
+        "Building_Long_Name": "CI Annex",
+        "Address": "2149 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579925,
+          45.497467
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "CJA",
+        "Building_Name": "CJ Building - wing A",
+        "Building_Long_Name": "Communication Studies and Journalism Building",
+        "Address": "7141, Sherbrooke Wes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.640354,
+          45.457478
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "CJN",
+        "Building_Name": "CJ Building - wing N",
+        "Building_Long_Name": "Communication Studies and Journalism Building",
+        "Address": "7141, Sherbrooke Wes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.640354,
+          45.457478
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "CJS",
+        "Building_Name": "CJ Building - wing S",
+        "Building_Long_Name": "Communication Studies and Journalism Building",
+        "Address": "7141, Sherbrooke Wes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.640354,
+          45.457478
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "CL",
+        "Building_Name": "CL Building",
+        "Building_Long_Name": "CL Annex",
+        "Address": "1665 Ste-Catherine W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579007,
+          45.494259
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "D",
+        "Building_Name": "D Building",
+        "Building_Long_Name": "D Annex",
+        "Address": "2140 Bishop Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579409,
+          45.497827
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "EN",
+        "Building_Name": "EN Building",
+        "Building_Long_Name": "EN Annex",
+        "Address": "2070 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579555,
+          45.496944
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "ER",
+        "Building_Name": "ER Building",
+        "Building_Long_Name": "ER Building",
+        "Address": "2155 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.57999,
+          45.496428
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "ES",
+        "Building_Name": "ES Building",
+        "Building_Long_Name": "ES Building",
+        "Address": "2135 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579922,
+          45.496172
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "ET",
+        "Building_Name": "ET Building",
+        "Building_Long_Name": "ET Building",
+        "Address": "2125-2127 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579904,
+          45.496163
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "EV",
+        "Building_Name": "EV Building",
+        "Building_Long_Name": "Engineering, Computer Science and Visual Arts Inte",
+        "Address": "1515 Ste-Catherine W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577997,
+          45.495376
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "FA",
+        "Building_Name": "FA Building",
+        "Building_Long_Name": "FA Annex",
+        "Address": "2060 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579468,
+          45.496874
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "FB",
+        "Building_Name": "FB Building",
+        "Building_Long_Name": "Faubourg Building",
+        "Address": "1250 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577603,
+          45.494666
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "FC",
+        "Building_Name": "FC Building",
+        "Building_Long_Name": "F.C. Smith Building",
+        "Address": "7141 Sherbrooke West"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.639287,
+          45.458493
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "FG",
+        "Building_Name": "FG Building",
+        "Building_Long_Name": "Faubourg Ste-Catherine Building",
+        "Address": "1610 Ste-Catherine"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578425,
+          45.494381
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "GA",
+        "Building_Name": "GA Building",
+        "Building_Long_Name": "Grey Nuns Annex",
+        "Address": "1211-1215 St-Mathieu"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.57787,
+          45.494123
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "GE",
+        "Building_Name": "GE Building",
+        "Building_Long_Name": "Centre for Structural and Functional Genomics",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.640432,
+          45.457017
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "GM",
+        "Building_Name": "GM Building",
+        "Building_Long_Name": "Guy-De Maisonneuve Building",
+        "Address": "1550 DeMaisonneuve W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578824,
+          45.495983
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "GNA",
+        "Building_Name": "GN Building - wing A",
+        "Building_Long_Name": "Grey Nuns Building",
+        "Address": "1190 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577003,
+          45.493622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "GNB",
+        "Building_Name": "GN Building - wings B, C, D, E, F, G, P",
+        "Building_Long_Name": "Grey Nuns Building",
+        "Address": "1190 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577003,
+          45.493622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "GNH",
+        "Building_Name": "GN Building - wings H, I, J, K",
+        "Building_Long_Name": "Grey Nuns Building",
+        "Address": "1190 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577003,
+          45.493622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "GNL",
+        "Building_Name": "GN Building - wings L, M, N",
+        "Building_Long_Name": "Grey Nuns Building",
+        "Address": "1190 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577003,
+          45.493622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "GS",
+        "Building_Name": "GS Building",
+        "Building_Long_Name": "Guy-Sherbrooke Building",
+        "Address": "1538, Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.581409,
+          45.496673
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "H",
+        "Building_Name": "H Building",
+        "Building_Long_Name": "Henry F. Hall Building",
+        "Address": "1455 DeMaisonneuve W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.5788,
+          45.497092
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "HA",
+        "Building_Name": "HA Building",
+        "Building_Long_Name": "Hingston Hall, wing HA",
+        "Address": "7141 Sherbrooke West"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.64127,
+          45.459356
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "HB",
+        "Building_Name": "HB Building",
+        "Building_Long_Name": "Hingston Hall, wing HB",
+        "Address": "7141 Sherbrooke West"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.641849,
+          45.459308
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "HC",
+        "Building_Name": "HC Building",
+        "Building_Long_Name": "Hingston Hall, wing HC",
+        "Address": "7141 Sherbrooke West"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.64208,
+          45.459663
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "HU",
+        "Building_Name": "HU Building",
+        "Building_Long_Name": "Applied Science Hub",
+        "Address": "7141, Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.641921,
+          45.458513
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "JR",
+        "Building_Name": "JR Building",
+        "Building_Long_Name": "Jesuit Residence",
+        "Address": "7141 Sherbrooke West"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.643235,
+          45.458432
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "K",
+        "Building_Name": "K Building",
+        "Building_Long_Name": "K Annex",
+        "Address": "2150 Bishop Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579531,
+          45.497777
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "LB",
+        "Building_Name": "LB Building",
+        "Building_Long_Name": "J.W. McConnell Building",
+        "Address": "1400 DeMaisonneuve W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578009,
+          45.49705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "LC",
+        "Building_Name": "LC Building",
+        "Building_Long_Name": "LC Building",
+        "Address": "1426 Bishop Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577358,
+          45.496782
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "LD",
+        "Building_Name": "LD Building",
+        "Building_Long_Name": "LD Building",
+        "Address": "1424 Bishop Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.577312,
+          45.496697
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "M",
+        "Building_Name": "M Building",
+        "Building_Long_Name": "M Annex",
+        "Address": "2135 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579777,
+          45.497368
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "MB",
+        "Building_Name": "MB Building",
+        "Building_Long_Name": "John Molson Building",
+        "Address": "1450 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579044,
+          45.495304
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "MI",
+        "Building_Name": "MI Building",
+        "Building_Long_Name": "MI Annex",
+        "Address": "2130 Bishop Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579261,
+          45.497807
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "MK",
+        "Building_Name": "MK Building",
+        "Building_Long_Name": "MK Annex",
+        "Address": "2000-20002 Mackay St"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579025,
+          45.496606
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "MM",
+        "Building_Name": "MM Building",
+        "Building_Long_Name": "MM Annex",
+        "Address": "1209 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.576365,
+          45.494665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "MN",
+        "Building_Name": "MN Building",
+        "Building_Long_Name": "MN Annex",
+        "Address": "1205-1207 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.576315,
+          45.494568
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "MT",
+        "Building_Name": "MT Building",
+        "Building_Long_Name": "Montefiore Building",
+        "Address": "1195 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.576108,
+          45.494442
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "MU",
+        "Building_Name": "MU Building",
+        "Building_Long_Name": "MU Annex",
+        "Address": "2170 Bishop Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579506,
+          45.497963
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "P",
+        "Building_Name": "P Building",
+        "Building_Long_Name": "P Annex",
+        "Address": "2020 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579113,
+          45.496745
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "PB",
+        "Building_Name": "PB Building",
+        "Building_Long_Name": "PB Building",
+        "Address": "7200 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.638106,
+          45.456534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "PC",
+        "Building_Name": "PC Building",
+        "Building_Long_Name": "PERFORM centre",
+        "Address": "7200 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.637683,
+          45.457088
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "PR",
+        "Building_Name": "PR Building",
+        "Building_Long_Name": "PR Annex",
+        "Address": "2100 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.57979,
+          45.497066
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "PS",
+        "Building_Name": "PS Building",
+        "Building_Long_Name": "Physical Services Building",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.639758,
+          45.459636
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "PT",
+        "Building_Name": "PT Building",
+        "Building_Long_Name": "Oscar Peterson Concert Hall",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.638941,
+          45.459308
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "PY",
+        "Building_Name": "PY Building",
+        "Building_Long_Name": "Psychology Building",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.640467,
+          45.458938
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "Q",
+        "Building_Name": "Q Building",
+        "Building_Long_Name": "Q Annex",
+        "Address": "2010 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579094,
+          45.496648
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "R",
+        "Building_Name": "R Building",
+        "Building_Long_Name": "R Annex",
+        "Address": "2050 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579389,
+          45.496826
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "RA",
+        "Building_Name": "RA Building",
+        "Building_Long_Name": "Recreation and Athletics Complex",
+        "Address": "7200 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.63761,
+          45.456774
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "RF",
+        "Building_Name": "RF Building",
+        "Building_Long_Name": "Loyola Jesuit Hall and Conference Centre",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.641028,
+          45.458489
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "RR",
+        "Building_Name": "RR Building",
+        "Building_Long_Name": "RR Annex",
+        "Address": "2040 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579259,
+          45.496796
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "S",
+        "Building_Name": "S Building",
+        "Building_Long_Name": "S Annex",
+        "Address": "2145 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579851,
+          45.497423
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "SB",
+        "Building_Name": "SB Building",
+        "Building_Long_Name": "Samuel Bronfman Building",
+        "Address": "1590 Doctor Penfield"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.58609,
+          45.4966
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "SC",
+        "Building_Name": "SC Building",
+        "Building_Long_Name": "Student Centre",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.639251,
+          45.459131
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "SH",
+        "Building_Name": "SH Building",
+        "Building_Long_Name": "Solar House",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.642478,
+          45.459298
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "SP",
+        "Building_Name": "SP Building",
+        "Building_Long_Name": "Richard J. Renaud Science Complex",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.641565,
+          45.457881
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "T",
+        "Building_Name": "T Building",
+        "Building_Long_Name": "T Annex",
+        "Address": "2030 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.57927,
+          45.49671
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "TA",
+        "Building_Name": "TA Building",
+        "Building_Long_Name": "Terrebonne Building",
+        "Address": "7079 Terrebonne"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.640897,
+          45.459992
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "TB",
+        "Building_Name": "TB Building",
+        "Building_Long_Name": "TB Annex",
+        "Address": "7075 Terrebonne"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.640842,
+          45.460051
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "TD",
+        "Building_Name": "TD Building",
+        "Building_Long_Name": "Toronto-Dominion Building",
+        "Address": "1410 Guy Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578375,
+          45.495103
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "TU",
+        "Building_Name": "TU Building",
+        "Building_Long_Name": "TU Tunnel",
+        "Address": "1550 DeMaisonneuve"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.578918,
+          45.49648
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "V",
+        "Building_Name": "V Building",
+        "Building_Long_Name": "V Annex",
+        "Address": "2110 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579907,
+          45.497101
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "VA",
+        "Building_Name": "VA Building",
+        "Building_Long_Name": "Visual Arts Building",
+        "Address": "1395 Rene Levesque W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.573795,
+          45.495543
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "VE",
+        "Building_Name": "VE Building",
+        "Building_Long_Name": "Vanier Extension",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.638606,
+          45.459026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "LOY",
+        "Building": "VL",
+        "Building_Name": "VL Building",
+        "Building_Long_Name": "Vanier Library Building",
+        "Address": "7141 Sherbrooke W"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.638606,
+          45.459026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "X",
+        "Building_Name": "X Building",
+        "Building_Long_Name": "X Annex",
+        "Address": "2080 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579593,
+          45.49694
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Campus": "SGW",
+        "Building": "Z",
+        "Building_Name": "Z Building",
+        "Building_Long_Name": "Z Annex",
+        "Address": "2090 Mackay Street"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.579705,
+          45.496981
+        ]
+      }
+    }
+  ]
+}
