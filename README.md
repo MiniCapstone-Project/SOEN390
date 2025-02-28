@@ -63,8 +63,13 @@ Password:
 TheBrothers963
 ```
 
-
 running eslint
 ```bash 
 npx eslint .
 ```
+
+Running project on tunnel mode (resolves the mac m1 running issue)
+```bash 
+npx expo start --tunnel
+```
+

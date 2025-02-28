@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, View, Text, Dimensions } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Marker, Region, LatLng } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker, LatLng } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import CustomButton from "../components/InputComponents/Buttons";
@@ -10,7 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SGW_CAMPUS } from "./MapExplorerScreen";
 import "react-native-get-random-values";
 import { useRoute } from "@react-navigation/native";
-import { retrieveRoutes } from "@/services/DirectionService.ts";
+import { retrieveRoutes } from "@/services/DirectionService";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
@@ -27,19 +27,40 @@ export default function DirectionsScreen() {
   const [directionsRoute, setDirectionsRoute] = useState<LatLng | null>(null);  // create directions route state
   const [transportMode, setTransportMode] = useState<"DRIVING"|"WALKING"|"TRANSIT">("DRIVING");
 
+  // Load saved locations and, if no origin is saved, get the current location automatically.
   useEffect(() => {
     const loadSavedLocations = async () => {
       const savedOrigin = await AsyncStorage.getItem("origin");
       const savedDestination = await AsyncStorage.getItem("destination");
-      if (savedOrigin) setOrigin(JSON.parse(savedOrigin));
+      
+      if (savedOrigin) {
+        setOrigin(JSON.parse(savedOrigin));
+      } else {
+        // **Automatic Current Location Feature**
+        // If no saved origin, get current device location.
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const currentLocation: LatLng = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            };
+            setOrigin(currentLocation);
+            AsyncStorage.setItem("origin", JSON.stringify(currentLocation));
+          },
+          (error) => console.error("Error fetching current location: ", error),
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+      }
+      
       if (savedDestination) setDestination(JSON.parse(savedDestination));
     };
     loadSavedLocations();
   }, []);
 
   useEffect(() => {
-      if (destinationObject) {  // if a destination object was passed
-        console.log("Received " + destinationObject.Address);
+    if (destinationObject) {  
+      // Used for debugging
+      console.log("Received " + destinationObject.Address);
 
       const initialDestinationSelect = async (setLocation: (loc: LatLng) => void, storageKey: string, destinationObject: any) => {
         const position: LatLng = {
@@ -47,14 +68,13 @@ export default function DirectionsScreen() {
           longitude: destinationObject.Longitude,
         };
 
-        console.log("Selected Location:", position); // Debugging
-
+        console.log("Selected Location:", position); 
         setLocation(position);
         await AsyncStorage.setItem(storageKey, JSON.stringify(position));
 
         moveTo(position, 1);
       };
-    initialDestinationSelect(setDestination, "destination", destinationObject);
+      initialDestinationSelect(setDestination, "destination", destinationObject);
     }
   }, [destinationObject]);
 
@@ -79,7 +99,11 @@ export default function DirectionsScreen() {
     );
   };
 
-  const handleLocationSelect = async (details: any, setLocation: (loc: LatLng) => void, storageKey: string, destinationObject: any) => {
+  const handleLocationSelect = async (
+    details: any,
+    setLocation: (loc: LatLng) => void,
+    storageKey: string
+  ) => {
     const position: LatLng = {
       latitude: details.geometry.location.lat,
       longitude: details.geometry.location.lng,
@@ -94,55 +118,65 @@ export default function DirectionsScreen() {
 
     moveTo(position, zoomLevel);
   };
-  
+
   const traceRoute = async () => {
-      console.log("Origin: ", origin);
-      console.log("Destination ", destination);
-      console.log("Attempting to route"); // show debugging
+    console.log("Origin: ", origin);
+    console.log("Destination ", destination);
+    console.log("Attempting to route"); // show debugging
     if (origin && destination) {
-        try {
-            const directions = await retrieveRoutes(origin.latitude, origin.longitude, destination.latitude, destination.longitude, transportMode, googleMapsKey);
-            setDirectionsRoute(directions);
-        } catch (error) {
-            console.error("Error fetching directions ", error);
-        }
+      try {
+        const directions = await retrieveRoutes(
+          origin.latitude,
+          origin.longitude,
+          destination.latitude,
+          destination.longitude,
+          transportMode,
+          googleMapsKey
+        );
+        setDirectionsRoute(directions);
+      } catch (error) {
+        console.error("Error fetching directions ", error);
+      }
     }
   };
 
-  useEffect (() => {
+  useEffect(() => {
     traceRoute();
   }, [transportMode]);
 
   const setWalking = () => {
-      setTransportMode("WALKING");
+    setTransportMode("WALKING");
   };
 
   const setDriving = () => {
-      setTransportMode("DRIVING");
+    setTransportMode("DRIVING");
   };
 
   const setTransit = () => {
-       setTransportMode("TRANSIT");
+    setTransportMode("TRANSIT");
   };
 
   useEffect(() => {
-      if (destination) {
-          // automatic refresh to counteract rendering bugs by deleting this and saving
-          // and then pasting it back in
-          console.log("Refreshed app");
-      }
+    if (destination) {
+      // automatic refresh to counteract rendering bugs
+      console.log("Refreshed app");
+    }
   }, [destination]);
 
   useEffect(() => {
     if (directionsRoute) {
-        //console.log("Route distance and duration:", distance, "m", duration, "min");
-        console.log("Beginning Direction Rendering");  // proof that state changed and rendering should begin, if not it is an API or rendering issue
+      console.log("Beginning Direction Rendering");
     }
   }, [directionsRoute]);
 
   return (
     <View style={DirectionsScreenStyles.container}>
-      <MapView ref={mapRef} style={DirectionsScreenStyles.map} provider={PROVIDER_GOOGLE} initialRegion={SGW_CAMPUS}>
+      <MapView
+        ref={mapRef}
+        style={DirectionsScreenStyles.map}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={SGW_CAMPUS}
+      >
         {origin && <Marker coordinate={origin} />}
         {destination && <Marker coordinate={destination} />}
         {directionsRoute && origin && destination && (
@@ -166,22 +200,32 @@ export default function DirectionsScreen() {
         <GooglePlacesAutocomplete
           placeholder="Origin"
           fetchDetails
-          onPress={(data, details) => details && handleLocationSelect(details, setOrigin, "origin")}
+          onPress={(data, details) =>
+            details && handleLocationSelect(details, setOrigin, "origin")
+          }
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
-          styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
+          styles={{
+            container: { flex: 0, marginBottom: 10 },
+            textInput: DirectionsScreenStyles.input,
+          }}
         />
         <GooglePlacesAutocomplete
           placeholder={destinationObject?.Address || "Destination"}
           fetchDetails
-          value = {destinationObject?.Address || ""}
-          onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination")}
+          value={destinationObject?.Address || ""}
+          onPress={(data, details) =>
+            details && handleLocationSelect(details, setDestination, "destination")
+          }
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
-          styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
+          styles={{
+            container: { flex: 0, marginBottom: 10 },
+            textInput: DirectionsScreenStyles.input,
+          }}
         />
         <Button title="Route" color="#733038" onPress={traceRoute} />
-        <Button title="Walking" color="#733038" marginBottom="20px" onPress={setWalking} />
-        <Button title="Driving" color="#733038" marginBottom="20px" onPress={setDriving} />
-        <Button title="Transit" color="#733038" marginBottom="20px" onPress={setTransit} />
+        <Button title="Walking" color="#733038" onPress={setWalking} />
+        <Button title="Driving" color="#733038" onPress={setDriving} />
+        <Button title="Transit" color="#733038" onPress={setTransit} />
         {distance > 0 && duration > 0 && (
           <View style={DirectionsScreenStyles.stats}>
             <Text>Distance: {distance.toFixed(2)} km</Text>
