@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Keyboard, Dimensions, Alert } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE, Region, Geojson } from "react-native-maps";
 import { SearchBar } from "@/components/InputComponents/InputFields";
@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
 import { Button } from 'react-native-paper';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import * as Location from 'expo-location';
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
 // const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
@@ -155,7 +156,41 @@ export default function MapExplorerScreen() {
   const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
   const [showInfoBox, setShowInfoBox] = useState(false);
+  const [userLocation, setUserLocation] = useState<Region | null>(null);
   const navi = useNavigation();
+
+  useEffect(() => {
+    (async () => {
+      console.log("Requesting location permissions..."); // Debug log
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      console.log("Location permission status:", status); // Debug log
+      if (status !== 'granted') {
+        Alert.alert('Permission to access location was denied');
+        return;
+      }
+
+      try {
+        console.log("Fetching user location..."); // Debug log
+        let location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Highest,
+          maximumAge: 10000,
+          timeout: 5000,
+        });
+        console.log("User location:", location); // Debug log
+        const { latitude, longitude } = location.coords;
+        const userRegion = {
+          latitude,
+          longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        };
+        setUserLocation(userRegion);
+        mapRef.current?.animateToRegion(userRegion, 1000);
+      } catch (error) {
+        console.error("Error getting location:", error); // Debug log
+      }
+    })();
+  }, []);
 
   const handleSearch = async () => {
     try {
@@ -223,12 +258,21 @@ export default function MapExplorerScreen() {
         // pass address as destination
   };
 
+  const handleCenterToUserLocation = () => {
+    console.log("Centering to user location:", userLocation); // Debug log
+    if (userLocation) {
+      mapRef.current?.animateToRegion(userLocation, 1000);
+    } else {
+      Alert.alert("Location not available", "User location is not available yet.");
+    }
+  };
+
   return (
     <View style={DefaultMapStyle.container}>
       <MapComponent
         mapRef={mapRef}
         results={results}
-        currentCampus={currentCampus}
+        currentCampus={userLocation || currentCampus}
         handleMarkerPress={handleMarkerPress}
       />
       <View style={styles.controlsContainer}>
@@ -244,6 +288,9 @@ export default function MapExplorerScreen() {
           </Button>
           <Button mode="contained" onPress={() => { console.log('Button B pressed'); handleSwitchToLoyola(); }} style={styles.button}>
             Button B
+          </Button>
+          <Button mode="contained" onPress={() => { console.log('Button C pressed'); handleCenterToUserLocation(); }} style={styles.button}>
+            Button C
           </Button>
         </View>
       </View>
