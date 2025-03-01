@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
-import { View, StyleSheet, Keyboard, Dimensions } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
+import { View, StyleSheet, Keyboard, Dimensions, Alert } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE, Region, Geojson } from "react-native-maps";
 import { SearchBar } from "@/components/InputComponents/InputFields";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import CustomButton from "../components/InputComponents/Buttons";
@@ -9,7 +9,7 @@ import { searchPlaces } from "../services/PlacesService";
 import buildings from "@/Cartography/BuildingCampusMarkers";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
-import { Alert } from "react-native"; 
+import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
 // const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
@@ -85,7 +85,13 @@ const MapComponent = ({
         },
       ]}
     >
-      <MarkersComponent data={[...results, ...buildings]} handleMarkerPress={handleMarkerPress} />
+      <MarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
+      <Geojson
+        geojson={buildingMarkers}
+        strokeColor="blue"
+        fillColor="cyan"
+        strokeWidth={2}
+      />
     </MapView>
   );
 };
@@ -211,7 +217,7 @@ export default function MapExplorerScreen() {
       <MapComponent
         mapRef={mapRef}
         results={results}
-        buildings={buildings}
+        // buildings={buildings}
         currentCampus={currentCampus}
         handleMarkerPress={handleMarkerPress}
       />
