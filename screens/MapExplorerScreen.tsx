@@ -102,18 +102,14 @@ const SearchWrapper = ({
   setSearchText,
   handleSearch,
   handleClearSearch,
-  handleSwitchToSGW,
-  handleSwitchToLoyola,
 }: {
   searchText: string;
   setSearchText: (text: string) => void;
   handleSearch: () => void;
   handleClearSearch: () => void;
-  handleSwitchToSGW: () => void;
-  handleSwitchToLoyola: () => void;
 }) => {
   return (
-    <View style={DefaultMapStyle.controlsContainer}>
+    <View style={styles.searchWrapper}>
       <SearchBar
         searchText={searchText}
         onSearchTextChange={setSearchText}
@@ -122,26 +118,6 @@ const SearchWrapper = ({
         style={DefaultMapStyle.searchBox}
         placeholder="Search Places"
       />
-      <View style={DefaultMapStyle.campusButtonWrapper}>
-        <CustomButton
-          title="Switch to SGW"
-          onCampusSwitch={handleSwitchToSGW}
-          style={DefaultMapStyle.campusButton}
-        />
-        <CustomButton
-          title="Switch to Loyola"
-          onCampusSwitch={handleSwitchToLoyola}
-          style={DefaultMapStyle.campusButton}
-        />
-      </View>
-      <View style={styles.buttonWrapper}>
-        <Button mode="contained" onPress={() => { console.log('Button A pressed'); handleSwitchToSGW(); }} style={styles.button}>
-          Button A
-        </Button>
-        <Button mode="contained" onPress={() => { console.log('Button B pressed'); handleSwitchToLoyola(); }} style={styles.button}>
-          Button B
-        </Button>
-      </View>
     </View>
   );
 };
@@ -230,14 +206,22 @@ export default function MapExplorerScreen() {
         currentCampus={currentCampus}
         handleMarkerPress={handleMarkerPress}
       />
-      <SearchWrapper
-        searchText={searchText}
-        setSearchText={setSearchText}
-        handleSearch={handleSearch}
-        handleClearSearch={handleClearSearch}
-        handleSwitchToSGW={handleSwitchToSGW}
-        handleSwitchToLoyola={handleSwitchToLoyola}
-      />
+      <View style={styles.controlsContainer}>
+        <SearchWrapper
+          searchText={searchText}
+          setSearchText={setSearchText}
+          handleSearch={handleSearch}
+          handleClearSearch={handleClearSearch}
+        />
+        <View style={styles.buttonContainer}>
+          <Button mode="contained" onPress={() => { console.log('Button A pressed'); handleSwitchToSGW(); }} style={styles.button}>
+            Button A
+          </Button>
+          <Button mode="contained" onPress={() => { console.log('Button B pressed'); handleSwitchToLoyola(); }} style={styles.button}>
+            Button B
+          </Button>
+        </View>
+      </View>
       {showInfoBox && selectedMarker && (
         <MarkerInfoBox
           title={selectedMarker.BuildingName || selectedMarker.name}
@@ -251,9 +235,19 @@ export default function MapExplorerScreen() {
 }
 
 const styles = StyleSheet.create({
-  buttonWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  controlsContainer: {
+    position: "absolute",
+    top: 10,
+    width: "90%",
+    alignSelf: "center",
+    flexDirection: "column",
+  },
+  searchWrapper: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 10,
   },
   button: {
