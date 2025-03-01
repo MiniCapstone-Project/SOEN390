@@ -10,6 +10,7 @@ import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
 import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
 import { Button } from 'react-native-paper';
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
 // const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
@@ -120,6 +121,28 @@ const SearchWrapper = ({
         onClearPress={handleClearSearch}
         style={DefaultMapStyle.searchBox}
         placeholder="Search Places"
+      />
+      <GooglePlacesAutocomplete
+        placeholder="Search"
+        currentLocation={true}
+        predefinedPlacesAlwaysVisible={true}
+        onPress={(data, details=null) => {
+          console.log("Selected place:", data, details);
+          // if (details) {
+          //   const position = {
+          //     latitude: details.geometry.location.lat,
+          //     longitude: details.geometry.location.lng,
+          //   };
+          //   mapRef.current?.animateToRegion({
+          //     ...position,
+          //     latitudeDelta: LATITUDE_DELTA,
+          //     longitudeDelta: LONGITUDE_DELTA,
+          //   }, 1000);
+          //   setResults([details]);
+          // }
+        }}
+        query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
+        styles={{ container: { flex: 0, marginTop: 10 }, textInput: DefaultMapStyle.searchBox }}
       />
     </View>
   );
