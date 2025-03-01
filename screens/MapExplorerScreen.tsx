@@ -10,6 +10,7 @@ import buildings from "@/Cartography/BuildingCampusMarkers";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
 import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
+import { Button } from 'react-native-paper';
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
 // const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
@@ -133,6 +134,14 @@ const SearchWrapper = ({
           style={DefaultMapStyle.campusButton}
         />
       </View>
+      <View style={styles.buttonWrapper}>
+        <Button mode="contained" onPress={() => { console.log('Button A pressed'); handleSwitchToSGW(); }} style={styles.button}>
+          Button A
+        </Button>
+        <Button mode="contained" onPress={() => { console.log('Button B pressed'); handleSwitchToLoyola(); }} style={styles.button}>
+          Button B
+        </Button>
+      </View>
     </View>
   );
 };
@@ -240,3 +249,15 @@ export default function MapExplorerScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+  },
+});
