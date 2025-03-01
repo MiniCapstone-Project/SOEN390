@@ -6,7 +6,6 @@ import { DefaultMapStyle } from "@/Styles/MapStyles";
 import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
-import buildings from "@/Cartography/BuildingCampusMarkers";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
 import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
@@ -20,6 +19,8 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+
+// for defining the campus toggleing regions
 export const SGW_CAMPUS: Region = {
   latitude: 45.497092,
   longitude: -73.5788,
@@ -27,13 +28,15 @@ export const SGW_CAMPUS: Region = {
   longitudeDelta: LONGITUDE_DELTA,
 };
 
-const LOY_CAMPUS: Region = {
+export const LOY_CAMPUS: Region = {
   latitude: 45.458705,
   longitude: -73.640523,
   latitudeDelta: LATITUDE_DELTA,
   longitudeDelta: LONGITUDE_DELTA,
 };
 
+
+// for displaying a set of markers: will likely get phased out in favor of the Geojson component
 const MarkersComponent = ({
   data,
   handleMarkerPress,
@@ -55,16 +58,16 @@ const MarkersComponent = ({
   ));
 };
 
+
+// wrapper for the <MapView> component
 const MapComponent = ({
   mapRef,
   results,
-  buildings,
   currentCampus,
   handleMarkerPress,
 }: {
   mapRef: React.RefObject<MapView>;
   results: any[];
-  buildings: any[];
   currentCampus: Region;
   handleMarkerPress: (marker: any) => void;
 }) => {
@@ -202,7 +205,6 @@ export default function MapExplorerScreen() {
       <MapComponent
         mapRef={mapRef}
         results={results}
-        // buildings={buildings}
         currentCampus={currentCampus}
         handleMarkerPress={handleMarkerPress}
       />
