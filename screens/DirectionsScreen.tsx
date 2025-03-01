@@ -11,7 +11,7 @@ import { SGW_CAMPUS } from "./MapExplorerScreen";
 import "react-native-get-random-values";
 import { useRoute } from "@react-navigation/native";
 import { retrieveRoutes } from "@/services/DirectionService.ts";
-import { findNextShuttleCountdown } from "@/services/ShuttleService.ts"
+import { findNextShuttle } from "@/services/ShuttleService.ts"
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
@@ -201,7 +201,7 @@ export default function DirectionsScreen() {
             <Text>Distance: {distance.toFixed(2)} km</Text>
             <Text>Duration: {Math.ceil(duration)} min</Text>
             /* Only show this conditionally if the shuttle button is pressed */
-            {showShuttleTime && <Text>{findNextShuttleCountdown()}</Text>}
+            {showShuttleTime && <Text>{findNextShuttle()}</Text>}
           </View>
         )}
       </View>

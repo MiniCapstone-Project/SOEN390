@@ -1,6 +1,6 @@
 import schedule from "@/assets/schedule.json";
 
-export const findNextShuttleCountdown = (): string => {
+export const findNextShuttle = (): string => {
     const now = new Date();  // get current date time
     const currentTime = now.getHours() * 60 + now.getMinutes(); // get time in minutes since day began
 
