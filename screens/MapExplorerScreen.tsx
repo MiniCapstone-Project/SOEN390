@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Alert } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE, Region, Geojson } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
-import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
+import {CustomMarkersComponent} from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
 import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
@@ -11,30 +11,9 @@ import * as Location from "expo-location";
 import { ButtonsStyles } from "@/Styles/ButtonStyles";
 import { LATITUDE_DELTA, LONGITUDE_DELTA, LOY_CAMPUS, SGW_CAMPUS } from "@/constants/MapsConstants";
 import { AutocompleteSearchWrapper } from "@/components/InputComponents/AutoCompleteSearchWrapper";
+import MarkerInfoBox from "@/components/MapComponents/MarkerInfoBox";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
-
-// For displaying a set of markers
-const MarkersComponent = ({
-  data,
-  handleMarkerPress,
-}: {
-  data: any[];
-  handleMarkerPress: (marker: any) => void;
-}) => {
-  return data.map((item, index) => (
-    <Marker
-      key={`marker-${index}`}
-      coordinate={{
-        latitude: item.Latitude || item.geometry?.location?.lat,
-        longitude: item.Longitude || item.geometry?.location?.lng,
-      }}
-      title={item.BuildingName || item.name}
-      pinColor={item.BuildingName ? "#4A90E2" : "#FF5733"}
-      onPress={() => handleMarkerPress(item)}
-    />
-  ));
-};
 
 // Wrapper for the <MapView> component
 const MapComponent = ({
@@ -66,7 +45,7 @@ const MapComponent = ({
         },
       ]}
     >
-      <MarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
+      <CustomMarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
       <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} />
     </MapView>
   );
