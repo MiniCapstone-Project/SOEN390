@@ -11,7 +11,8 @@ import { SGW_CAMPUS } from "./MapExplorerScreen";
 import "react-native-get-random-values";
 import { useRoute } from "@react-navigation/native";
 import { retrieveRoutes } from "@/services/DirectionService.ts";
-import { findNextShuttle } from "@/services/ShuttleService.ts"
+import { findNextShuttle } from "@/services/ShuttleService.ts";
+import { getTripDuration } from "@/services/DurationService.ts";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
@@ -30,6 +31,7 @@ export default function DirectionsScreen() {
   const HALL_BUILDING: LatLng = { latitude: 45.4973223, longitude: -73.5790288};  // start point of shuttle routing
   const LOYOLA_CAMPUS: LatLng = { latitude: 45.4581244, longitude: -73.6391259};  // end point of shuttle routing
   const [showShuttleTime, setShowShuttleTime] = useState(false); // this tracks the button press for shuttle and shows time till next shuttle
+  const [shuttleValid, setShuttleValid] = useState(false);  // user needs to be close enough to a campus for shuttle service to be valid
 
   useEffect(() => {
     const loadSavedLocations = async () => {
@@ -98,7 +100,7 @@ export default function DirectionsScreen() {
 
     moveTo(position, zoomLevel);
   };
-  
+
   const traceRoute = async () => {
       console.log("Origin: ", origin);
       console.log("Destination ", destination);
@@ -114,11 +116,45 @@ export default function DirectionsScreen() {
   };
 
   const setShuttleRoute = async() => {
-    setOrigin(HALL_BUILDING);
-    setDestination(LOYOLA_CAMPUS);
-    setTransportMode("DRIVING");  // buses drive, so driving mode
+    console.log("Attempting to use shuttle service.");
+    // TODO: Replace test start location with user's actual current location
 
-    await traceRoute(); // call trace route to trace shuttle bus service route
+    const testStartLocation: LatLng  = {latitude: 45.496042, longitude: -73.5796854};  // tim hortons guy street, near hall
+    //const testStartLocation: LatLng = { latitude: 45.4581244, longitude: -73.6394280};  // -11 longitude from loyola, near loyola
+    //const testStartLocation: LatLng = { latitude: 47.4581244, longitude: -75.6391280};  // +-2 from longitude and latitude, too far from both
+
+    const timeToHallBuilding = await getTripDuration(testStartLocation, HALL_BUILDING);
+    const timeToLoyolaCampus = await getTripDuration(testStartLocation, LOYOLA_CAMPUS);  // get travel time to each campus
+
+    console.log("Time to loyola: " + timeToLoyolaCampus + ", time to hall: " + timeToHallBuilding);
+
+    if (timeToHallBuilding != null && timeToLoyolaCampus != null) {
+        if (timeToHallBuilding <= 5 || timeToLoyolaCampus <= 5) {  // one of the travel times needs to be under 5
+            if (timeToHallBuilding < timeToLoyolaCampus) { // IF HALL IS CLOSER
+                setDestination(LOYOLA_CAMPUS);
+                setOrigin(testStartLocation);  // TODO: Change this to use user's true current location
+                setTransportMode("DRIVING");  // the shuttle bus drives, so use driving as routing method
+                console.log("Beginning shuttle service with Loyola as destination.");
+                setShuttleValid(true);  // shuttle service is allowed to be called
+                console.log(shuttleValid + ": shuttle valid status");
+                await traceRoute(); // call trace route to trace shuttle bus service route
+            } else if (timeToLoyolaCampus < timeToHallBuilding) {  // IF LOYOLA IS CLOSER
+                setDestination(HALL_BUILDING);
+                setOrigin(testStartLocation);  // TODO: Change this to use user's true current location
+                setTransportMode("DRIVING");  // the shuttle bus drives, so use driving as routing method
+                console.log("Beginning shuttle service with Hall as destination.");
+                setShuttleValid(true); // shuttle service is allowed to be called
+                console.log(shuttleValid + ": shuttle valid status");
+                await traceRoute(); // call trace route to trace shuttle bus service route
+            }
+        } else {  // IF BOTH CAMPUSES ARE MORE THAN 5 MINUTES AWAY
+            console.log("Too far from both campuses to use Shuttle Service.");
+            setShuttleValid(false);  // cannot use shuttle service if more than 5 minutes away
+            console.log(shuttleValid + ": shuttle valid status");
+        }
+    } else {
+        console.log("One or both of travel times are null");
+    }
   }
 
   useEffect (() => {
@@ -191,7 +227,7 @@ export default function DirectionsScreen() {
           styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
         />
         <Button title="Route" color="#733038" onPress={traceRoute} />
-        /* All button on presses change state of shuttle service to true or false */
+        {/* All button on presses change state of shuttle service to true or false */}
         <Button title="Walking" color="#733038" marginBottom="20px" onPress={() => {setWalking(); setShowShuttleTime(false);}} />
         <Button title="Driving" color="#733038" marginBottom="20px" onPress={() => {setDriving(); setShowShuttleTime(false);}} />
         <Button title="Transit" color="#733038" marginBottom="20px" onPress={() => {setTransit(); setShowShuttleTime(false);}} />
@@ -200,8 +236,8 @@ export default function DirectionsScreen() {
           <View style={DirectionsScreenStyles.stats}>
             <Text>Distance: {distance.toFixed(2)} km</Text>
             <Text>Duration: {Math.ceil(duration)} min</Text>
-            /* Only show this conditionally if the shuttle button is pressed */
-            {showShuttleTime && <Text>{findNextShuttle()}</Text>}
+            {/* Only show this conditionally if the shuttle button is pressed */}
+            {showShuttleTime && <Text>{findNextShuttle(shuttleValid)}</Text>}
           </View>
         )}
       </View>
