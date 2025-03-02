@@ -1,6 +1,10 @@
 import schedule from "@/assets/schedule.json";
 
-export const findNextShuttle = (): string => {
+export const findNextShuttle = (shuttleValid: boolean): string => {
+    if (!shuttleValid) {
+        return "You are too far from either campus to use the shuttle service.";
+    }
+
     const now = new Date();  // get current date time
     const currentTime = now.getHours() * 60 + now.getMinutes(); // get time in minutes since day began
 
@@ -18,6 +22,6 @@ export const findNextShuttle = (): string => {
             return returnString;
         }
     }
-    const returnString = "No More Shuttles Today";
+    const returnString = "No More Shuttles Today, Try Again Before 6:45PM Tomorrow";
     return returnString;  // fall back if no matches were found
 }
