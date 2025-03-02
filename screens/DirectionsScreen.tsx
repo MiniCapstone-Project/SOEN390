@@ -11,6 +11,7 @@ import { SGW_CAMPUS } from "./MapExplorerScreen";
 import "react-native-get-random-values";
 import { useRoute } from "@react-navigation/native";
 import { retrieveRoutes } from "@/services/DirectionService.ts";
+import { findNextShuttle } from "@/services/ShuttleService.ts"
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
@@ -26,6 +27,9 @@ export default function DirectionsScreen() {
   const destinationObject = route.params?.destination; // pass destination to second screen
   const [directionsRoute, setDirectionsRoute] = useState<LatLng | null>(null);  // create directions route state
   const [transportMode, setTransportMode] = useState<"DRIVING"|"WALKING"|"TRANSIT">("DRIVING");
+  const HALL_BUILDING: LatLng = { latitude: 45.4973223, longitude: -73.5790288};  // start point of shuttle routing
+  const LOYOLA_CAMPUS: LatLng = { latitude: 45.4581244, longitude: -73.6391259};  // end point of shuttle routing
+  const [showShuttleTime, setShowShuttleTime] = useState(false); // this tracks the button press for shuttle and shows time till next shuttle
 
   useEffect(() => {
     const loadSavedLocations = async () => {
@@ -109,6 +113,14 @@ export default function DirectionsScreen() {
     }
   };
 
+  const setShuttleRoute = async() => {
+    setOrigin(HALL_BUILDING);
+    setDestination(LOYOLA_CAMPUS);
+    setTransportMode("DRIVING");  // buses drive, so driving mode
+
+    await traceRoute(); // call trace route to trace shuttle bus service route
+  }
+
   useEffect (() => {
     traceRoute();
   }, [transportMode]);
@@ -179,13 +191,17 @@ export default function DirectionsScreen() {
           styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
         />
         <Button title="Route" color="#733038" onPress={traceRoute} />
-        <Button title="Walking" color="#733038" marginBottom="20px" onPress={setWalking} />
-        <Button title="Driving" color="#733038" marginBottom="20px" onPress={setDriving} />
-        <Button title="Transit" color="#733038" marginBottom="20px" onPress={setTransit} />
+        /* All button on presses change state of shuttle service to true or false */
+        <Button title="Walking" color="#733038" marginBottom="20px" onPress={() => {setWalking(); setShowShuttleTime(false);}} />
+        <Button title="Driving" color="#733038" marginBottom="20px" onPress={() => {setDriving(); setShowShuttleTime(false);}} />
+        <Button title="Transit" color="#733038" marginBottom="20px" onPress={() => {setTransit(); setShowShuttleTime(false);}} />
+        <Button title="Shuttle" color="#733038" marginBottom="20px" onPress={() => {setShuttleRoute(); setShowShuttleTime(true);}} />
         {distance > 0 && duration > 0 && (
           <View style={DirectionsScreenStyles.stats}>
             <Text>Distance: {distance.toFixed(2)} km</Text>
             <Text>Duration: {Math.ceil(duration)} min</Text>
+            /* Only show this conditionally if the shuttle button is pressed */
+            {showShuttleTime && <Text>{findNextShuttle()}</Text>}
           </View>
         )}
       </View>
