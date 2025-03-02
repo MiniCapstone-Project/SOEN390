@@ -11,6 +11,7 @@ import buildingMarkers from "@/gis/building-markers.json"; // Updated import pat
 import { Button } from "react-native-paper";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Location from "expo-location";
+import { ButtonsStyles } from "@/Styles/ButtonStyles";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 
@@ -166,7 +167,7 @@ const AutocompleteSearchWrapper = ({
   };
 
   return (
-    <View style={styles.searchWrapper}>
+    <View style={ButtonsStyles.searchWrapper}>
       {/* The Google Places Autocomplete field */}
       <GooglePlacesAutocomplete
         placeholder="Search for places..."
@@ -286,7 +287,7 @@ export default function MapExplorerScreen() {
         handleMarkerPress={handleMarkerPress}
       />
 
-      <View style={styles.controlsContainer}>
+      <View style={ButtonsStyles.controlsContainer}>
         {/* Only the new GooglePlacesAutocomplete-based search */}
         <AutocompleteSearchWrapper
           mapRef={mapRef}
@@ -296,14 +297,14 @@ export default function MapExplorerScreen() {
           googleMapsKey={googleMapsKey}
         />
 
-        <View style={styles.buttonContainer}>
-          <Button mode="contained" onPress={handleSwitchToSGW} style={styles.button}>
+        <View style={ButtonsStyles.buttonContainer}>
+          <Button mode="contained" onPress={handleSwitchToSGW} style={ButtonsStyles.button}>
             SGW
           </Button>
-          <Button mode="contained" onPress={handleSwitchToLoyola} style={styles.button}>
+          <Button mode="contained" onPress={handleSwitchToLoyola} style={ButtonsStyles.button}>
             Loyola
           </Button>
-          <Button mode="contained" onPress={handleCenterToUserLocation} style={styles.button}>
+          <Button mode="contained" onPress={handleCenterToUserLocation} style={ButtonsStyles.button}>
             ME
           </Button>
         </View>
@@ -320,25 +321,3 @@ export default function MapExplorerScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  controlsContainer: {
-    position: "absolute",
-    top: 10,
-    width: "90%",
-    alignSelf: "center",
-    flexDirection: "column",
-  },
-  searchWrapper: {
-    flex: 1,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-  },
-  button: {
-    flex: 1,
-    marginHorizontal: 5,
-  },
-});

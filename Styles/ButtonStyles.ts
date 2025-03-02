@@ -21,4 +21,26 @@ export const CustomButtonStyles = StyleSheet.create({
       fontWeight: 'bold',
     },
   });
+
+export const ButtonsStyles = StyleSheet.create({
+  controlsContainer: {
+    position: "absolute",
+    top: 10,
+    width: "90%",
+    alignSelf: "center",
+    flexDirection: "column",
+  },
+  searchWrapper: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+  },
+})
   
