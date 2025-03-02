@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Keyboard, Dimensions, Alert } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE, Region, Geojson } from "react-native-maps";
-import { SearchBar } from "@/components/InputComponents/InputFields";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
@@ -9,20 +8,18 @@ import { searchPlaces } from "../services/PlacesService";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
 import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
-import { Button } from 'react-native-paper';
+import { Button } from "react-native-paper";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 
-const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
-// const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
+const googleMapsKey = GOOGLE_MAPS_API_KEY;
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-
-// for defining the campus toggleing regions
+// Define campus regions
 export const SGW_CAMPUS: Region = {
   latitude: 45.497092,
   longitude: -73.5788,
@@ -37,8 +34,7 @@ export const LOY_CAMPUS: Region = {
   longitudeDelta: LONGITUDE_DELTA,
 };
 
-
-// for displaying a set of markers: will likely get phased out in favor of the Geojson component
+// For displaying a set of markers
 const MarkersComponent = ({
   data,
   handleMarkerPress,
@@ -60,8 +56,7 @@ const MarkersComponent = ({
   ));
 };
 
-
-// wrapper for the <MapView> component
+// Wrapper for the <MapView> component
 const MapComponent = ({
   mapRef,
   results,
@@ -92,66 +87,122 @@ const MapComponent = ({
       ]}
     >
       <MarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
-      <Geojson
-        geojson={buildingMarkers}
-        strokeColor="blue"
-        fillColor="cyan"
-        strokeWidth={2}
-      />
+      <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} />
     </MapView>
   );
 };
 
-const SearchWrapper = ({
-  searchText,
-  setSearchText,
-  handleSearch,
-  handleClearSearch,
+// The single search UI, combining autocomplete + text-based search
+const AutocompleteSearchWrapper = ({
+  mapRef,
+  setResults,
+  userLocation,
+  currentCampus,
+  googleMapsKey,
 }: {
-  searchText: string;
-  setSearchText: (text: string) => void;
-  handleSearch: () => void;
-  handleClearSearch: () => void;
+  mapRef: React.RefObject<MapView>;
+  setResults: React.Dispatch<React.SetStateAction<any[]>>;
+  userLocation: Region | null;
+  currentCampus: Region;
+  googleMapsKey: string;
 }) => {
+  // This local state tracks typed text in the Autocomplete's field
+  const [autoSearchText, setAutoSearchText] = useState("");
+
+  // Perform a full text-based search, returning multiple results
+  const handleFullTextSearch = async () => {
+    if (!autoSearchText.trim()) return;
+
+    try {
+      const { results, coords } = await searchPlaces(
+        autoSearchText,
+        userLocation?.latitude || currentCampus.latitude,
+        userLocation?.longitude || currentCampus.longitude,
+        googleMapsKey
+      );
+
+      if (results.length === 0) {
+        Alert.alert("No Results", "No locations found. Try a different search.", [{ text: "OK" }]);
+        return;
+      }
+
+      setResults(results);
+      if (coords.length) {
+        mapRef.current?.fitToCoordinates(coords, {
+          edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+          animated: true,
+        });
+        Keyboard.dismiss();
+      }
+    } catch (error) {
+      console.error("Error during text search:", error);
+      Alert.alert("Error", "Failed to fetch places. Please try again.");
+    }
+  };
+
+  // Handle user picking a suggestion from the dropdown
+  const handleSelectSuggestion = (data: any, details: any | null) => {
+    console.log("Selected place:", data, details);
+    if (!details) return;
+
+    const { lat, lng } = details.geometry.location;
+    mapRef.current?.animateToRegion(
+      {
+        latitude: lat,
+        longitude: lng,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
+      1000
+    );
+    // Show only this place as a result
+    setResults([details]);
+  };
+
+  // Clear typed text and results
+  const handleClearAll = () => {
+    setAutoSearchText("");
+    setResults([]);
+  };
+
   return (
     <View style={styles.searchWrapper}>
-      <SearchBar
-        searchText={searchText}
-        onSearchTextChange={setSearchText}
-        onSearchPress={handleSearch}
-        onClearPress={handleClearSearch}
-        style={DefaultMapStyle.searchBox}
-        placeholder="Search Places"
-      />
+      {/* The Google Places Autocomplete field */}
       <GooglePlacesAutocomplete
-        placeholder="Search"
-        currentLocation={true}
-        predefinedPlacesAlwaysVisible={true}
-        onPress={(data, details=null) => {
-          console.log("Selected place:", data, details);
-          // if (details) {
-          //   const position = {
-          //     latitude: details.geometry.location.lat,
-          //     longitude: details.geometry.location.lng,
-          //   };
-          //   mapRef.current?.animateToRegion({
-          //     ...position,
-          //     latitudeDelta: LATITUDE_DELTA,
-          //     longitudeDelta: LONGITUDE_DELTA,
-          //   }, 1000);
-          //   setResults([details]);
-          // }
+        placeholder="Search for places..."
+        fetchDetails={true}
+        onPress={handleSelectSuggestion}
+        query={{
+          key: googleMapsKey,
+          language: "en",
         }}
-        query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
-        styles={{ container: { flex: 0, marginTop: 10 }, textInput: DefaultMapStyle.searchBox }}
+        textInputProps={{
+          value: autoSearchText,
+          onChangeText: setAutoSearchText,
+          onSubmitEditing: handleFullTextSearch, // Press Enter to do a multi-result search
+        }}
+        styles={{ container: { flex: 0 }, textInput: DefaultMapStyle.searchBox }}
       />
+
+      {/* Buttons below the Autocomplete input */}
+      <View style={{ flexDirection: "row", marginTop: 10 }}>
+        <Button
+          mode="contained"
+          onPress={handleFullTextSearch}
+          style={{ marginRight: 5, flex: 1 }}
+        >
+          Search
+        </Button>
+        <Button mode="contained" onPress={handleClearAll} style={{ backgroundColor: "red", flex: 1 }}>
+          Clear
+        </Button>
+      </View>
     </View>
   );
 };
 
 export default function MapExplorerScreen() {
   const mapRef = useRef<MapView | null>(null);
-  const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
@@ -161,24 +212,20 @@ export default function MapExplorerScreen() {
 
   useEffect(() => {
     (async () => {
-      console.log("Requesting location permissions..."); // Debug log
       let { status } = await Location.requestForegroundPermissionsAsync();
-      console.log("Location permission status:", status); // Debug log
-      if (status !== 'granted') {
-        Alert.alert('Permission to access location was denied');
+      if (status !== "granted") {
+        Alert.alert("Permission to access location was denied");
         return;
       }
 
       try {
-        console.log("Fetching user location..."); // Debug log
         let location = await Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.Highest,
           maximumAge: 10000,
           timeout: 5000,
         });
-        console.log("User location:", location); // Debug log
         const { latitude, longitude } = location.coords;
-        const userRegion = {
+        const userRegion: Region = {
           latitude,
           longitude,
           latitudeDelta: LATITUDE_DELTA,
@@ -187,55 +234,10 @@ export default function MapExplorerScreen() {
         setUserLocation(userRegion);
         mapRef.current?.animateToRegion(userRegion, 1000);
       } catch (error) {
-        console.error("Error getting location:", error); // Debug log
+        console.error("Error getting location:", error);
       }
     })();
   }, []);
-
-  const handleSearch = async () => {
-    try {
-      const { results, coords } = await searchPlaces(
-        searchText,
-        currentCampus.latitude,
-        currentCampus.longitude,
-        googleMapsKey
-      );
-      if (results.length === 0) {
-        Alert.alert("No Results", "No locations found. Try a different search.", [
-          { text: "OK", onPress: () => console.log("Alert closed") },
-        ]);
-        return;
-      }
-  
-      setResults(results);
-
-      if (coords.length) {
-        mapRef.current?.fitToCoordinates(coords, {
-          edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-          animated: true,
-        });
-        Keyboard.dismiss();
-      }
-    } catch (error) {
-      console.error("Error during search:", error);
-      Alert.alert("Error", "Failed to fetch places. Please try again.");
-    }
-  };
-
-  const handleClearSearch = () => {
-    setSearchText("");
-    setResults([]);
-  };
-
-  const handleSwitchToSGW = () => {
-    setCurrentCampus(SGW_CAMPUS);
-    mapRef.current?.animateToRegion(SGW_CAMPUS, 1000);
-  };
-
-  const handleSwitchToLoyola = () => {
-    setCurrentCampus(LOY_CAMPUS);
-    mapRef.current?.animateToRegion(LOY_CAMPUS, 1000);
-  };
 
   const handleMarkerPress = (marker: any) => {
     if (selectedMarker === marker) {
@@ -252,14 +254,21 @@ export default function MapExplorerScreen() {
   };
 
   const handleDirections = (marker: any) => {
-      console.log("Selected marker ", selectedMarker)
-    navi.navigate("Directions", // navigate to directions screen
-        {destination: selectedMarker});
-        // pass address as destination
+    console.log("Selected marker ", selectedMarker);
+    navi.navigate("Directions", { destination: selectedMarker });
+  };
+
+  const handleSwitchToSGW = () => {
+    setCurrentCampus(SGW_CAMPUS);
+    mapRef.current?.animateToRegion(SGW_CAMPUS, 1000);
+  };
+
+  const handleSwitchToLoyola = () => {
+    setCurrentCampus(LOY_CAMPUS);
+    mapRef.current?.animateToRegion(LOY_CAMPUS, 1000);
   };
 
   const handleCenterToUserLocation = () => {
-    console.log("Centering to user location:", userLocation); // Debug log
     if (userLocation) {
       mapRef.current?.animateToRegion(userLocation, 1000);
     } else {
@@ -269,31 +278,37 @@ export default function MapExplorerScreen() {
 
   return (
     <View style={DefaultMapStyle.container}>
+      {/* Our map & markers */}
       <MapComponent
         mapRef={mapRef}
         results={results}
         currentCampus={userLocation || currentCampus}
         handleMarkerPress={handleMarkerPress}
       />
+
       <View style={styles.controlsContainer}>
-        <SearchWrapper
-          searchText={searchText}
-          setSearchText={setSearchText}
-          handleSearch={handleSearch}
-          handleClearSearch={handleClearSearch}
+        {/* Only the new GooglePlacesAutocomplete-based search */}
+        <AutocompleteSearchWrapper
+          mapRef={mapRef}
+          setResults={setResults}
+          userLocation={userLocation}
+          currentCampus={currentCampus}
+          googleMapsKey={googleMapsKey}
         />
+
         <View style={styles.buttonContainer}>
-          <Button mode="contained" onPress={() => { console.log('SGW button pressed'); handleSwitchToSGW(); }} style={styles.button}>
+          <Button mode="contained" onPress={handleSwitchToSGW} style={styles.button}>
             SGW
           </Button>
-          <Button mode="contained" onPress={() => { console.log('Loyola button pressed'); handleSwitchToLoyola(); }} style={styles.button}>
+          <Button mode="contained" onPress={handleSwitchToLoyola} style={styles.button}>
             Loyola
           </Button>
-          <Button mode="contained" onPress={() => { console.log('ME button pressed'); handleCenterToUserLocation(); }} style={styles.button}>
+          <Button mode="contained" onPress={handleCenterToUserLocation} style={styles.button}>
             ME
           </Button>
         </View>
       </View>
+
       {showInfoBox && selectedMarker && (
         <MarkerInfoBox
           title={selectedMarker.BuildingName || selectedMarker.name}
