@@ -1,5 +1,12 @@
 import { LatLng } from "react-native-maps";
 
+class PlacesAPIError extends Error {
+  constructor(message: string, public statusCode?: number) {
+    super(message);
+    this.name = "PlacesAPIError";
+  }
+}
+
 export const searchPlaces = async (
   searchText: string,
   initialLat: number,
@@ -10,16 +17,29 @@ export const searchPlaces = async (
   if (!searchText.trim()) return { results: [], coords: [] };
 
   const location = `${initialLat},${initialLng}`;
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchText}&location=${location}&radius=${radius}&type=point_of_interest&key=${apiKey}`;
+  const encodedSearchText = encodeURIComponent(searchText);
+  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodedSearchText}&location=${location}&radius=${radius}&type=point_of_interest&key=${apiKey}`;
 
   try {
     const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new PlacesAPIError(
+        `Failed to fetch places - HTTP ${response.status}`,
+        response.status
+      );
+    }
+
     const json = await response.json();
 
-    // Handle gibberish search cases
-    if (json.status === "ZERO_RESULTS" || json.results.length === 0) {
+    if (!json || !json.results || !Array.isArray(json.results)) {
+      throw new PlacesAPIError("Invalid API response structure");
+    }
+
+    if (json.results.length === 0 || json.status === "ZERO_RESULTS") {
       return { results: [], coords: [] }; // No POIs found
-    }    
+    }
+
     const coords: LatLng[] = json.results.map((item: any) => ({
       latitude: item.geometry.location.lat,
       longitude: item.geometry.location.lng,
@@ -27,7 +47,12 @@ export const searchPlaces = async (
 
     return { results: json.results, coords };
   } catch (error) {
-    console.error(error);
-    throw new Error("Failed to fetch places");
+    console.error("Error fetching places:", error);
+
+    if (error instanceof PlacesAPIError) {
+      throw error; // Rethrow API-specific errors
+    }
+
+    throw new PlacesAPIError("Unexpected error fetching places");
   }
 };
