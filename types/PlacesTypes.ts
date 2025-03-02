@@ -12,8 +12,7 @@ export interface PlaceResult {
     place_id: string;
   }
   
-  export interface SearchPlacesResponse {
-    results: PlaceResult[];
-    coords: LatLng[];
-  }
-  
+export interface SearchPlacesResponse {
+results: PlaceResult[];
+coords: LatLng[];
+}

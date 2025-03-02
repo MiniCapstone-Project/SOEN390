@@ -11,12 +11,15 @@ export const searchPlaces = async (
 ): Promise<SearchPlacesResponse> => {
   if (!searchText.trim()) return { results: [], coords: [] };
 
+  const controller = new AbortController();
+  const signal = controller.signal;
+
   const location = `${initialLat},${initialLng}`;
   const encodedSearchText = encodeURIComponent(searchText);
   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodedSearchText}&location=${location}&radius=${radius}&type=point_of_interest&key=${apiKey}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
 
     if (!response.ok) {
       throw new PlacesAPIError(
@@ -48,13 +51,22 @@ export const searchPlaces = async (
     }));
 
     return { results, coords };
-  } catch (error) {
-    console.error("Error fetching places:", error);
+  }  catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error.name === "AbortError") {
+        console.warn("Fetch aborted due to new search request");
+        return { results: [], coords: [] }; // Return empty results on abort
+      }
 
-    if (error instanceof PlacesAPIError) {
-      throw error; // Rethrow API-specific errors
+      console.error("Error fetching places:", error.message);
+
+      if (error instanceof PlacesAPIError) {
+        throw error; // Rethrow API-specific errors
+      }
     }
 
     throw new PlacesAPIError("Unexpected error fetching places");
+  } finally {
+    controller.abort(); // Ensure the request is aborted to prevent memory leaks
   }
 };
