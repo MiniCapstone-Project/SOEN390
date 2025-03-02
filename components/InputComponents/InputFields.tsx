@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { InputFieldStyles } from '@/Styles/InputFieldStyles';
 import { SearchBarProps } from '@/types/InputComponentTypes';
 
