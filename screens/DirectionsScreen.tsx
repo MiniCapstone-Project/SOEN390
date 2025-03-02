@@ -7,7 +7,8 @@ import CustomButton from "../components/InputComponents/Buttons";
 import { DirectionsScreenStyles } from "@/Styles/MapStyles";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SGW_CAMPUS } from "./MapExplorerScreen";
+import { SGW_CAMPUS } from "@/constants/MapsConstants+
+0"
 import "react-native-get-random-values";
 import { useRoute } from "@react-navigation/native";
 import { retrieveRoutes } from "@/services/DirectionService";
