@@ -283,14 +283,14 @@ export default function MapExplorerScreen() {
           handleClearSearch={handleClearSearch}
         />
         <View style={styles.buttonContainer}>
-          <Button mode="contained" onPress={() => { console.log('Button A pressed'); handleSwitchToSGW(); }} style={styles.button}>
-            Button A
+          <Button mode="contained" onPress={() => { console.log('SGW button pressed'); handleSwitchToSGW(); }} style={styles.button}>
+            SGW
           </Button>
-          <Button mode="contained" onPress={() => { console.log('Button B pressed'); handleSwitchToLoyola(); }} style={styles.button}>
-            Button B
+          <Button mode="contained" onPress={() => { console.log('Loyola button pressed'); handleSwitchToLoyola(); }} style={styles.button}>
+            Loyola
           </Button>
-          <Button mode="contained" onPress={() => { console.log('Button C pressed'); handleCenterToUserLocation(); }} style={styles.button}>
-            Button C
+          <Button mode="contained" onPress={() => { console.log('ME button pressed'); handleCenterToUserLocation(); }} style={styles.button}>
+            ME
           </Button>
         </View>
       </View>
