@@ -1,14 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, View, Text, Dimensions } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Marker, Region, LatLng } from "react-native-maps";
+import { Button, View, Text } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Marker, LatLng } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import CustomButton from "../components/InputComponents/Buttons";
 import { DirectionsScreenStyles } from "@/Styles/MapStyles";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SGW_CAMPUS } from "@/constants/MapsConstants+
-0"
+import { SGW_CAMPUS } from "@/constants/MapsConstants"; 
 import "react-native-get-random-values";
 import { useRoute } from "@react-navigation/native";
 import { retrieveRoutes } from "@/services/DirectionService";
