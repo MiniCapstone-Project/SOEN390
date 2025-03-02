@@ -1,11 +1,6 @@
+import { PlacesAPIError } from "@/errors/PlacesAPIError";
 import { LatLng } from "react-native-maps";
-
-class PlacesAPIError extends Error {
-  constructor(message: string, public statusCode?: number) {
-    super(message);
-    this.name = "PlacesAPIError";
-  }
-}
+import { PlaceResult, SearchPlacesResponse } from "@/types/PlacesTypes";
 
 export const searchPlaces = async (
   searchText: string,
@@ -13,7 +8,7 @@ export const searchPlaces = async (
   initialLng: number,
   apiKey: string,
   radius: number
-): Promise<{ results: any[]; coords: LatLng[] }> => {
+): Promise<SearchPlacesResponse> => {
   if (!searchText.trim()) return { results: [], coords: [] };
 
   const location = `${initialLat},${initialLng}`;
@@ -40,12 +35,19 @@ export const searchPlaces = async (
       return { results: [], coords: [] }; // No POIs found
     }
 
-    const coords: LatLng[] = json.results.map((item: any) => ({
-      latitude: item.geometry.location.lat,
-      longitude: item.geometry.location.lng,
+    const results: PlaceResult[] = json.results.map((item: any) => ({
+      name: item.name,
+      geometry: item.geometry,
+      formatted_address: item.formatted_address,
+      place_id: item.place_id,
     }));
 
-    return { results: json.results, coords };
+    const coords: LatLng[] = results.map((place) => ({
+      latitude: place.geometry.location.lat,
+      longitude: place.geometry.location.lng,
+    }));
+
+    return { results, coords };
   } catch (error) {
     console.error("Error fetching places:", error);
 
