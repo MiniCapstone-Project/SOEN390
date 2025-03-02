@@ -37,7 +37,7 @@ export default function Navigation() {
             tabBarInactiveTintColor: 'gray',
         })}
         >
-        <Tab.Screen name="Campus Guide" component={MapExplorerScreen} />
+        <Tab.Screen name="Map" component={MapExplorerScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Directions" component={DirectionsScreen} />
         <Tab.Screen name="Updates" component={UpdatesScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />

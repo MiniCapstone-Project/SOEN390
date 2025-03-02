@@ -1,24 +1,25 @@
-import React, { useState, useRef } from "react";
-import { View, StyleSheet, Keyboard, Dimensions } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
-import { SearchBar } from "@/components/InputComponents/InputFields";
+import React, { useState, useRef, useEffect } from "react";
+import { View, StyleSheet, Keyboard, Dimensions, Alert } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE, Region, Geojson } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
-import buildings from "@/Cartography/BuildingCampusMarkers";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
-import { Alert } from "react-native"; 
+import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
+import { Button } from "react-native-paper";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import * as Location from "expo-location";
 
-const googleMapsKey = GOOGLE_MAPS_API_KEY ; 
-// const googleMapsKey: string = process. env.GOOGLE_MAPS_API_KEY!;
+const googleMapsKey = GOOGLE_MAPS_API_KEY;
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.02;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+// Define campus regions
 export const SGW_CAMPUS: Region = {
   latitude: 45.497092,
   longitude: -73.5788,
@@ -26,13 +27,14 @@ export const SGW_CAMPUS: Region = {
   longitudeDelta: LONGITUDE_DELTA,
 };
 
-const LOY_CAMPUS: Region = {
+export const LOY_CAMPUS: Region = {
   latitude: 45.458705,
   longitude: -73.640523,
   latitudeDelta: LATITUDE_DELTA,
   longitudeDelta: LONGITUDE_DELTA,
 };
 
+// For displaying a set of markers
 const MarkersComponent = ({
   data,
   handleMarkerPress,
@@ -54,16 +56,15 @@ const MarkersComponent = ({
   ));
 };
 
+// Wrapper for the <MapView> component
 const MapComponent = ({
   mapRef,
   results,
-  buildings,
   currentCampus,
   handleMarkerPress,
 }: {
   mapRef: React.RefObject<MapView>;
   results: any[];
-  buildings: any[];
   currentCampus: Region;
   handleMarkerPress: (marker: any) => void;
 }) => {
@@ -85,78 +86,47 @@ const MapComponent = ({
         },
       ]}
     >
-      <MarkersComponent data={[...results, ...buildings]} handleMarkerPress={handleMarkerPress} />
+      <MarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
+      <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} />
     </MapView>
   );
 };
 
-const SearchWrapper = ({
-  searchText,
-  setSearchText,
-  handleSearch,
-  handleClearSearch,
-  handleSwitchToSGW,
-  handleSwitchToLoyola,
+// The single search UI, combining autocomplete + text-based search
+const AutocompleteSearchWrapper = ({
+  mapRef,
+  setResults,
+  userLocation,
+  currentCampus,
+  googleMapsKey,
 }: {
-  searchText: string;
-  setSearchText: (text: string) => void;
-  handleSearch: () => void;
-  handleClearSearch: () => void;
-  handleSwitchToSGW: () => void;
-  handleSwitchToLoyola: () => void;
+  mapRef: React.RefObject<MapView>;
+  setResults: React.Dispatch<React.SetStateAction<any[]>>;
+  userLocation: Region | null;
+  currentCampus: Region;
+  googleMapsKey: string;
 }) => {
-  return (
-    <View style={DefaultMapStyle.controlsContainer}>
-      <SearchBar
-        searchText={searchText}
-        onSearchTextChange={setSearchText}
-        onSearchPress={handleSearch}
-        onClearPress={handleClearSearch}
-        style={DefaultMapStyle.searchBox}
-        placeholder="Search Places"
-      />
-      <View style={DefaultMapStyle.campusButtonWrapper}>
-        <CustomButton
-          title="Switch to SGW"
-          onCampusSwitch={handleSwitchToSGW}
-          style={DefaultMapStyle.campusButton}
-        />
-        <CustomButton
-          title="Switch to Loyola"
-          onCampusSwitch={handleSwitchToLoyola}
-          style={DefaultMapStyle.campusButton}
-        />
-      </View>
-    </View>
-  );
-};
+  // This local state tracks typed text in the Autocomplete's field
+  const [autoSearchText, setAutoSearchText] = useState("");
 
-export default function MapExplorerScreen() {
-  const mapRef = useRef<MapView | null>(null);
-  const [searchText, setSearchText] = useState("");
-  const [results, setResults] = useState<any[]>([]);
-  const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
-  const [selectedMarker, setSelectedMarker] = useState<any>(null);
-  const [showInfoBox, setShowInfoBox] = useState(false);
-  const navi = useNavigation();
+  // Perform a full text-based search, returning multiple results
+  const handleFullTextSearch = async () => {
+    if (!autoSearchText.trim()) return;
 
-  const handleSearch = async () => {
     try {
       const { results, coords } = await searchPlaces(
-        searchText,
-        currentCampus.latitude,
-        currentCampus.longitude,
+        autoSearchText,
+        userLocation?.latitude || currentCampus.latitude,
+        userLocation?.longitude || currentCampus.longitude,
         googleMapsKey
       );
+
       if (results.length === 0) {
-        Alert.alert("No Results", "No locations found. Try a different search.", [
-          { text: "OK", onPress: () => console.log("Alert closed") },
-        ]);
+        Alert.alert("No Results", "No locations found. Try a different search.", [{ text: "OK" }]);
         return;
       }
-  
-      setResults(results);
 
+      setResults(results);
       if (coords.length) {
         mapRef.current?.fitToCoordinates(coords, {
           edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
@@ -165,25 +135,109 @@ export default function MapExplorerScreen() {
         Keyboard.dismiss();
       }
     } catch (error) {
-      console.error("Error during search:", error);
+      console.error("Error during text search:", error);
       Alert.alert("Error", "Failed to fetch places. Please try again.");
     }
   };
 
-  const handleClearSearch = () => {
-    setSearchText("");
+  // Handle user picking a suggestion from the dropdown
+  const handleSelectSuggestion = (data: any, details: any | null) => {
+    console.log("Selected place:", data, details);
+    if (!details) return;
+
+    const { lat, lng } = details.geometry.location;
+    mapRef.current?.animateToRegion(
+      {
+        latitude: lat,
+        longitude: lng,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
+      1000
+    );
+    // Show only this place as a result
+    setResults([details]);
+  };
+
+  // Clear typed text and results
+  const handleClearAll = () => {
+    setAutoSearchText("");
     setResults([]);
   };
 
-  const handleSwitchToSGW = () => {
-    setCurrentCampus(SGW_CAMPUS);
-    mapRef.current?.animateToRegion(SGW_CAMPUS, 1000);
-  };
+  return (
+    <View style={styles.searchWrapper}>
+      {/* The Google Places Autocomplete field */}
+      <GooglePlacesAutocomplete
+        placeholder="Search for places..."
+        fetchDetails={true}
+        onPress={handleSelectSuggestion}
+        query={{
+          key: googleMapsKey,
+          language: "en",
+        }}
+        textInputProps={{
+          value: autoSearchText,
+          onChangeText: setAutoSearchText,
+          onSubmitEditing: handleFullTextSearch, // Press Enter to do a multi-result search
+        }}
+        styles={{ container: { flex: 0 }, textInput: DefaultMapStyle.searchBox }}
+      />
 
-  const handleSwitchToLoyola = () => {
-    setCurrentCampus(LOY_CAMPUS);
-    mapRef.current?.animateToRegion(LOY_CAMPUS, 1000);
-  };
+      {/* Buttons below the Autocomplete input */}
+      <View style={{ flexDirection: "row", marginTop: 10 }}>
+        <Button
+          mode="contained"
+          onPress={handleFullTextSearch}
+          style={{ marginRight: 5, flex: 1 }}
+        >
+          Search
+        </Button>
+        <Button mode="contained" onPress={handleClearAll} style={{ backgroundColor: "red", flex: 1 }}>
+          Clear
+        </Button>
+      </View>
+    </View>
+  );
+};
+
+export default function MapExplorerScreen() {
+  const mapRef = useRef<MapView | null>(null);
+  const [results, setResults] = useState<any[]>([]);
+  const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
+  const [selectedMarker, setSelectedMarker] = useState<any>(null);
+  const [showInfoBox, setShowInfoBox] = useState(false);
+  const [userLocation, setUserLocation] = useState<Region | null>(null);
+  const navi = useNavigation();
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("Permission to access location was denied");
+        return;
+      }
+
+      try {
+        let location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Highest,
+          maximumAge: 10000,
+          timeout: 5000,
+        });
+        const { latitude, longitude } = location.coords;
+        const userRegion: Region = {
+          latitude,
+          longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        };
+        setUserLocation(userRegion);
+        mapRef.current?.animateToRegion(userRegion, 1000);
+      } catch (error) {
+        console.error("Error getting location:", error);
+      }
+    })();
+  }, []);
 
   const handleMarkerPress = (marker: any) => {
     if (selectedMarker === marker) {
@@ -200,29 +254,61 @@ export default function MapExplorerScreen() {
   };
 
   const handleDirections = (marker: any) => {
-      console.log("Selected marker ", selectedMarker)
-    navi.navigate("Directions", // navigate to directions screen
-        {destination: selectedMarker});
-        // pass address as destination
+    console.log("Selected marker ", selectedMarker);
+    navi.navigate("Directions", { destination: selectedMarker });
+  };
+
+  const handleSwitchToSGW = () => {
+    setCurrentCampus(SGW_CAMPUS);
+    mapRef.current?.animateToRegion(SGW_CAMPUS, 1000);
+  };
+
+  const handleSwitchToLoyola = () => {
+    setCurrentCampus(LOY_CAMPUS);
+    mapRef.current?.animateToRegion(LOY_CAMPUS, 1000);
+  };
+
+  const handleCenterToUserLocation = () => {
+    if (userLocation) {
+      mapRef.current?.animateToRegion(userLocation, 1000);
+    } else {
+      Alert.alert("Location not available", "User location is not available yet.");
+    }
   };
 
   return (
     <View style={DefaultMapStyle.container}>
+      {/* Our map & markers */}
       <MapComponent
         mapRef={mapRef}
         results={results}
-        buildings={buildings}
-        currentCampus={currentCampus}
+        currentCampus={userLocation || currentCampus}
         handleMarkerPress={handleMarkerPress}
       />
-      <SearchWrapper
-        searchText={searchText}
-        setSearchText={setSearchText}
-        handleSearch={handleSearch}
-        handleClearSearch={handleClearSearch}
-        handleSwitchToSGW={handleSwitchToSGW}
-        handleSwitchToLoyola={handleSwitchToLoyola}
-      />
+
+      <View style={styles.controlsContainer}>
+        {/* Only the new GooglePlacesAutocomplete-based search */}
+        <AutocompleteSearchWrapper
+          mapRef={mapRef}
+          setResults={setResults}
+          userLocation={userLocation}
+          currentCampus={currentCampus}
+          googleMapsKey={googleMapsKey}
+        />
+
+        <View style={styles.buttonContainer}>
+          <Button mode="contained" onPress={handleSwitchToSGW} style={styles.button}>
+            SGW
+          </Button>
+          <Button mode="contained" onPress={handleSwitchToLoyola} style={styles.button}>
+            Loyola
+          </Button>
+          <Button mode="contained" onPress={handleCenterToUserLocation} style={styles.button}>
+            ME
+          </Button>
+        </View>
+      </View>
+
       {showInfoBox && selectedMarker && (
         <MarkerInfoBox
           title={selectedMarker.BuildingName || selectedMarker.name}
@@ -234,3 +320,25 @@ export default function MapExplorerScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  controlsContainer: {
+    position: "absolute",
+    top: 10,
+    width: "90%",
+    alignSelf: "center",
+    flexDirection: "column",
+  },
+  searchWrapper: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+  },
+});
