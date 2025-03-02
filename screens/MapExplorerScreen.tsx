@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Keyboard, Dimensions, Alert } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE, Region, Geojson } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, Region, Geojson, Circle } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import CustomButton from "../components/InputComponents/Buttons";
 import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
@@ -62,11 +62,13 @@ const MapComponent = ({
   results,
   currentCampus,
   handleMarkerPress,
+  userLocation,
 }: {
   mapRef: React.RefObject<MapView>;
   results: any[];
   currentCampus: Region;
   handleMarkerPress: (marker: any) => void;
+  userLocation: Region | null;
 }) => {
   return (
     <MapView
@@ -88,6 +90,27 @@ const MapComponent = ({
     >
       <MarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
       <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} />
+      {userLocation && (
+        <>
+          <Marker
+            coordinate={{
+              latitude: userLocation.latitude,
+              longitude: userLocation.longitude,
+            }}
+            title="You are here"
+            pinColor="blue"
+          />
+          <Circle
+            center={{
+              latitude: userLocation.latitude,
+              longitude: userLocation.longitude,
+            }}
+            radius={50}
+            strokeColor="rgba(0, 122, 255, 0.3)"
+            fillColor="rgba(0, 122, 255, 0.1)"
+          />
+        </>
+      )}
     </MapView>
   );
 };
@@ -284,6 +307,7 @@ export default function MapExplorerScreen() {
         results={results}
         currentCampus={userLocation || currentCampus}
         handleMarkerPress={handleMarkerPress}
+        userLocation={userLocation}
       />
 
       <View style={styles.controlsContainer}>
