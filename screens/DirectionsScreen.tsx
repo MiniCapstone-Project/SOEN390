@@ -23,7 +23,15 @@ export default function DirectionsScreen() {
   const [showDirections, setShowDirections] = useState(false);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
-  const route = useRoute();
+  type RouteParams = {
+    destination?: {
+      Address: string;
+      Latitude: number;
+      Longitude: number;
+    };
+  };
+
+  const route = useRoute<{ key: string; name: string; params: RouteParams }>();
   const destinationObject = route.params?.destination; // pass destination to second screen
   const [directionsRoute, setDirectionsRoute] = useState<LatLng | null>(null);  // create directions route state
   const [transportMode, setTransportMode] = useState<"DRIVING"|"WALKING"|"TRANSIT">("DRIVING");
@@ -213,24 +221,23 @@ export default function DirectionsScreen() {
         <GooglePlacesAutocomplete
           placeholder="Origin"
           fetchDetails
-          onPress={(data, details) => details && handleLocationSelect(details, setOrigin, "origin")}
+          onPress={(data, details) => details && handleLocationSelect(details, setOrigin, "origin", destinationObject)}
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
           styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
         />
         <GooglePlacesAutocomplete
           placeholder={destinationObject?.Address || "Destination"}
           fetchDetails
-          value = {destinationObject?.Address || ""}
-          onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination")}
+          onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination", destinationObject)}
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
           styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
         />
         <Button title="Route" color="#733038" onPress={traceRoute} />
         {/* All button on presses change state of shuttle service to true or false */}
-        <Button title="Walking" color="#733038" marginBottom="20px" onPress={() => {setWalking(); setShowShuttleTime(false);}} />
-        <Button title="Driving" color="#733038" marginBottom="20px" onPress={() => {setDriving(); setShowShuttleTime(false);}} />
-        <Button title="Transit" color="#733038" marginBottom="20px" onPress={() => {setTransit(); setShowShuttleTime(false);}} />
-        <Button title="Shuttle" color="#733038" marginBottom="20px" onPress={() => {setShuttleRoute(); setShowShuttleTime(true);}} />
+        <Button title="Walking" color="#733038" onPress={() => {setWalking(); setShowShuttleTime(false);}} />
+        <Button title="Driving" color="#733038" onPress={() => {setDriving(); setShowShuttleTime(false);}} />
+        <Button title="Transit" color="#733038" onPress={() => {setTransit(); setShowShuttleTime(false);}} />
+        <Button title="Shuttle" color="#733038" onPress={() => {setShuttleRoute(); setShowShuttleTime(true);}} />
         {distance > 0 && duration > 0 && (
           <View style={DirectionsScreenStyles.stats}>
             <Text>Distance: {distance.toFixed(2)} km</Text>

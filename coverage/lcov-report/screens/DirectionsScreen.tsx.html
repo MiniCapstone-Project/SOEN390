@@ -32,7 +32,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/53</span>
+                <span class='fraction'>0/51</span>
             </div>
         
             
@@ -307,7 +307,14 @@
 <a name='L242'></a><a href='#L242'>242</a>
 <a name='L243'></a><a href='#L243'>243</a>
 <a name='L244'></a><a href='#L244'>244</a>
-<a name='L245'></a><a href='#L245'>245</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -332,6 +339,14 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -523,7 +538,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -576,7 +590,15 @@ export default function <span class="fstat-no" title="function not covered" >Dir
   const [showDirections, setShowDirections] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
   const [distance, setDistance] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
   const [duration, setDuration] = <span class="cstat-no" title="statement not covered" >useState(0);</span>
-  const route = <span class="cstat-no" title="statement not covered" >useRoute();</span>
+  type RouteParams = {
+    destination?: {
+      Address: string;
+      Latitude: number;
+      Longitude: number;
+    };
+  };
+&nbsp;
+  const route = <span class="cstat-no" title="statement not covered" >useRoute&lt;{ key: string; name: string; params: RouteParams }&gt;();</span>
   const destinationObject = <span class="cstat-no" title="statement not covered" >route.params?.destination;</span> // pass destination to second screen
   const [directionsRoute, setDirectionsRoute] = <span class="cstat-no" title="statement not covered" >useState&lt;LatLng | null&gt;(null);</span>  // create directions route state
   const [transportMode, setTransportMode] = <span class="cstat-no" title="statement not covered" >useState&lt;"DRIVING"|"WALKING"|"TRANSIT"&gt;("DRIVING");</span>
@@ -766,24 +788,23 @@ export default function <span class="fstat-no" title="function not covered" >Dir
         &lt;GooglePlacesAutocomplete
           placeholder="Origin"
           fetchDetails
-          onPress={<span class="fstat-no" title="function not covered" >(d</span>ata, details) =&gt; <span class="cstat-no" title="statement not covered" >details &amp;&amp; handleLocationSelect(details, setOrigin, "origin")}</span>
+          onPress={<span class="fstat-no" title="function not covered" >(d</span>ata, details) =&gt; <span class="cstat-no" title="statement not covered" >details &amp;&amp; handleLocationSelect(details, setOrigin, "origin", destinationObject)}</span>
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
           styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
         /&gt;
         &lt;GooglePlacesAutocomplete
           placeholder={destinationObject?.Address || "Destination"}
           fetchDetails
-          value = {destinationObject?.Address || ""}
-          onPress={<span class="fstat-no" title="function not covered" >(d</span>ata, details) =&gt; <span class="cstat-no" title="statement not covered" >details &amp;&amp; handleLocationSelect(details, setDestination, "destination")}</span>
+          onPress={<span class="fstat-no" title="function not covered" >(d</span>ata, details) =&gt; <span class="cstat-no" title="statement not covered" >details &amp;&amp; handleLocationSelect(details, setDestination, "destination", destinationObject)}</span>
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
           styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
         /&gt;
         &lt;Button title="Route" color="#733038" onPress={traceRoute} /&gt;
         {/* All button on presses change state of shuttle service to true or false */}
-        &lt;Button title="Walking" color="#733038" marginBottom="20px" onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; {<span class="cstat-no" title="statement not covered" >setWalking(); <span class="cstat-no" title="statement not covered" ></span>setShowShuttleTime(false);}</span>} /&gt;
-        &lt;Button title="Driving" color="#733038" marginBottom="20px" onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; {<span class="cstat-no" title="statement not covered" >setDriving(); <span class="cstat-no" title="statement not covered" ></span>setShowShuttleTime(false);}</span>} /&gt;
-        &lt;Button title="Transit" color="#733038" marginBottom="20px" onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; {<span class="cstat-no" title="statement not covered" >setTransit(); <span class="cstat-no" title="statement not covered" ></span>setShowShuttleTime(false);}</span>} /&gt;
-        &lt;Button title="Shuttle" color="#733038" marginBottom="20px" onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; {<span class="cstat-no" title="statement not covered" >setShuttleRoute(); <span class="cstat-no" title="statement not covered" ></span>setShowShuttleTime(true);}</span>} /&gt;
+        &lt;Button title="Walking" color="#733038" onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; {<span class="cstat-no" title="statement not covered" >setWalking(); <span class="cstat-no" title="statement not covered" ></span>setShowShuttleTime(false);}</span>} /&gt;
+        &lt;Button title="Driving" color="#733038" onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; {<span class="cstat-no" title="statement not covered" >setDriving(); <span class="cstat-no" title="statement not covered" ></span>setShowShuttleTime(false);}</span>} /&gt;
+        &lt;Button title="Transit" color="#733038" onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; {<span class="cstat-no" title="statement not covered" >setTransit(); <span class="cstat-no" title="statement not covered" ></span>setShowShuttleTime(false);}</span>} /&gt;
+        &lt;Button title="Shuttle" color="#733038" onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; {<span class="cstat-no" title="statement not covered" >setShuttleRoute(); <span class="cstat-no" title="statement not covered" ></span>setShowShuttleTime(true);}</span>} /&gt;
         {distance &gt; 0 &amp;&amp; duration &gt; 0 &amp;&amp; (
           &lt;View style={DirectionsScreenStyles.stats}&gt;
             &lt;Text&gt;Distance: {distance.toFixed(2)} km&lt;/Text&gt;
@@ -802,7 +823,7 @@ export default function <span class="fstat-no" title="function not covered" >Dir
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-03T07:06:44.965Z
+                at 2025-03-03T07:31:48.810Z
             </div>
         <script src="../prettify.js"></script>
         <script>
