@@ -4,22 +4,22 @@ import MapView, {Region } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import { searchPlaces } from "@/services/PlacesService";
 import { Button } from "react-native-paper";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { GooglePlaceData, GooglePlaceDetail, GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { ButtonsStyles } from "@/Styles/ButtonStyles";
 import { LATITUDE_DELTA, LONGITUDE_DELTA } from "@/constants/MapsConstants";
 // The single search UI, combining autocomplete + text-based search
 export const AutocompleteSearchWrapper = ({
-mapRef,
-setResults,
-userLocation,
-currentCampus,
-googleMapsKey,
+    mapRef,
+    setResults,
+    userLocation,
+    currentCampus,
+    googleMapsKey,
 }: {
-mapRef: React.RefObject<MapView>;
-setResults: React.Dispatch<React.SetStateAction<any[]>>;
-userLocation: Region | null;
-currentCampus: Region;
-googleMapsKey: string;
+    mapRef: React.RefObject<MapView>;
+    setResults: React.Dispatch<React.SetStateAction<any[]>>;
+    userLocation: Region | null;
+    currentCampus: Region;
+    googleMapsKey: string;
 }) => {
 // This local state tracks typed text in the Autocomplete's field
 const [autoSearchText, setAutoSearchText] = useState("");
@@ -56,7 +56,7 @@ const handleFullTextSearch = async () => {
 };
 
 // Handle user picking a suggestion from the dropdown
-const handleSelectSuggestion = (data: any, details: any | null) => {
+const handleSelectSuggestion = (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
     console.log("Selected place:", data, details);
     if (!details) return;
 
