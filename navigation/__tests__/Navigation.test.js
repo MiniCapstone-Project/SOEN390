@@ -21,7 +21,10 @@ describe("Navigation Component", () => {
   });
 
   test("renders and navigates between tabs correctly", async () => {
-    // Update the test to look for the correct tab names
+    await waitFor(() => {
+      expect(renderResult).toBeTruthy();
+    });
+
     await act(async () => {
       expect(getByRole("button", { name: "Map" })).toBeTruthy();
     });
