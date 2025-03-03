@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1740983116426" clover="3.2.0">
-  <project timestamp="1740983116426" name="All files">
-    <metrics statements="332" coveredstatements="140" conditionals="161" coveredconditionals="71" methods="70" coveredmethods="28" elements="563" coveredelements="239" complexity="0" loc="332" ncloc="332" packages="7" files="19" classes="19"/>
+<coverage generated="1740983859423" clover="3.2.0">
+  <project timestamp="1740983859423" name="All files">
+    <metrics statements="329" coveredstatements="138" conditionals="160" coveredconditionals="71" methods="68" coveredmethods="27" elements="557" coveredelements="236" complexity="0" loc="329" ncloc="329" packages="7" files="18" classes="18"/>
     <package name="components.InputComponents">
       <metrics statements="46" coveredstatements="10" conditionals="16" coveredconditionals="4" methods="10" coveredmethods="5"/>
       <file name="AutoCompleteSearchWrapper.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\InputComponents\AutoCompleteSearchWrapper.tsx">
@@ -61,7 +61,7 @@
       </file>
     </package>
     <package name="components.MapComponents">
-      <metrics statements="17" coveredstatements="15" conditionals="15" coveredconditionals="13" methods="8" coveredmethods="6"/>
+      <metrics statements="14" coveredstatements="13" conditionals="14" coveredconditionals="13" methods="6" coveredmethods="5"/>
       <file name="MapMarker.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\MapComponents\MapMarker.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="5" count="1" type="stmt"/>
@@ -81,12 +81,6 @@
         <line num="15" count="10" type="cond" truecount="4" falsecount="0"/>
         <line num="17" count="9" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
-      </file>
-      <file name="RadiusSlider.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\MapComponents\RadiusSlider.tsx">
-        <metrics statements="3" coveredstatements="2" conditionals="1" coveredconditionals="0" methods="2" coveredmethods="1"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
       </file>
       <file name="SwitchBotton.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\MapComponents\SwitchBotton.tsx">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
