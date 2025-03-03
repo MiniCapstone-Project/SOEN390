@@ -8,6 +8,7 @@ describe("Navigation Component", () => {
   let renderResult, getByRole, getByText, getAllByText;
 
   beforeEach(async () => {
+
     await waitFor(() => {
       renderResult = render(
         <NavigationContainer>
