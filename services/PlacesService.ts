@@ -7,16 +7,22 @@ export const searchPlaces = async (
   initialLat: number,
   initialLng: number,
   apiKey: string,
-  radius: number
+  radius: number = 1000 // Default value of 1000
 ): Promise<SearchPlacesResponse> => {
   if (!searchText.trim()) return { results: [], coords: [] };
+
+  // Enforce a minimum radius of 500
+  const effectiveRadius = Math.max(radius, 500);
+
+  // Enforce a maximum radius of 5000
+  const finalRadius = Math.min(effectiveRadius, 5000);
 
   const controller = new AbortController();
   const signal = controller.signal;
 
   const location = `${initialLat},${initialLng}`;
   const encodedSearchText = encodeURIComponent(searchText);
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodedSearchText}&location=${location}&radius=${radius}&type=point_of_interest&key=${apiKey}`;
+  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodedSearchText}&location=${location}&radius=${finalRadius}&type=point_of_interest&key=${apiKey}`;
 
   try {
     const response = await fetch(url, { signal });
