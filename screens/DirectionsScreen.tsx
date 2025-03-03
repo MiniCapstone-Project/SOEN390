@@ -12,6 +12,8 @@ import "react-native-get-random-values";
 import { useRoute } from "@react-navigation/native";
 import { retrieveRoutes } from "@/services/DirectionService.ts";
 import { findNextShuttle } from "@/services/ShuttleService.ts"
+import { TouchableOpacity } from "react-native";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
@@ -98,7 +100,7 @@ export default function DirectionsScreen() {
 
     moveTo(position, zoomLevel);
   };
-  
+
   const traceRoute = async () => {
       console.log("Origin: ", origin);
       console.log("Destination ", destination);
@@ -152,59 +154,106 @@ export default function DirectionsScreen() {
     }
   }, [directionsRoute]);
 
-  return (
-    <View style={DirectionsScreenStyles.container}>
-      <MapView ref={mapRef} style={DirectionsScreenStyles.map} provider={PROVIDER_GOOGLE} initialRegion={SGW_CAMPUS}>
-        {origin && <Marker coordinate={origin} />}
-        {destination && <Marker coordinate={destination} />}
-        {directionsRoute && origin && destination && (
-          <MapViewDirections
-            key={`${origin?.latitude}-${origin?.longitude}-${destination?.latitude}-${destination?.longitude}`}
-            origin={origin}
-            destination={destination}
-            apikey={GOOGLE_MAPS_API_KEY}
-            strokeColor="#6644ff"
-            strokeWidth={4}
-            mode={transportMode}
-            onReady={(args) => {
-              setDistance(args.distance);
-              setDuration(args.duration);
-            }}
-          />
-        )}
-      </MapView>
 
-      <View style={DirectionsScreenStyles.searchContainer}>
-        <GooglePlacesAutocomplete
-          placeholder="Origin"
-          fetchDetails
-          onPress={(data, details) => details && handleLocationSelect(details, setOrigin, "origin")}
-          query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
-          styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
+return (
+  <View style={DirectionsScreenStyles.container}>
+    <MapView ref={mapRef} style={DirectionsScreenStyles.map} provider={PROVIDER_GOOGLE} initialRegion={SGW_CAMPUS}>
+      {origin && <Marker coordinate={origin} />}
+      {destination && <Marker coordinate={destination} />}
+      {directionsRoute && origin && destination && (
+        <MapViewDirections
+          key={`${origin?.latitude}-${origin?.longitude}-${destination?.latitude}-${destination?.longitude}`}
+          origin={origin}
+          destination={destination}
+          apikey={GOOGLE_MAPS_API_KEY}
+          strokeColor="#6644ff"
+          strokeWidth={4}
+          mode={transportMode}
+          onReady={(args) => {
+            setDistance(args.distance);
+            setDuration(args.duration);
+          }}
         />
-        <GooglePlacesAutocomplete
-          placeholder={destinationObject?.Address || "Destination"}
-          fetchDetails
-          value = {destinationObject?.Address || ""}
-          onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination")}
-          query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
-          styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
+      )}
+    </MapView>
+
+
+    <View style={{ position: "absolute", top: 12, left: 20, right: 20, zIndex: 5 }}>
+      {/* "From" Input */}
+     {/* Separate White Box for "From" Input */}
+     <View style={[DirectionsScreenStyles.inputContainer, { flexDirection: "row", alignItems: "center" }]}>
+       <FontAwesome5 name="map-marker-alt" size={16} color="gray" style={{ marginRight: 8 }} />
+       <GooglePlacesAutocomplete
+         placeholder="From"
+         fetchDetails
+         onPress={(data, details) => details && handleLocationSelect(details, setOrigin, "origin")}
+         query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
+         styles={{ container: DirectionsScreenStyles.autoCompleteContainer, textInput: DirectionsScreenStyles.roundedInput }}
+       />
+     </View>
+
+     {/* Separate White Box for "To" Input */}
+     <View style={[DirectionsScreenStyles.inputContainer, { flexDirection: "row", alignItems: "center" }]}>
+       <FontAwesome5 name="map-pin" size={16} color="gray" style={{ marginRight: 8 }} />
+       <GooglePlacesAutocomplete
+         placeholder="To"
+         fetchDetails
+         value={destinationObject?.Address || ""}
+         onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination")}
+         query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
+         styles={{ container: DirectionsScreenStyles.autoCompleteContainer, textInput: DirectionsScreenStyles.roundedInput }}
+       />
+     </View>
+
+
+
+<View style={[DirectionsScreenStyles.transportModeContainer, { marginBottom: 5 }]}>
+  {[
+    { mode: "ROUTE", icon: "route" },
+    { mode: "WALKING", icon: "walking" },
+    { mode: "DRIVING", icon: "car" },
+    { mode: "TRANSIT", icon: "bus" },
+    { mode: "SHUTTLE", icon: "shuttle-van" },
+  ].map(({ mode, icon }) => (
+    <TouchableOpacity
+      key={mode}
+      onPress={() => {
+        setTransportMode(mode);
+        if (mode === "SHUTTLE") setShowShuttleTime(true);
+        else setShowShuttleTime(false);
+      }}
+      style={{ alignItems: "center" }} // Ensures vertical alignment
+    >
+      <FontAwesome5
+        name={icon}
+        size={22}
+        color={transportMode === mode ? "#6644ff" : "black"}
+      />
+      {transportMode === mode && (
+        <View
+          style={{
+            width: 22,
+            height: 2, // Small underline effect
+            backgroundColor: "#6644ff",
+            marginTop: 4, // Space between icon and line
+            borderRadius: 2,
+          }}
         />
-        <Button title="Route" color="#733038" onPress={traceRoute} />
-        /* All button on presses change state of shuttle service to true or false */
-        <Button title="Walking" color="#733038" marginBottom="20px" onPress={() => {setWalking(); setShowShuttleTime(false);}} />
-        <Button title="Driving" color="#733038" marginBottom="20px" onPress={() => {setDriving(); setShowShuttleTime(false);}} />
-        <Button title="Transit" color="#733038" marginBottom="20px" onPress={() => {setTransit(); setShowShuttleTime(false);}} />
-        <Button title="Shuttle" color="#733038" marginBottom="20px" onPress={() => {setShuttleRoute(); setShowShuttleTime(true);}} />
-        {distance > 0 && duration > 0 && (
-          <View style={DirectionsScreenStyles.stats}>
-            <Text>Distance: {distance.toFixed(2)} km</Text>
-            <Text>Duration: {Math.ceil(duration)} min</Text>
-            /* Only show this conditionally if the shuttle button is pressed */
-            {showShuttleTime && <Text>{findNextShuttle()}</Text>}
-          </View>
-        )}
-      </View>
+      )}
+    </TouchableOpacity>
+  ))}
+</View>
+
+
     </View>
-  );
+
+    {distance > 0 && duration > 0 && (
+      <View style={DirectionsScreenStyles.statsContainer}>
+        <Text style={DirectionsScreenStyles.statsText}>Distance: {distance.toFixed(2)} km</Text>
+        <Text style={DirectionsScreenStyles.statsText}>Duration: {Math.ceil(duration)} min</Text>
+        {showShuttleTime && <Text style={DirectionsScreenStyles.statsText}>{findNextShuttle()}</Text>}
+      </View>
+    )}
+  </View>
+);
 }
