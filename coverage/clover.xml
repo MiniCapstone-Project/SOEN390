@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1740982407730" clover="3.2.0">
-  <project timestamp="1740982407731" name="All files">
-    <metrics statements="332" coveredstatements="124" conditionals="161" coveredconditionals="56" methods="70" coveredmethods="23" elements="563" coveredelements="203" complexity="0" loc="332" ncloc="332" packages="7" files="19" classes="19"/>
+<coverage generated="1740982800902" clover="3.2.0">
+  <project timestamp="1740982800903" name="All files">
+    <metrics statements="332" coveredstatements="132" conditionals="161" coveredconditionals="58" methods="70" coveredmethods="25" elements="563" coveredelements="215" complexity="0" loc="332" ncloc="332" packages="7" files="19" classes="19"/>
     <package name="components.InputComponents">
       <metrics statements="46" coveredstatements="10" conditionals="16" coveredconditionals="4" methods="10" coveredmethods="5"/>
       <file name="AutoCompleteSearchWrapper.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\InputComponents\AutoCompleteSearchWrapper.tsx">
@@ -137,7 +137,7 @@
       </file>
     </package>
     <package name="screens">
-      <metrics statements="161" coveredstatements="3" conditionals="72" coveredconditionals="0" methods="36" coveredmethods="1"/>
+      <metrics statements="161" coveredstatements="11" conditionals="72" coveredconditionals="2" methods="36" coveredmethods="3"/>
       <file name="DirectionsScreen.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\screens\DirectionsScreen.tsx">
         <metrics statements="105" coveredstatements="0" conditionals="53" coveredconditionals="0" methods="23" coveredmethods="0"/>
         <line num="16" count="0" type="stmt"/>
@@ -295,16 +295,16 @@
         <line num="156" count="0" type="stmt"/>
       </file>
       <file name="SettingsScreen.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\screens\SettingsScreen.tsx">
-        <metrics statements="9" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
+        <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="15" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="24" count="3" type="stmt"/>
+        <line num="32" count="2" type="stmt"/>
       </file>
       <file name="UpdatesScreen.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\screens\UpdatesScreen.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
