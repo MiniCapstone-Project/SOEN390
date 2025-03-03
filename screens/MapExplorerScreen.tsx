@@ -5,7 +5,8 @@ import { DefaultMapStyle } from "@/Styles/MapStyles";
 import {CustomMarkersComponent} from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
-import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
+import buildingMarkers from "@/gis/building-markers.json"; 
+import buildingOutlines from "@/gis/building-outlines.json";
 import { Button } from "react-native-paper";
 import * as Location from "expo-location";
 import { ButtonsStyles } from "@/Styles/ButtonStyles";
@@ -49,6 +50,7 @@ const MapComponent = ({
     >
       <CustomMarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
       <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} />
+      <Geojson geojson={buildingOutlines} strokeColor="green" fillColor="rgba(0, 255, 0, 0.1)" strokeWidth={2} />
       {userLocation && (
         <>
           <Circle
