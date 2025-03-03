@@ -92,13 +92,14 @@ const MapComponent = ({
       <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} />
       {userLocation && (
         <>
-          <Marker
-            coordinate={{
+          <Circle
+            center={{
               latitude: userLocation.latitude,
               longitude: userLocation.longitude,
             }}
-            title="You are here"
-            pinColor="blue"
+            radius={10}
+            strokeColor="rgba(0, 122, 255, 0.3)"
+            fillColor="rgb(0, 123, 255)"
           />
           <Circle
             center={{
