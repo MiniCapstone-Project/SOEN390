@@ -19,7 +19,8 @@ describe("Navigation Component", () => {
   });
 
   test("renders and navigates between tabs correctly", async () => {
-    expect(getByRole("button", { name: "Campus Guide" })).toBeTruthy();
+    // Update the test to look for the correct tab names
+    expect(getByRole("button", { name: "Map" })).toBeTruthy();
 
     await act(async () => {
       fireEvent.press(getByRole("button", { name: "Directions" }));

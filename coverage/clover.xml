@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1740983859423" clover="3.2.0">
-  <project timestamp="1740983859423" name="All files">
-    <metrics statements="329" coveredstatements="138" conditionals="160" coveredconditionals="71" methods="68" coveredmethods="27" elements="557" coveredelements="236" complexity="0" loc="329" ncloc="329" packages="7" files="18" classes="18"/>
+<coverage generated="1740984487123" clover="3.2.0">
+  <project timestamp="1740984487123" name="All files">
+    <metrics statements="330" coveredstatements="138" conditionals="162" coveredconditionals="71" methods="68" coveredmethods="27" elements="560" coveredelements="236" complexity="0" loc="330" ncloc="330" packages="7" files="18" classes="18"/>
     <package name="components.InputComponents">
-      <metrics statements="46" coveredstatements="10" conditionals="16" coveredconditionals="4" methods="10" coveredmethods="5"/>
+      <metrics statements="47" coveredstatements="10" conditionals="18" coveredconditionals="4" methods="10" coveredmethods="5"/>
       <file name="AutoCompleteSearchWrapper.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\InputComponents\AutoCompleteSearchWrapper.tsx">
-        <metrics statements="36" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <metrics statements="37" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="11" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
         <line num="29" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="31" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
+        <line num="35" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="36" count="0" type="stmt"/>
         <line num="39" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
+        <line num="40" count="0" type="stmt"/>
         <line num="42" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="46" count="0" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
-        <line num="64" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="65" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="65" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="66" count="0" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="70" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="70" count="0" type="stmt"/>
+        <line num="71" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="72" count="0" type="stmt"/>
+        <line num="76" count="0" type="stmt"/>
         <line num="79" count="0" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
+        <line num="80" count="0" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
-        <line num="86" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="88" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="87" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="89" count="0" type="stmt"/>
-        <line num="99" count="0" type="stmt"/>
-        <line num="103" count="0" type="stmt"/>
+        <line num="90" count="0" type="stmt"/>
+        <line num="100" count="0" type="stmt"/>
         <line num="104" count="0" type="stmt"/>
         <line num="105" count="0" type="stmt"/>
-        <line num="108" count="0" type="stmt"/>
+        <line num="106" count="0" type="stmt"/>
+        <line num="109" count="0" type="stmt"/>
       </file>
       <file name="Buttons.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\InputComponents\Buttons.tsx">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
@@ -117,17 +118,17 @@
         <metrics statements="13" coveredstatements="13" conditionals="16" coveredconditionals="15" methods="3" coveredmethods="3"/>
         <line num="13" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
-        <line num="17" count="4" type="stmt"/>
-        <line num="20" count="8" type="stmt"/>
-        <line num="22" count="8" type="cond" truecount="2" falsecount="0"/>
-        <line num="23" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="24" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="25" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="26" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="27" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="28" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="29" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="33" count="8" type="stmt"/>
+        <line num="17" count="16" type="stmt"/>
+        <line num="20" count="32" type="stmt"/>
+        <line num="22" count="32" type="cond" truecount="2" falsecount="0"/>
+        <line num="23" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="24" type="cond" truecount="2" falsecount="0"/>
+        <line num="25" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="26" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="27" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="8" type="cond" truecount="1" falsecount="1"/>
+        <line num="29" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="32" type="stmt"/>
       </file>
     </package>
     <package name="screens">
@@ -290,19 +291,19 @@
       </file>
       <file name="SettingsScreen.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\screens\SettingsScreen.tsx">
         <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
-        <line num="13" count="3" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
         <line num="14" count="2" type="stmt"/>
         <line num="15" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="16" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
-        <line num="24" count="3" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
         <line num="32" count="2" type="stmt"/>
       </file>
       <file name="UpdatesScreen.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\screens\UpdatesScreen.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="11" count="1" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
         <line num="19" count="2" type="stmt"/>
       </file>
     </package>

@@ -37,6 +37,10 @@ describe('SettingsScreen', () => {
 
     await waitFor(() => {
       expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled();
+    });
+
+    // Ensure the getCurrentPositionAsync is not called when permission is denied
+    await waitFor(() => {
       expect(Location.getCurrentPositionAsync).not.toHaveBeenCalled();
     });
   });
