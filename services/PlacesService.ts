@@ -29,7 +29,7 @@ export const searchPlaces = async (
 
     if (!response.ok) {
       throw new PlacesAPIError(
-        `Failed to fetch places - HTTP ${response.status}`,
+        `Failed to fetch places`,
         response.status
       );
     }
@@ -57,7 +57,7 @@ export const searchPlaces = async (
     }));
 
     return { results, coords };
-  }  catch (error: unknown) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
       if (error.name === "AbortError") {
         console.warn("Fetch aborted due to new search request");
@@ -71,7 +71,7 @@ export const searchPlaces = async (
       }
     }
 
-    throw new PlacesAPIError("Unexpected error fetching places");
+    throw new PlacesAPIError("Failed to fetch places"); // Updated error message
   } finally {
     controller.abort(); // Ensure the request is aborted to prevent memory leaks
   }

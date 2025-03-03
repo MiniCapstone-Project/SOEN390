@@ -18,7 +18,7 @@ describe("PlacesService", () => {
             ok: true,
         });
 
-        const response = await searchPlaces("coffee", { lat: 45.5017, lng: -73.5673 });
+        const response = await searchPlaces("coffee", 45.5017, -73.5673);
 
         expect(response).toBeDefined();
         expect(Array.isArray(response.results)).toBe(true);
@@ -34,14 +34,14 @@ describe("PlacesService", () => {
             ok: false,
         });
 
-        await expect(searchPlaces("coffee", { lat: 45.5017, lng: -73.5673 }))
+        await expect(searchPlaces("coffee", 45.5017, -73.5673))
             .rejects.toThrow("Failed to fetch places");
     });
 
     test("searchPlaces should handle network failures", async () => {
         fetch.mockRejectedValueOnce(new Error("Failed to fetch places"));
 
-        await expect(searchPlaces("coffee", { lat: 45.5017, lng: -73.5673 }))
-            .rejects.toThrow("Failed to fetch places");
+        await expect(searchPlaces("coffee", 45.5017, -73.5673))
+            .rejects.toThrow("Failed to fetch places"); // Updated expected error message
     });
 });
