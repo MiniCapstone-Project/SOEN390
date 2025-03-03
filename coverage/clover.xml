@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1740982800902" clover="3.2.0">
-  <project timestamp="1740982800903" name="All files">
-    <metrics statements="332" coveredstatements="132" conditionals="161" coveredconditionals="58" methods="70" coveredmethods="25" elements="563" coveredelements="215" complexity="0" loc="332" ncloc="332" packages="7" files="19" classes="19"/>
+<coverage generated="1740982985021" clover="3.2.0">
+  <project timestamp="1740982985021" name="All files">
+    <metrics statements="332" coveredstatements="138" conditionals="161" coveredconditionals="71" methods="70" coveredmethods="27" elements="563" coveredelements="236" complexity="0" loc="332" ncloc="332" packages="7" files="19" classes="19"/>
     <package name="components.InputComponents">
       <metrics statements="46" coveredstatements="10" conditionals="16" coveredconditionals="4" methods="10" coveredmethods="5"/>
       <file name="AutoCompleteSearchWrapper.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\InputComponents\AutoCompleteSearchWrapper.tsx">
@@ -61,7 +61,7 @@
       </file>
     </package>
     <package name="components.MapComponents">
-      <metrics statements="17" coveredstatements="7" conditionals="15" coveredconditionals="0" methods="8" coveredmethods="3"/>
+      <metrics statements="17" coveredstatements="13" conditionals="15" coveredconditionals="13" methods="8" coveredmethods="5"/>
       <file name="MapMarker.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\MapComponents\MapMarker.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="5" count="1" type="stmt"/>
@@ -73,13 +73,13 @@
         <line num="7" count="4" type="stmt"/>
       </file>
       <file name="MarkersComponent.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\MapComponents\MarkersComponent.tsx">
-        <metrics statements="7" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="12" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="15" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="17" count="0" type="stmt"/>
+        <metrics statements="7" coveredstatements="6" conditionals="14" coveredconditionals="13" methods="3" coveredmethods="2"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="12" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="13" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="10" type="cond" truecount="4" falsecount="0"/>
+        <line num="17" count="9" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
       </file>
       <file name="RadiusSlider.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\MapComponents\RadiusSlider.tsx">

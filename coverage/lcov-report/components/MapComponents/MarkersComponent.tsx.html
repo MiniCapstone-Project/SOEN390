@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>7/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">92.85% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>6/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -95,19 +95,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -123,21 +123,21 @@
 import { Marker } from "react-native-maps";
 &nbsp;
 // For displaying a set of markers
-export const CustomMarkersComponent: React.FC&lt;CustomMarkersProps&gt; = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span></span>
+export const CustomMarkersComponent: React.FC&lt;CustomMarkersProps&gt; = ({
   data,
   handleMarkerPress,
 }) =&gt; {
-<span class="cstat-no" title="statement not covered" >  return (</span>
+  return (
     &lt;&gt;
-      {data.map(<span class="fstat-no" title="function not covered" >(i</span>tem, index) =&gt; {
-        const latitude = <span class="cstat-no" title="statement not covered" >item.Latitude ?? item.geometry?.location?.lat;</span>
-        const longitude = <span class="cstat-no" title="statement not covered" >item.Longitude ?? item.geometry?.location?.lng;</span>
+      {data.map((item, index) =&gt; {
+        const latitude = item.Latitude ?? item.geometry?.location?.lat;
+        const longitude = item.Longitude ?? item.geometry?.location?.lng;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (latitude === undefined || longitude === undefined) <span class="cstat-no" title="statement not covered" >return null;</span></span>
+        if (latitude === undefined || longitude === undefined) return null;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return (</span>
+        return (
           &lt;Marker
-            key={item.id ? `marker-${item.id}` : `marker-${index}`}
+            key={item.id ? `marker-${item.id}` : <span class="branch-1 cbranch-no" title="branch not covered" >`marker-${index}`}</span>
             coordinate={{ latitude, longitude }}
             title={item.BuildingName || item.name}
             pinColor={item.BuildingName ? "#4A90E2" : "#FF5733"}
@@ -154,7 +154,7 @@ export const CustomMarkersComponent: React.FC&lt;CustomMarkersProps&gt; = <span 
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-03T06:20:00.879Z
+                at 2025-03-03T06:23:04.997Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
