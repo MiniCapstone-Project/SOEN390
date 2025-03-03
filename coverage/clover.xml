@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1740991711959" clover="3.2.0">
-  <project timestamp="1740991711959" name="All files">
+<coverage generated="1740992102199" clover="3.2.0">
+  <project timestamp="1740992102199" name="All files">
     <metrics statements="323" coveredstatements="131" conditionals="160" coveredconditionals="71" methods="68" coveredmethods="28" elements="551" coveredelements="230" complexity="0" loc="323" ncloc="323" packages="7" files="18" classes="18"/>
     <package name="components.InputComponents">
       <metrics statements="47" coveredstatements="10" conditionals="18" coveredconditionals="4" methods="10" coveredmethods="5"/>
@@ -117,7 +117,7 @@
       <file name="Navigation.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\navigation\Navigation.tsx">
         <metrics statements="13" coveredstatements="13" conditionals="16" coveredconditionals="15" methods="3" coveredmethods="3"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
         <line num="17" count="16" type="stmt"/>
         <line num="20" count="32" type="stmt"/>
         <line num="22" count="32" type="cond" truecount="2" falsecount="0"/>
@@ -341,13 +341,13 @@
       </file>
       <file name="DurationService.ts" path="C:\Users\name\Documents\GitHub\SOEN390\services\DurationService.ts">
         <metrics statements="7" coveredstatements="7" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
         <line num="8" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="11" count="2" type="cond" truecount="4" falsecount="0"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
+        <line num="10" count="2" type="cond" truecount="4" falsecount="0"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
       </file>
       <file name="PlacesService.ts" path="C:\Users\name\Documents\GitHub\SOEN390\services\PlacesService.ts">
         <metrics statements="28" coveredstatements="26" conditionals="20" coveredconditionals="17" methods="3" coveredmethods="3"/>
