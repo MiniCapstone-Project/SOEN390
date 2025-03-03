@@ -1,32 +1,72 @@
+import { PlacesAPIError } from "@/errors/PlacesAPIError";
 import { LatLng } from "react-native-maps";
+import { PlaceResult, SearchPlacesResponse } from "@/types/PlacesTypes";
 
 export const searchPlaces = async (
   searchText: string,
   initialLat: number,
   initialLng: number,
-  apiKey: string
-): Promise<{ results: any[]; coords: LatLng[] }> => {
+  apiKey: string,
+  radius: number
+): Promise<SearchPlacesResponse> => {
   if (!searchText.trim()) return { results: [], coords: [] };
 
+  const controller = new AbortController();
+  const signal = controller.signal;
+
   const location = `${initialLat},${initialLng}`;
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchText}&location=${location}&radius=500&type=point_of_interest&key=${apiKey}`;
+  const encodedSearchText = encodeURIComponent(searchText);
+  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodedSearchText}&location=${location}&radius=${radius}&type=point_of_interest&key=${apiKey}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
+
+    if (!response.ok) {
+      throw new PlacesAPIError(
+        `Failed to fetch places - HTTP ${response.status}`,
+        response.status
+      );
+    }
+
     const json = await response.json();
 
-    // Handle gibberish search cases
-    if (json.status === "ZERO_RESULTS" || json.results.length === 0) {
+    if (!json || !json.results || !Array.isArray(json.results)) {
+      throw new PlacesAPIError("Invalid API response structure");
+    }
+
+    if (json.results.length === 0 || json.status === "ZERO_RESULTS") {
       return { results: [], coords: [] }; // No POIs found
-    }    
-    const coords: LatLng[] = json.results.map((item: any) => ({
-      latitude: item.geometry.location.lat,
-      longitude: item.geometry.location.lng,
+    }
+
+    const results: PlaceResult[] = json.results.map((item: any) => ({
+      name: item.name,
+      geometry: item.geometry,
+      formatted_address: item.formatted_address,
+      place_id: item.place_id,
     }));
 
-    return { results: json.results, coords };
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to fetch places");
+    const coords: LatLng[] = results.map((place) => ({
+      latitude: place.geometry.location.lat,
+      longitude: place.geometry.location.lng,
+    }));
+
+    return { results, coords };
+  }  catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error.name === "AbortError") {
+        console.warn("Fetch aborted due to new search request");
+        return { results: [], coords: [] }; // Return empty results on abort
+      }
+
+      console.error("Error fetching places:", error.message);
+
+      if (error instanceof PlacesAPIError) {
+        throw error; // Rethrow API-specific errors
+      }
+    }
+
+    throw new PlacesAPIError("Unexpected error fetching places");
+  } finally {
+    controller.abort(); // Ensure the request is aborted to prevent memory leaks
   }
 };
