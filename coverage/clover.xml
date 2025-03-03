@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1740981712464" clover="3.2.0">
-  <project timestamp="1740981712464" name="All files">
-    <metrics statements="332" coveredstatements="110" conditionals="161" coveredconditionals="47" methods="70" coveredmethods="21" elements="563" coveredelements="178" complexity="0" loc="332" ncloc="332" packages="7" files="19" classes="19"/>
+<coverage generated="1740981922278" clover="3.2.0">
+  <project timestamp="1740981922278" name="All files">
+    <metrics statements="332" coveredstatements="112" conditionals="161" coveredconditionals="49" methods="70" coveredmethods="21" elements="563" coveredelements="182" complexity="0" loc="332" ncloc="332" packages="7" files="19" classes="19"/>
     <package name="components.InputComponents">
       <metrics statements="46" coveredstatements="10" conditionals="16" coveredconditionals="4" methods="10" coveredmethods="5"/>
       <file name="AutoCompleteSearchWrapper.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\InputComponents\AutoCompleteSearchWrapper.tsx">
@@ -320,7 +320,7 @@
       </file>
     </package>
     <package name="services">
-      <metrics statements="78" coveredstatements="63" conditionals="38" coveredconditionals="25" methods="6" coveredmethods="5"/>
+      <metrics statements="78" coveredstatements="65" conditionals="38" coveredconditionals="27" methods="6" coveredmethods="5"/>
       <file name="DirectionService.ts" path="C:\Users\name\Documents\GitHub\SOEN390\services\DirectionService.ts">
         <metrics statements="25" coveredstatements="21" conditionals="10" coveredconditionals="6" methods="1" coveredmethods="1"/>
         <line num="8" count="1" type="stmt"/>
@@ -360,56 +360,56 @@
         <line num="14" count="0" type="stmt"/>
       </file>
       <file name="PlacesService.ts" path="C:\Users\name\Documents\GitHub\SOEN390\services\PlacesService.ts">
-        <metrics statements="30" coveredstatements="26" conditionals="20" coveredconditionals="15" methods="3" coveredmethods="3"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="12" count="3" type="cond" truecount="1" falsecount="1"/>
-        <line num="15" count="3" type="stmt"/>
-        <line num="18" count="3" type="stmt"/>
-        <line num="20" count="3" type="stmt"/>
-        <line num="21" count="3" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="24" count="3" type="stmt"/>
-        <line num="25" count="3" type="stmt"/>
-        <line num="27" count="3" type="stmt"/>
-        <line num="28" count="3" type="stmt"/>
-        <line num="30" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="31" count="1" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
-        <line num="39" count="1" type="cond" truecount="4" falsecount="1"/>
+        <metrics statements="30" coveredstatements="28" conditionals="20" coveredconditionals="17" methods="3" coveredmethods="3"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="12" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="6" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="20" count="6" type="stmt"/>
+        <line num="21" count="6" type="stmt"/>
+        <line num="23" count="6" type="stmt"/>
+        <line num="24" count="6" type="stmt"/>
+        <line num="25" count="6" type="stmt"/>
+        <line num="27" count="6" type="stmt"/>
+        <line num="28" count="6" type="stmt"/>
+        <line num="30" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="37" count="2" type="stmt"/>
+        <line num="39" count="2" type="cond" truecount="4" falsecount="1"/>
         <line num="40" count="0" type="stmt"/>
-        <line num="43" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="43" count="2" type="cond" truecount="3" falsecount="1"/>
         <line num="44" count="0" type="stmt"/>
-        <line num="47" count="1" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
-        <line num="59" count="1" type="stmt"/>
-        <line num="61" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="62" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="63" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
-        <line num="67" count="2" type="stmt"/>
-        <line num="69" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="70" count="1" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="61" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="62" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="67" count="3" type="stmt"/>
+        <line num="69" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="70" count="2" type="stmt"/>
         <line num="74" count="1" type="stmt"/>
-        <line num="76" count="3" type="stmt"/>
+        <line num="76" count="6" type="stmt"/>
       </file>
       <file name="ShuttleService.ts" path="C:\Users\name\Documents\GitHub\SOEN390\services\ShuttleService.ts">
         <metrics statements="16" coveredstatements="16" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="13" count="2" type="stmt"/>
-        <line num="14" count="24" type="stmt"/>
-        <line num="15" count="24" type="stmt"/>
-        <line num="16" count="24" type="stmt"/>
-        <line num="17" count="24" type="stmt"/>
-        <line num="19" count="24" type="cond" truecount="2" falsecount="0"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="26" count="1" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="29" type="stmt"/>
+        <line num="15" count="29" type="stmt"/>
+        <line num="16" count="29" type="stmt"/>
+        <line num="17" count="29" type="stmt"/>
+        <line num="19" count="29" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
       </file>
     </package>
   </project>
