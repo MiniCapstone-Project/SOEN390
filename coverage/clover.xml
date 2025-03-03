@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1740985021401" clover="3.2.0">
-  <project timestamp="1740985021401" name="All files">
-    <metrics statements="330" coveredstatements="138" conditionals="162" coveredconditionals="71" methods="68" coveredmethods="27" elements="560" coveredelements="236" complexity="0" loc="330" ncloc="330" packages="7" files="18" classes="18"/>
+<coverage generated="1740985202423" clover="3.2.0">
+  <project timestamp="1740985202423" name="All files">
+    <metrics statements="330" coveredstatements="139" conditionals="162" coveredconditionals="71" methods="68" coveredmethods="28" elements="560" coveredelements="238" complexity="0" loc="330" ncloc="330" packages="7" files="18" classes="18"/>
     <package name="components.InputComponents">
       <metrics statements="47" coveredstatements="10" conditionals="18" coveredconditionals="4" methods="10" coveredmethods="5"/>
       <file name="AutoCompleteSearchWrapper.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\InputComponents\AutoCompleteSearchWrapper.tsx">
@@ -62,7 +62,7 @@
       </file>
     </package>
     <package name="components.MapComponents">
-      <metrics statements="14" coveredstatements="13" conditionals="14" coveredconditionals="13" methods="6" coveredmethods="5"/>
+      <metrics statements="14" coveredstatements="14" conditionals="14" coveredconditionals="13" methods="6" coveredmethods="6"/>
       <file name="MapMarker.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\MapComponents\MapMarker.tsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="5" count="1" type="stmt"/>
@@ -74,14 +74,14 @@
         <line num="7" count="4" type="stmt"/>
       </file>
       <file name="MarkersComponent.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\MapComponents\MarkersComponent.tsx">
-        <metrics statements="7" coveredstatements="6" conditionals="14" coveredconditionals="13" methods="3" coveredmethods="2"/>
+        <metrics statements="7" coveredstatements="7" conditionals="14" coveredconditionals="13" methods="3" coveredmethods="3"/>
         <line num="5" count="1" type="stmt"/>
         <line num="9" count="3" type="stmt"/>
         <line num="12" count="10" type="cond" truecount="2" falsecount="0"/>
         <line num="13" count="10" type="cond" truecount="2" falsecount="0"/>
         <line num="15" count="10" type="cond" truecount="4" falsecount="0"/>
         <line num="17" count="9" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
       </file>
       <file name="SwitchBotton.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\MapComponents\SwitchBotton.tsx">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
