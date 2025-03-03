@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1740985494526" clover="3.2.0">
-  <project timestamp="1740985494526" name="All files">
-    <metrics statements="330" coveredstatements="139" conditionals="162" coveredconditionals="71" methods="68" coveredmethods="28" elements="560" coveredelements="238" complexity="0" loc="330" ncloc="330" packages="7" files="18" classes="18"/>
+<coverage generated="1740985604989" clover="3.2.0">
+  <project timestamp="1740985604989" name="All files">
+    <metrics statements="331" coveredstatements="139" conditionals="162" coveredconditionals="71" methods="68" coveredmethods="28" elements="561" coveredelements="238" complexity="0" loc="331" ncloc="331" packages="7" files="18" classes="18"/>
     <package name="components.InputComponents">
       <metrics statements="47" coveredstatements="10" conditionals="18" coveredconditionals="4" methods="10" coveredmethods="5"/>
       <file name="AutoCompleteSearchWrapper.tsx" path="C:\Users\name\Documents\GitHub\SOEN390\components\InputComponents\AutoCompleteSearchWrapper.tsx">
@@ -315,9 +315,9 @@
       </file>
     </package>
     <package name="services">
-      <metrics statements="78" coveredstatements="76" conditionals="38" coveredconditionals="34" methods="6" coveredmethods="6"/>
+      <metrics statements="79" coveredstatements="76" conditionals="38" coveredconditionals="34" methods="6" coveredmethods="6"/>
       <file name="DirectionService.ts" path="C:\Users\name\Documents\GitHub\SOEN390\services\DirectionService.ts">
-        <metrics statements="25" coveredstatements="25" conditionals="10" coveredconditionals="9" methods="1" coveredmethods="1"/>
+        <metrics statements="26" coveredstatements="25" conditionals="10" coveredconditionals="9" methods="1" coveredmethods="1"/>
         <line num="8" count="2" type="stmt"/>
         <line num="16" count="7" type="stmt"/>
         <line num="17" count="7" type="stmt"/>
@@ -341,8 +341,9 @@
         <line num="50" count="4" type="stmt"/>
         <line num="52" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="53" count="1" type="stmt"/>
-        <line num="57" count="3" type="stmt"/>
-        <line num="59" count="7" type="stmt"/>
+        <line num="55" count="3" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="61" count="7" type="stmt"/>
       </file>
       <file name="DurationService.ts" path="C:\Users\name\Documents\GitHub\SOEN390\services\DurationService.ts">
         <metrics statements="7" coveredstatements="7" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>

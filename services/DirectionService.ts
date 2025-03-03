@@ -51,6 +51,8 @@ export const retrieveRoutes = async (
         
               if (error instanceof DirectionsAPIError) {
                 throw error;
+              } else {
+                throw new DirectionsAPIError(error.message);
               }
             }
         
