@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, StyleSheet, Keyboard, Dimensions, Alert } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE, Region, Geojson, Circle } from "react-native-maps";
+import { View, Alert } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import {CustomMarkersComponent} from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
