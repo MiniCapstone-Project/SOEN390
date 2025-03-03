@@ -5,21 +5,30 @@ import Navigation from "../Navigation";
 import React from "react";
 
 describe("Navigation Component", () => {
-  let getByRole, getByText, getAllByText;
+  let renderResult, getByRole, getByText, getAllByText;
 
-  beforeEach(() => {
-    const renderResult = render(
-      <NavigationContainer>
-        <Navigation />
-      </NavigationContainer>
-    );
-    getByRole = renderResult.getByRole;
-    getByText = renderResult.getByText;
-    getAllByText = renderResult.getAllByText;
+  beforeEach(async () => {
+
+    await waitFor(() => {
+      renderResult = render(
+        <NavigationContainer>
+          <Navigation />
+        </NavigationContainer>
+      );
+      getByRole = renderResult.getByRole;
+      getByText = renderResult.getByText;
+      getAllByText = renderResult.getAllByText;
+    });
   });
 
   test("renders and navigates between tabs correctly", async () => {
-    expect(getByRole("button", { name: "Campus Guide" })).toBeTruthy();
+    await waitFor(() => {
+      expect(renderResult).toBeTruthy();
+    });
+
+    await act(async () => {
+      expect(getByRole("button", { name: "Map" })).toBeTruthy();
+    });
 
     await act(async () => {
       fireEvent.press(getByRole("button", { name: "Directions" }));

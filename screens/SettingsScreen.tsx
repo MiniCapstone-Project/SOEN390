@@ -13,12 +13,10 @@ export default function SettingsScreen() {
   const handleGetLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      console.log('Permission denied');
       return;
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log('User Location:', location.coords.latitude, location.coords.longitude);
   };
 
   return (
