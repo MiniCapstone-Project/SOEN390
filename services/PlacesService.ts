@@ -15,7 +15,7 @@ export const searchPlaces = async (
   const effectiveRadius = Math.max(radius, 500);
 
   // Enforce a maximum radius of 5000
-  const finalRadius = Math.min(effectiveRadius, 5000);
+  const finalRadius = Math.min(effectiveRadius, 10000);
 
   const controller = new AbortController();
   const signal = controller.signal;

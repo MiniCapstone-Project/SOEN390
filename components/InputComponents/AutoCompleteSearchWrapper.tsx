@@ -28,12 +28,37 @@ const [autoSearchText, setAutoSearchText] = useState("");
 const handleFullTextSearch = async () => {
     if (!autoSearchText.trim()) return;
 
+    const boundaries = await mapRef.current?.getMapBoundaries();
+    console.log(boundaries);
+
+    // Extract the two corners
+    const { northEast, southWest } = boundaries;
+
+    // Inline Haversine calculation (in meters)
+    const R = 6378137; // Earth's approximate radius in meters
+    const toRad = (val) => (val * Math.PI) / 180;
+
+    const dLat = toRad(southWest.latitude - northEast.latitude);
+    const dLon = toRad(southWest.longitude - northEast.longitude);
+
+    const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(northEast.latitude)) *
+        Math.cos(toRad(southWest.latitude)) *
+        Math.sin(dLon / 2) ** 2;
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distanceMeters = Math.round(R * c / 2);
+
+    console.log('Distance between NE and SW corners (meters):', distanceMeters);
+
     try {
     const { results, coords } = await searchPlaces(
         autoSearchText,
         userLocation?.latitude || currentCampus.latitude,
         userLocation?.longitude || currentCampus.longitude,
-        googleMapsKey
+        googleMapsKey,
+        distanceMeters
     );
 
     if (results.length === 0) {
