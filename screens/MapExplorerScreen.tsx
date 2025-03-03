@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Alert } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Region, Geojson } from "react-native-maps";
+import { View, StyleSheet, Keyboard, Dimensions, Alert } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE, Region, Geojson, Circle } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import {CustomMarkersComponent} from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
@@ -21,11 +21,13 @@ const MapComponent = ({
   results,
   currentCampus,
   handleMarkerPress,
+  userLocation,
 }: {
   mapRef: React.RefObject<MapView>;
   results: any[];
   currentCampus: Region;
   handleMarkerPress: (marker: any) => void;
+  userLocation: Region | null;
 }) => {
   return (
     <MapView
@@ -47,6 +49,28 @@ const MapComponent = ({
     >
       <CustomMarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
       <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} />
+      {userLocation && (
+        <>
+          <Circle
+            center={{
+              latitude: userLocation.latitude,
+              longitude: userLocation.longitude,
+            }}
+            radius={10}
+            strokeColor="rgba(0, 122, 255, 0.3)"
+            fillColor="rgb(0, 123, 255)"
+          />
+          <Circle
+            center={{
+              latitude: userLocation.latitude,
+              longitude: userLocation.longitude,
+            }}
+            radius={50}
+            strokeColor="rgba(0, 122, 255, 0.3)"
+            fillColor="rgba(0, 122, 255, 0.1)"
+          />
+        </>
+      )}
     </MapView>
   );
 };
@@ -135,6 +159,7 @@ export default function MapExplorerScreen() {
         results={results}
         currentCampus={userLocation || currentCampus}
         handleMarkerPress={handleMarkerPress}
+        userLocation={userLocation}
       />
 
       <View style={ButtonsStyles.controlsContainer}>
