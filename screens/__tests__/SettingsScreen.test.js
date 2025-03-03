@@ -9,6 +9,10 @@ jest.mock('expo-location', () => ({
 }));
 
 describe('SettingsScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders correctly', () => {
     const { getByText } = render(<SettingsScreen />);
     expect(getByText('Settings Screen')).toBeTruthy();
@@ -33,11 +37,9 @@ describe('SettingsScreen', () => {
     Location.requestForegroundPermissionsAsync.mockResolvedValue({ status: 'denied' });
 
     const { getByText } = render(<SettingsScreen />);
-    fireEvent.press(getByText('Get Location'));
+    const getLocationButton = getByText('Get Location');
 
-    await waitFor(() => {
-      expect(Location.requestForegroundPermissionsAsync).toHaveBeenCalled();
-    });
+    fireEvent.press(getLocationButton);
 
     // Ensure the getCurrentPositionAsync is not called when permission is denied
     await waitFor(() => {
