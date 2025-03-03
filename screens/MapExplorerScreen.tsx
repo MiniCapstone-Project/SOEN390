@@ -7,7 +7,8 @@ import MarkerInfoBox from "../components/MapComponents/MarkerInfoBox";
 import { searchPlaces } from "../services/PlacesService";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
-import buildingMarkers from "@/gis/building-markers.json"; // Updated import path
+import buildingMarkers from "@/gis/building-markers.json"; 
+import buildingOutlines from "@/gis/building-outlines.json";
 import { Button } from "react-native-paper";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Location from "expo-location";
@@ -90,6 +91,7 @@ const MapComponent = ({
     >
       <MarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
       <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} />
+      <Geojson geojson={buildingOutlines} strokeColor="green" fillColor="rgba(0, 255, 0, 0.1)" strokeWidth={2} />
       {userLocation && (
         <>
           <Circle
