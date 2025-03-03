@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import { CampusSwitchButtonStyle, CustomButtonStyles } from "@/Styles/ButtonStyles";
 import {
   CampusSwitchProps,

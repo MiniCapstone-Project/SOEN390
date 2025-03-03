@@ -1,4 +1,5 @@
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
+import { LatLng } from "react-native-maps";
 
 export const getTripDuration = async (origin: LatLng, destination: LatLng): Promise<number> => {
     // api call to get only the duration of a trip with distance matrix, ensure it is enabled in your google api
