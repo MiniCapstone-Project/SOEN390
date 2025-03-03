@@ -29,7 +29,7 @@ export const searchPlaces = async (
 
     if (!response.ok) {
       throw new PlacesAPIError(
-        `Failed to fetch places`,
+        `Failed to fetch places - HTTP ${response.status}`,
         response.status
       );
     }
