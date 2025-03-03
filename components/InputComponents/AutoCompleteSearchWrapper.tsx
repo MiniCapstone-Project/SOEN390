@@ -32,11 +32,12 @@ const handleFullTextSearch = async () => {
     console.log(boundaries);
 
     // Extract the two corners
+    if (!boundaries) return;
     const { northEast, southWest } = boundaries;
 
     // Inline Haversine calculation (in meters)
     const R = 6378137; // Earth's approximate radius in meters
-    const toRad = (val) => (val * Math.PI) / 180;
+    const toRad = (val: number): number => (val * Math.PI) / 180;
 
     const dLat = toRad(southWest.latitude - northEast.latitude);
     const dLon = toRad(southWest.longitude - northEast.longitude);
