@@ -60,11 +60,8 @@ export const searchPlaces = async (
   } catch (error: unknown) {
     if (error instanceof Error) {
       if (error.name === "AbortError") {
-        console.warn("Fetch aborted due to new search request");
         return { results: [], coords: [] }; // Return empty results on abort
       }
-
-      console.error("Error fetching places:", error.message);
 
       if (error instanceof PlacesAPIError) {
         throw error; // Rethrow API-specific errors
