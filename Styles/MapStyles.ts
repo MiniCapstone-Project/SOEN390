@@ -91,8 +91,6 @@ export const DefaultMapStyle = StyleSheet.create({
 });
 
 const { width, height } = Dimensions.get("window");
-
-
 export const DirectionsScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -101,15 +99,16 @@ export const DirectionsScreenStyles = StyleSheet.create({
     width,
     height,
   },
-  searchContainer: {
+  searchContainerAbsolute: {
     position: "absolute",
-    width: "90%",
-    backgroundColor: "transparent",
-    paddingHorizontal: 10,
-    top: 15,
-    alignSelf: "center",
+    top: 12,
+    left: 20,
+    right: 20,
+    zIndex: 5,
   },
-  inputContainer: {
+  inputContainerRow: {
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: "white",
     borderRadius: 18,
     paddingVertical: 5,
@@ -119,17 +118,23 @@ export const DirectionsScreenStyles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.15,
     shadowRadius: 3,
-
     elevation: 2,
+  },
+  iconSpacing: {
+    marginRight: 8,
+  },
+  autoCompleteContainer: {
+    flex: 1, // Ensures it takes the remaining width
   },
   roundedInput: {
     height: 25,
     borderRadius: 18,
     paddingHorizontal: 8,
     backgroundColor: "white",
-      textAlignVertical: "center",
-      paddingTop: 0,
-      paddingBottom: 0,
+    textAlignVertical: "center",
+    paddingTop: 0,
+    paddingBottom: 0,
+    flex: 1, // Ensures it takes full width
   },
   transportModeContainer: {
     flexDirection: "row",
@@ -144,6 +149,17 @@ export const DirectionsScreenStyles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 3,
     elevation: 2,
+    marginBottom: 5,
+  },
+  transportButton: {
+    alignItems: "center",
+  },
+  transportButtonUnderline: {
+    width: 22,
+    height: 2, // Small underline effect
+    backgroundColor: "#6644ff",
+    marginTop: 4, // Space between icon and line
+    borderRadius: 2,
   },
   statsContainer: {
     position: "absolute",
@@ -166,5 +182,8 @@ export const DirectionsScreenStyles = StyleSheet.create({
     color: "#333",
   },
 });
+
+
+
 
 
