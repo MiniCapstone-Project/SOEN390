@@ -67,30 +67,12 @@ export const DefaultMapStyle = StyleSheet.create({
   campusButtonWrapper: {
     flex: 1,
     justifyContent: 'space-between',
-  },
-  sliderText: {
-    marginTop: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  sliderContainer: {
-    position: "absolute",
-    bottom: 50, // Adjust as needed
-    left: 20,
-    right: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent background
-    borderRadius: 10,
-    padding: 10,
-    elevation: 5, // For Android shadow
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
+  }
 });
 
 const { width, height } = Dimensions.get("window");
+
+
 export const DirectionsScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -99,16 +81,15 @@ export const DirectionsScreenStyles = StyleSheet.create({
     width,
     height,
   },
-  searchContainerAbsolute: {
+  searchContainer: {
     position: "absolute",
-    top: 12,
-    left: 20,
-    right: 20,
-    zIndex: 5,
+    width: "90%",
+    backgroundColor: "transparent",
+    paddingHorizontal: 10,
+    top: 15,
+    alignSelf: "center",
   },
-  inputContainerRow: {
-    flexDirection: "row",
-    alignItems: "center",
+  inputContainer: {
     backgroundColor: "white",
     borderRadius: 18,
     paddingVertical: 5,
@@ -118,23 +99,17 @@ export const DirectionsScreenStyles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.15,
     shadowRadius: 3,
+
     elevation: 2,
-  },
-  iconSpacing: {
-    marginRight: 8,
-  },
-  autoCompleteContainer: {
-    flex: 1, // Ensures it takes the remaining width
   },
   roundedInput: {
     height: 25,
     borderRadius: 18,
     paddingHorizontal: 8,
     backgroundColor: "white",
-    textAlignVertical: "center",
-    paddingTop: 0,
-    paddingBottom: 0,
-    flex: 1, // Ensures it takes full width
+      textAlignVertical: "center",
+      paddingTop: 0,
+      paddingBottom: 0,
   },
   transportModeContainer: {
     flexDirection: "row",
@@ -149,17 +124,6 @@ export const DirectionsScreenStyles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 3,
     elevation: 2,
-    marginBottom: 5,
-  },
-  transportButton: {
-    alignItems: "center",
-  },
-  transportButtonUnderline: {
-    width: 22,
-    height: 2, // Small underline effect
-    backgroundColor: "#6644ff",
-    marginTop: 4, // Space between icon and line
-    borderRadius: 2,
   },
   statsContainer: {
     position: "absolute",
@@ -182,8 +146,5 @@ export const DirectionsScreenStyles = StyleSheet.create({
     color: "#333",
   },
 });
-
-
-
 
 

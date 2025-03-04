@@ -177,63 +177,76 @@ return (
       )}
     </MapView>
 
-    {/* Search Container */}
-    <View style={DirectionsScreenStyles.searchContainerAbsolute}>
+
+    <View style={{ position: "absolute", top: 12, left: 20, right: 20, zIndex: 5 }}>
       {/* "From" Input */}
-      <View style={DirectionsScreenStyles.inputContainerRow}>
-        <FontAwesome5 name="map-marker-alt" size={16} color="gray" style={DirectionsScreenStyles.iconSpacing} />
-        <GooglePlacesAutocomplete
-          placeholder="From"
-          fetchDetails
-          onPress={(data, details) => details && handleLocationSelect(details, setOrigin, "origin")}
-          query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
-          styles={{ container: DirectionsScreenStyles.autoCompleteContainer, textInput: DirectionsScreenStyles.roundedInput }}
-        />
-      </View>
+     {/* Separate White Box for "From" Input */}
+     <View style={[DirectionsScreenStyles.inputContainer, { flexDirection: "row", alignItems: "center" }]}>
+       <FontAwesome5 name="map-marker-alt" size={16} color="gray" style={{ marginRight: 8 }} />
+       <GooglePlacesAutocomplete
+         placeholder="From"
+         fetchDetails
+         onPress={(data, details) => details && handleLocationSelect(details, setOrigin, "origin")}
+         query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
+         styles={{ container: DirectionsScreenStyles.autoCompleteContainer, textInput: DirectionsScreenStyles.roundedInput }}
+       />
+     </View>
 
-      {/* "To" Input */}
-      <View style={DirectionsScreenStyles.inputContainerRow}>
-        <FontAwesome5 name="map-pin" size={16} color="gray" style={DirectionsScreenStyles.iconSpacing} />
-        <GooglePlacesAutocomplete
-          placeholder="To"
-          fetchDetails
-          defaultValue={destinationObject?.Address || ""}
-          onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination")}
-          query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
-          styles={{ container: DirectionsScreenStyles.autoCompleteContainer, textInput: DirectionsScreenStyles.roundedInput }}
-        />
-      </View>
+     {/* Separate White Box for "To" Input */}
+     <View style={[DirectionsScreenStyles.inputContainer, { flexDirection: "row", alignItems: "center" }]}>
+       <FontAwesome5 name="map-pin" size={16} color="gray" style={{ marginRight: 8 }} />
+       <GooglePlacesAutocomplete
+         placeholder="To"
+         fetchDetails
+         value={destinationObject?.Address || ""}
+         onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination")}
+         query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
+         styles={{ container: DirectionsScreenStyles.autoCompleteContainer, textInput: DirectionsScreenStyles.roundedInput }}
+       />
+     </View>
 
-      {/* Transport Mode Selection */}
-      <View style={DirectionsScreenStyles.transportModeContainer}>
-        {[
-          { mode: "ROUTE", icon: "route" },
-          { mode: "WALKING", icon: "walking" },
-          { mode: "DRIVING", icon: "car" },
-          { mode: "TRANSIT", icon: "bus" },
-          { mode: "SHUTTLE", icon: "shuttle-van" },
-        ].map(({ mode, icon }) => (
-          <TouchableOpacity
-            key={mode}
-            onPress={() => {
-              setTransportMode(mode);
-              if (mode === "SHUTTLE") setShowShuttleTime(true);
-              else setShowShuttleTime(false);
-            }}
-            style={DirectionsScreenStyles.transportButton}
-          >
-            <FontAwesome5
-              name={icon}
-              size={22}
-              color={transportMode === mode ? "#6644ff" : "black"}
-            />
-            {transportMode === mode && <View style={DirectionsScreenStyles.transportButtonUnderline} />}
-          </TouchableOpacity>
-        ))}
-      </View>
+
+
+<View style={[DirectionsScreenStyles.transportModeContainer, { marginBottom: 5 }]}>
+  {[
+    { mode: "ROUTE", icon: "route" },
+    { mode: "WALKING", icon: "walking" },
+    { mode: "DRIVING", icon: "car" },
+    { mode: "TRANSIT", icon: "bus" },
+    { mode: "SHUTTLE", icon: "shuttle-van" },
+  ].map(({ mode, icon }) => (
+    <TouchableOpacity
+      key={mode}
+      onPress={() => {
+        setTransportMode(mode);
+        if (mode === "SHUTTLE") setShowShuttleTime(true);
+        else setShowShuttleTime(false);
+      }}
+      style={{ alignItems: "center" }} // Ensures vertical alignment
+    >
+      <FontAwesome5
+        name={icon}
+        size={22}
+        color={transportMode === mode ? "#6644ff" : "black"}
+      />
+      {transportMode === mode && (
+        <View
+          style={{
+            width: 22,
+            height: 2, // Small underline effect
+            backgroundColor: "#6644ff",
+            marginTop: 4, // Space between icon and line
+            borderRadius: 2,
+          }}
+        />
+      )}
+    </TouchableOpacity>
+  ))}
+</View>
+
+
     </View>
 
-    {/* Distance & Duration Stats */}
     {distance > 0 && duration > 0 && (
       <View style={DirectionsScreenStyles.statsContainer}>
         <Text style={DirectionsScreenStyles.statsText}>Distance: {distance.toFixed(2)} km</Text>
@@ -244,4 +257,3 @@ return (
   </View>
 );
 }
-
