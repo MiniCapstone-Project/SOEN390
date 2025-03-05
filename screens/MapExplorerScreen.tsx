@@ -23,6 +23,14 @@ const hall9FloorPlan = require("@/gis/hall-9-floor-plan.json") as FeatureCollect
 
 const markerImage = require("@/assets/images/marker.png");
 
+const handleMarkerPress = (event: any) => {
+  console.log("Building marker pressed:", event);
+};
+
+const handleRoomPoiPress = (event: any) => {
+  console.log("Hall 9 room POI pressed:", event);
+};
+
 // Wrapper for the <MapView> component
 const MapComponent = ({
   mapRef,
@@ -61,7 +69,14 @@ const MapComponent = ({
       ]}
     >
       <CustomMarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
-      <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} tappable={true} />
+      <Geojson
+        geojson={buildingMarkers}
+        strokeColor="blue"
+        fillColor="cyan"
+        strokeWidth={2}
+        tappable={true}
+        onPress={handleMarkerPress} // Add onPress handler
+      />
       <Geojson
         geojson={buildingOutlines}
         strokeColor="green"
@@ -71,7 +86,7 @@ const MapComponent = ({
         tappable={true}
       />
 
-<Geojson geojson={hall9RoomsPois} image={markerImage} strokeColor="red" fillColor="rgba(255, 0, 0, 0.5)" strokeWidth={2} tappable={true} />
+<Geojson geojson={hall9RoomsPois} image={markerImage} strokeColor="red" fillColor="rgba(255, 0, 0, 0.5)" strokeWidth={2} tappable={true} onPress={handleRoomPoiPress} />
       <Geojson geojson={hall9FloorPlan} strokeColor="orange" fillColor="rgba(255, 165, 0, 0.5)" strokeWidth={2} tappable={true} />
             {userLocation && (
         <>
