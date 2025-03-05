@@ -43,6 +43,7 @@ const MapComponent = ({
       style={DefaultMapStyle.map}
       provider={PROVIDER_GOOGLE}
       initialRegion={currentCampus}
+      showsBuildings={false} // Disable 3D buildings
       customMapStyle={[
         {
           featureType: "poi",
@@ -60,7 +61,7 @@ const MapComponent = ({
       <Geojson
         geojson={buildingOutlines}
         strokeColor="green"
-        fillColor="rgba(0, 255, 0, 0.1)"
+        fillColor="rgba(255, 0, 200, 0.66)"
         strokeWidth={2}
         onPress={handleOutlinePress}
         tappable={true}
