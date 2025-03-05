@@ -124,14 +124,5 @@ export const DirectionsScreenStyles = StyleSheet.create({
   stats: {
     marginTop: 10,
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  button: {
-    flex: 1,
-    marginHorizontal: 5,
-  },
 });
 

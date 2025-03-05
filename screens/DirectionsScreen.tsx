@@ -12,7 +12,6 @@ import { useRoute } from "@react-navigation/native";
 import { retrieveRoutes } from "@/services/DirectionService";
 import { findNextShuttle } from "@/services/ShuttleService";
 import { getTripDuration } from "@/services/DurationService";
-import { Button as PaperButton, IconButton } from 'react-native-paper';
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
@@ -233,13 +232,12 @@ export default function DirectionsScreen() {
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
           styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
         />
-        <View style={DirectionsScreenStyles.buttonContainer}>
-          <IconButton icon="directions" mode="contained" onPress={traceRoute} style={DirectionsScreenStyles.button} />
-          <IconButton icon="walk" mode="contained" onPress={() => {setWalking(); setShowShuttleTime(false);}} style={DirectionsScreenStyles.button} />
-          <IconButton icon="car" mode="contained" onPress={() => {setDriving(); setShowShuttleTime(false);}} style={DirectionsScreenStyles.button} />
-          <IconButton icon="train" mode="contained" onPress={() => {setTransit(); setShowShuttleTime(false);}} style={DirectionsScreenStyles.button} />
-          <IconButton icon="bus" mode="contained" onPress={() => {setShuttleRoute(); setShowShuttleTime(true);}} style={DirectionsScreenStyles.button} />
-        </View>
+        <Button title="Route" color="#733038" onPress={traceRoute} />
+        {/* All button on presses change state of shuttle service to true or false */}
+        <Button title="Walking" color="#733038" onPress={() => {setWalking(); setShowShuttleTime(false);}} />
+        <Button title="Driving" color="#733038" onPress={() => {setDriving(); setShowShuttleTime(false);}} />
+        <Button title="Transit" color="#733038" onPress={() => {setTransit(); setShowShuttleTime(false);}} />
+        <Button title="Shuttle" color="#733038" onPress={() => {setShuttleRoute(); setShowShuttleTime(true);}} />
         {distance > 0 && duration > 0 && (
           <View style={DirectionsScreenStyles.stats}>
             <Text>Distance: {distance.toFixed(2)} km</Text>
