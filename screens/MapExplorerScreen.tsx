@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, Alert } from "react-native";
-import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle, Marker } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
-import {CustomMarkersComponent} from "../components/MapComponents/MarkersComponent";
+import { CustomMarkersComponent } from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
 import { FeatureCollection, Geometry, GeoJsonProperties } from "geojson";
@@ -18,6 +18,10 @@ const googleMapsKey = GOOGLE_MAPS_API_KEY;
 
 const buildingMarkers = require("@/gis/building-markers.json") as FeatureCollection<Geometry, GeoJsonProperties>;
 const buildingOutlines = require("@/gis/building-outlines.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const hall9RoomsPois = require("@/gis/hall-9-rooms-pois.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const hall9FloorPlan = require("@/gis/hall-9-floor-plan.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+
+const markerImage = require("@/assets/images/marker.png");
 
 // Wrapper for the <MapView> component
 const MapComponent = ({
@@ -61,12 +65,15 @@ const MapComponent = ({
       <Geojson
         geojson={buildingOutlines}
         strokeColor="green"
-        fillColor="rgba(255, 0, 200, 0.66)"
+        fillColor="rgba(255, 0, 200, 0.16)"
         strokeWidth={2}
         onPress={handleOutlinePress}
         tappable={true}
       />
-      {userLocation && (
+
+<Geojson geojson={hall9RoomsPois} image={markerImage} strokeColor="red" fillColor="rgba(255, 0, 0, 0.5)" strokeWidth={2} tappable={true} />
+      <Geojson geojson={hall9FloorPlan} strokeColor="orange" fillColor="rgba(255, 165, 0, 0.5)" strokeWidth={2} tappable={true} />
+            {userLocation && (
         <>
           <Circle
             center={{
