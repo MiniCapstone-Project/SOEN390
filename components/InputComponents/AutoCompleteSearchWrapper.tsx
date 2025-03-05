@@ -14,12 +14,14 @@ export const AutocompleteSearchWrapper = ({
     userLocation,
     currentCampus,
     googleMapsKey,
+    location, // Accept location prop
 }: {
     mapRef: React.RefObject<MapView>;
     setResults: React.Dispatch<React.SetStateAction<any[]>>;
     userLocation: Region | null;
     currentCampus: Region;
     googleMapsKey: string;
+    location: Region | null; // Define location prop type
 }) => {
 // This local state tracks typed text in the Autocomplete's field
 const [autoSearchText, setAutoSearchText] = useState("");
@@ -116,6 +118,8 @@ return (
         query={{
         key: googleMapsKey,
         language: "en",
+        location: location ? `${location.latitude},${location.longitude}` : undefined, // Use location for suggestions
+        radius: 50000, // 50 km radius
         }}
         textInputProps={{
         value: autoSearchText,

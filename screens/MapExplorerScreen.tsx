@@ -176,6 +176,7 @@ export default function MapExplorerScreen() {
           userLocation={userLocation}
           currentCampus={currentCampus}
           googleMapsKey={googleMapsKey}
+          location={userLocation} // Pass userLocation to AutocompleteSearchWrapper
         />
       </View>
       <View style={[ButtonsStyles.buttonContainer, MapExplorerScreenStyles.buttonContainer]}>
