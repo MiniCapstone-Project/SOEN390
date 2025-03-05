@@ -23,7 +23,6 @@ const hall9FloorPlan = require("@/gis/hall-9-floor-plan.json") as FeatureCollect
 
 const markerImage = require("@/assets/images/marker.png");
 
-
 const handleRoomPoiPress = (event: any) => {
   console.log("Hall 9 room POI pressed:", event);
 };
@@ -36,20 +35,17 @@ const MapComponent = ({
   userLocation,
 }: {
   mapRef: React.RefObject<MapView>;
-  results: any[];
+  results: any;
   currentCampus: Region;
-  handleMarkerPress: (marker: any) => void;
   userLocation: Region | null;
 }) => {
   const handleOutlinePress = (event: any) => {
     console.log("Building outline pressed:", event);
   };
-  
+
   const handleMarkerPress = (event: any) => {
     console.log("Building marker pressed:", event);
   };
-
-
 
   return (
     <MapView
@@ -70,7 +66,6 @@ const MapComponent = ({
         },
       ]}
     >
-      <CustomMarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
       <Geojson
         geojson={buildingMarkers}
         strokeColor="blue"
@@ -87,10 +82,31 @@ const MapComponent = ({
         onPress={handleOutlinePress}
         tappable={true}
       />
-
-<Geojson geojson={hall9RoomsPois} image={markerImage} strokeColor="red" fillColor="rgba(255, 0, 0, 0.5)" strokeWidth={2} tappable={true} onPress={handleRoomPoiPress} />
-      <Geojson geojson={hall9FloorPlan} strokeColor="orange" fillColor="rgba(255, 165, 0, 0.5)" strokeWidth={2} tappable={true} />
-            {userLocation && (
+      <Geojson
+        geojson={hall9RoomsPois}
+        image={markerImage}
+        strokeColor="red"
+        fillColor="rgba(255, 0, 0, 0.5)"
+        strokeWidth={2}
+        tappable={true}
+        onPress={handleRoomPoiPress}
+      />
+      <Geojson
+        geojson={hall9FloorPlan}
+        strokeColor="orange"
+        fillColor="rgba(255, 165, 0, 0.5)"
+        strokeWidth={2}
+        tappable={true}
+      />
+      {results.features && (
+        <Geojson
+          geojson={results}
+          strokeColor="red"
+          fillColor="rgba(255,0,0,0.5)"
+          strokeWidth={2}
+        />
+      )}
+      {userLocation && (
         <>
           <Circle
             center={{
@@ -116,10 +132,9 @@ const MapComponent = ({
   );
 };
 
-
 export default function MapExplorerScreen() {
   const mapRef = useRef<MapView | null>(null);
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<any>({});
   const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
   const [showInfoBox, setShowInfoBox] = useState(false);
@@ -198,23 +213,20 @@ export default function MapExplorerScreen() {
 
   return (
     <View style={DefaultMapStyle.container}>
-      {/* Our map & markers */}
       <MapComponent
         mapRef={mapRef}
         results={results}
         currentCampus={userLocation || currentCampus}
-        handleMarkerPress={handleMarkerPress}
         userLocation={userLocation}
       />
       <View style={[ButtonsStyles.controlsContainer, MapExplorerScreenStyles.controlsContainer]}>
-        {/* Only the new GooglePlacesAutocomplete-based search */}
         <AutocompleteSearchWrapper
           mapRef={mapRef}
           setResults={setResults}
           userLocation={userLocation}
           currentCampus={currentCampus}
           googleMapsKey={googleMapsKey}
-          location={userLocation} // Pass userLocation to AutocompleteSearchWrapper
+          location={userLocation}
         />
       </View>
       <View style={[ButtonsStyles.buttonContainer, MapExplorerScreenStyles.buttonContainer]}>

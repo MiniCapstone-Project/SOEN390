@@ -8,8 +8,8 @@ export const searchPlaces = async (
   initialLng: number,
   apiKey: string,
   radius: number = 1000 // Default value of 1000
-): Promise<SearchPlacesResponse> => {
-  if (!searchText.trim()) return { results: [], coords: [] };
+): Promise<any> => { // Change return type to any to accommodate GeoJSON
+  if (!searchText.trim()) return { type: "FeatureCollection", features: [] };
 
   // Enforce a minimum radius of 500
   const effectiveRadius = Math.max(radius, 500);
@@ -41,26 +41,27 @@ export const searchPlaces = async (
     }
 
     if (json.results.length === 0 || json.status === "ZERO_RESULTS") {
-      return { results: [], coords: [] }; // No POIs found
+      return { type: "FeatureCollection", features: [] }; // No POIs found
     }
 
-    const results: PlaceResult[] = json.results.map((item: any) => ({
-      name: item.name,
-      geometry: item.geometry,
-      formatted_address: item.formatted_address,
-      place_id: item.place_id,
+    const features = json.results.map((item: any) => ({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [item.geometry.location.lng, item.geometry.location.lat],
+      },
+      properties: {
+        name: item.name,
+        formatted_address: item.formatted_address,
+        place_id: item.place_id,
+      },
     }));
 
-    const coords: LatLng[] = results.map((place) => ({
-      latitude: place.geometry.location.lat,
-      longitude: place.geometry.location.lng,
-    }));
-
-    return { results, coords };
+    return { type: "FeatureCollection", features };
   } catch (error: unknown) {
     if (error instanceof Error) {
       if (error.name === "AbortError") {
-        return { results: [], coords: [] }; // Return empty results on abort
+        return { type: "FeatureCollection", features: [] }; // Return empty results on abort
       }
 
       if (error instanceof PlacesAPIError) {
