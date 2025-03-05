@@ -23,9 +23,6 @@ const hall9FloorPlan = require("@/gis/hall-9-floor-plan.json") as FeatureCollect
 
 const markerImage = require("@/assets/images/marker.png");
 
-const handleMarkerPress = (event: any) => {
-  console.log("Building marker pressed:", event);
-};
 
 const handleRoomPoiPress = (event: any) => {
   console.log("Hall 9 room POI pressed:", event);
@@ -36,7 +33,6 @@ const MapComponent = ({
   mapRef,
   results,
   currentCampus,
-  handleMarkerPress,
   userLocation,
 }: {
   mapRef: React.RefObject<MapView>;
@@ -48,6 +44,12 @@ const MapComponent = ({
   const handleOutlinePress = (event: any) => {
     console.log("Building outline pressed:", event);
   };
+  
+  const handleMarkerPress = (event: any) => {
+    console.log("Building marker pressed:", event);
+  };
+
+
 
   return (
     <MapView
