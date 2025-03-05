@@ -13,6 +13,7 @@ import { retrieveRoutes } from "@/services/DirectionService";
 import { findNextShuttle } from "@/services/ShuttleService";
 import { getTripDuration } from "@/services/DurationService";
 import { Button as PaperButton, IconButton } from 'react-native-paper';
+import SearchContainer from "@/components/SearchContainer";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
@@ -218,37 +219,23 @@ export default function DirectionsScreen() {
         )}
       </MapView>
 
-      <View style={DirectionsScreenStyles.searchContainer}>
-        <GooglePlacesAutocomplete
-          placeholder="Origin"
-          fetchDetails
-          onPress={(data, details) => details && handleLocationSelect(details, setOrigin, "origin", destinationObject)}
-          query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
-          styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
-        />
-        <GooglePlacesAutocomplete
-          placeholder={destinationObject?.Address || "Destination"}
-          fetchDetails
-          onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination", destinationObject)}
-          query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
-          styles={{ container: { flex: 0, marginBottom: 10 }, textInput: DirectionsScreenStyles.input }}
-        />
-        <View style={DirectionsScreenStyles.buttonContainer}>
-          <IconButton icon="directions" mode="contained" onPress={traceRoute} style={DirectionsScreenStyles.button} />
-          <IconButton icon="walk" mode="contained" onPress={() => {setWalking(); setShowShuttleTime(false);}} style={DirectionsScreenStyles.button} />
-          <IconButton icon="car" mode="contained" onPress={() => {setDriving(); setShowShuttleTime(false);}} style={DirectionsScreenStyles.button} />
-          <IconButton icon="train" mode="contained" onPress={() => {setTransit(); setShowShuttleTime(false);}} style={DirectionsScreenStyles.button} />
-          <IconButton icon="bus" mode="contained" onPress={() => {setShuttleRoute(); setShowShuttleTime(true);}} style={DirectionsScreenStyles.button} />
-        </View>
-        {distance > 0 && duration > 0 && (
-          <View style={DirectionsScreenStyles.stats}>
-            <Text>Distance: {distance.toFixed(2)} km</Text>
-            <Text>Duration: {Math.ceil(duration)} min</Text>
-            {/* Only show this conditionally if the shuttle button is pressed */}
-            {showShuttleTime && <Text>{findNextShuttle(shuttleValid)}</Text>}
-          </View>
-        )}
-      </View>
+      <SearchContainer
+        googleMapsKey={GOOGLE_MAPS_API_KEY}
+        handleLocationSelect={handleLocationSelect}
+        setOrigin={setOrigin}
+        setDestination={setDestination}
+        destinationObject={destinationObject}
+        traceRoute={traceRoute}
+        setWalking={setWalking}
+        setDriving={setDriving}
+        setTransit={setTransit}
+        setShuttleRoute={setShuttleRoute}
+        showShuttleTime={showShuttleTime}
+        setShowShuttleTime={setShowShuttleTime}
+        distance={distance}
+        duration={duration}
+        shuttleValid={shuttleValid}
+      />
     </View>
   );
 }
