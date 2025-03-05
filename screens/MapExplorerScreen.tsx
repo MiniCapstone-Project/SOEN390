@@ -173,18 +173,18 @@ export default function MapExplorerScreen() {
           currentCampus={currentCampus}
           googleMapsKey={googleMapsKey}
         />
+      </View>
 
-        <View style={ButtonsStyles.buttonContainer}>
-          <Button mode="contained" onPress={handleSwitchToSGW} style={ButtonsStyles.button}>
-            SGW
-          </Button>
-          <Button mode="contained" onPress={handleSwitchToLoyola} style={ButtonsStyles.button}>
-            Loyola
-          </Button>
-          <Button mode="contained" onPress={handleCenterToUserLocation} style={ButtonsStyles.button}>
-            ME
-          </Button>
-        </View>
+      <View style={[ButtonsStyles.buttonContainer, { position: 'absolute', bottom: 0, width: '100%' }]}>
+        <Button mode="contained" onPress={handleSwitchToSGW} style={ButtonsStyles.button}>
+          SGW
+        </Button>
+        <Button mode="contained" onPress={handleSwitchToLoyola} style={ButtonsStyles.button}>
+          Loyola
+        </Button>
+        <Button mode="contained" onPress={handleCenterToUserLocation} style={ButtonsStyles.button}>
+          ME
+        </Button>
       </View>
 
       {showInfoBox && selectedMarker && (
