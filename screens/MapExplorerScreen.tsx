@@ -5,8 +5,7 @@ import { DefaultMapStyle } from "@/Styles/MapStyles";
 import {CustomMarkersComponent} from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
-import buildingMarkers from "@/gis/building-markers.json"; 
-import buildingOutlines from "@/gis/building-outlines.json";
+import { FeatureCollection, Geometry, GeoJsonProperties } from "geojson";
 import { Button } from "react-native-paper";
 import * as Location from "expo-location";
 import { ButtonsStyles } from "@/Styles/ButtonStyles";
@@ -16,6 +15,9 @@ import MarkerInfoBox from "@/components/MapComponents/MarkerInfoBox";
 import { MapExplorerScreenStyles } from "@/Styles/MapExplorerScreenStyles";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
+
+const buildingMarkers = require("@/gis/building-markers.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const buildingOutlines = require("@/gis/building-outlines.json") as FeatureCollection<Geometry, GeoJsonProperties>;
 
 // Wrapper for the <MapView> component
 const MapComponent = ({
@@ -31,6 +33,10 @@ const MapComponent = ({
   handleMarkerPress: (marker: any) => void;
   userLocation: Region | null;
 }) => {
+  const handleOutlinePress = (event: any) => {
+    console.log("Building outline pressed:", event);
+  };
+
   return (
     <MapView
       ref={mapRef}
@@ -50,8 +56,15 @@ const MapComponent = ({
       ]}
     >
       <CustomMarkersComponent data={[...results]} handleMarkerPress={handleMarkerPress} />
-      <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} />
-      <Geojson geojson={buildingOutlines} strokeColor="green" fillColor="rgba(0, 255, 0, 0.1)" strokeWidth={2} />
+      <Geojson geojson={buildingMarkers} strokeColor="blue" fillColor="cyan" strokeWidth={2} tappable={true} />
+      <Geojson
+        geojson={buildingOutlines}
+        strokeColor="green"
+        fillColor="rgba(0, 255, 0, 0.1)"
+        strokeWidth={2}
+        onPress={handleOutlinePress}
+        tappable={true}
+      />
       {userLocation && (
         <>
           <Circle
