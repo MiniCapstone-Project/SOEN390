@@ -153,6 +153,10 @@ export default function MapExplorerScreen() {
     }
   };
 
+  const handleGoPress = () => {
+    console.log("GO button pressed");
+  };
+
   return (
     <View style={DefaultMapStyle.container}>
       {/* Our map & markers */}
@@ -183,6 +187,9 @@ export default function MapExplorerScreen() {
           </Button>
           <Button mode="contained" onPress={handleCenterToUserLocation} style={ButtonsStyles.button}>
             ME
+          </Button>
+          <Button mode="contained" onPress={handleGoPress} style={ButtonsStyles.button}>
+            GO
           </Button>
         </View>
       </View>
