@@ -47,6 +47,10 @@ const MapComponent = ({
     console.log("Building marker pressed:", event);
   };
 
+  const handleSearchResultPress = (event: any) => {
+    console.log("Search result pressed:", event);
+  };
+
   return (
     <MapView
       ref={mapRef}
@@ -104,6 +108,8 @@ const MapComponent = ({
           strokeColor="red"
           fillColor="rgba(255,0,0,0.5)"
           strokeWidth={2}
+          tappable={true}
+          onPress={handleSearchResultPress} // Add onPress handler for search results
         />
       )}
       {userLocation && (
