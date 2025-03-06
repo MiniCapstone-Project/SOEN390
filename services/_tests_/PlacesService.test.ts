@@ -14,7 +14,7 @@ describe("searchPlaces", () => {
 
   it("should return empty results if searchText is empty", async () => {
     const result = await searchPlaces("", initialLat, initialLng, apiKey);
-    expect(result).toEqual({ results: [], coords: [] });
+    expect(result).toEqual({ type: "FeatureCollection", features: [] });
   });
 
   it("should fetch places and return results", async () => {
@@ -35,8 +35,8 @@ describe("searchPlaces", () => {
     (global.fetch as jest.Mock).mockResolvedValue(mockResponse);
 
     const result = await searchPlaces("test", initialLat, initialLng, apiKey);
-    expect(result.results).toHaveLength(1);
-    expect(result.coords).toHaveLength(1);
+    expect(result.features).toHaveLength(1);
+    expect(result.features[0].properties.name).toBe("Place 1");
   });
 
   it("should throw PlacesAPIError on fetch failure", async () => {
@@ -55,6 +55,6 @@ describe("searchPlaces", () => {
     (global.fetch as jest.Mock).mockRejectedValue(mockAbortError);
 
     const result = await searchPlaces("test", initialLat, initialLng, apiKey);
-    expect(result).toEqual({ results: [], coords: [] });
+    expect(result).toEqual({ type: "FeatureCollection", features: [] });
   });
 });
