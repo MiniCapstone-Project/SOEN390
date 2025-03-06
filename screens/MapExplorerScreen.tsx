@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Alert } from "react-native";
+import { View, Alert, ScrollView } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle, Marker } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import { CustomMarkersComponent } from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation } from "@react-navigation/native";
 import { FeatureCollection, Geometry, GeoJsonProperties } from "geojson";
-import { Button } from "react-native-paper";
+import { Button, List } from "react-native-paper";
 import * as Location from "expo-location";
 import { ButtonsStyles } from "@/Styles/ButtonStyles";
 import { LATITUDE_DELTA, LONGITUDE_DELTA, LOY_CAMPUS, SGW_CAMPUS } from "@/constants/MapsConstants";
@@ -179,6 +179,7 @@ export default function MapExplorerScreen() {
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
   const [showInfoBox, setShowInfoBox] = useState(false);
   const [userLocation, setUserLocation] = useState<Region | null>(null);
+  const [expanded, setExpanded] = useState(false);
   const navi = useNavigation();
 
   useEffect(() => {
@@ -251,6 +252,8 @@ export default function MapExplorerScreen() {
     console.log("GO button pressed");
   };
 
+  const handlePress = () => setExpanded(!expanded);
+
   return (
     <View style={DefaultMapStyle.container}>
       <MapComponent
@@ -268,6 +271,26 @@ export default function MapExplorerScreen() {
           googleMapsKey={googleMapsKey}
           location={userLocation}
         />
+        <List.Section>
+          <List.Accordion
+            title="Hall Building" // Change title to Hall Building
+            left={props => <List.Icon {...props} icon="office-building" />} // Change icon to office-building
+            expanded={expanded}
+            onPress={handlePress}
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }} // Add background color with opacity
+          >
+            <ScrollView style={{ maxHeight: 400 }}> // Set a max height for the scrollable area
+              {Array.from({ length: 12 }, (_, i) => (
+                <List.Item 
+                  key={i + 1} 
+                  title={`H${i + 1}`} // Change floor titles to H1, H2, ..., H12
+                  left={props => <List.Icon {...props} icon="floor-plan" />} // Add icon to each item
+                  style={{ backgroundColor: 'white' }} // Ensure white background for each item
+                />
+              ))}
+            </ScrollView>
+          </List.Accordion>
+        </List.Section>
       </View>
       <View style={[ButtonsStyles.buttonContainer, MapExplorerScreenStyles.buttonContainer]}>
         <Button mode="contained" onPress={handleSwitchToSGW} style={ButtonsStyles.button}>
