@@ -123,7 +123,7 @@ export const AutocompleteSearchWrapper = ({
           key: googleMapsKey,
           language: "en",
           location: location ? `${location.latitude},${location.longitude}` : undefined, // Use location for suggestions
-          radius: 50000, // 50 km radius
+          radius: 20000, // 20 km radius
         }}
         textInputProps={{
           value: autoSearchText,
