@@ -45,10 +45,44 @@ const MapComponent = ({
 
   const handleMarkerPress = (event: any) => {
     console.log("Building marker pressed:", event);
+    const { coordinates, feature, type } = event;
+    const { latitude, longitude } = coordinates;
+    const { properties } = feature;
+    const message = `
+      Coordinates:
+        Latitude: ${latitude}
+        Longitude: ${longitude}
+      Feature:
+        Type: ${feature.type}
+        Geometry Type: ${feature.geometry.type}
+        Address: ${properties.Address}
+        Building: ${properties.Building}
+        Building Long Name: ${properties.Building_Long_Name}
+        Building Name: ${properties.Building_Name}
+        Campus: ${properties.Campus}
+      Type: ${type}
+    `;
+    Alert.alert("Building marker pressed", message);
   };
 
   const handleSearchResultPress = (event: any) => {
     console.log("Search result pressed:", event);
+    const { coordinates, feature, type } = event;
+    const { latitude, longitude } = coordinates;
+    const { properties } = feature;
+    const message = `
+      Coordinates:
+        Latitude: ${latitude}
+        Longitude: ${longitude}
+      Feature:
+        Type: ${feature.type}
+        Geometry Type: ${feature.geometry.type}
+        Formatted Address: ${properties.formatted_address}
+        Name: ${properties.name}
+        Place ID: ${properties.place_id}
+      Type: ${type}
+    `;
+    Alert.alert("Search result pressed", message);
   };
 
   return (
