@@ -10,7 +10,15 @@ export interface MarkerItem {
     BuildingName?: string;
     name?: string;
     id?: string | number; // If available, better than using index for keys
-  }
+    coordinate?: {
+      latitude: number;
+      longitude: number;
+    };
+    latitude?: number;
+    longitude?: number;
+    formatted_address?: string;
+    Address?: string;
+}
   
 export interface CustomMarkersProps {
     data: MarkerItem[];

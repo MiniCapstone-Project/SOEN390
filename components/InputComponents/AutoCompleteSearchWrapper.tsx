@@ -84,22 +84,46 @@ const handleFullTextSearch = async () => {
 };
 
 // Handle user picking a suggestion from the dropdown
-const handleSelectSuggestion = (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
-    console.log("Selected place:", data, details);
+const handleSelectPlace = async (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
     if (!details) return;
-
+    
     const { lat, lng } = details.geometry.location;
-    mapRef.current?.animateToRegion(
-    {
-        latitude: lat,
-        longitude: lng,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-    },
-    1000
-    );
-    // Show only this place as a result
-    setResults([details]);
+    
+    // Log the selected place data for debugging
+    console.log("Selected place:", {
+        name: details.name,
+        address: details.formatted_address,
+        lat, lng,
+        place_id: details.place_id
+    });
+    
+    // Create a properly formatted result object
+    const formattedResult = {
+        place_id: details.place_id,
+        name: details.name,
+        formatted_address: details.formatted_address,
+        geometry: {
+            location: { lat, lng }
+        },
+        // Add this specifically for our marker press handler
+        coordinate: {
+            latitude: lat,
+            longitude: lng
+        }
+    };
+    
+    // Update results with the new formatted result
+    setResults([formattedResult]);
+    
+    // Animate to the selected location
+    if (mapRef.current) {
+        mapRef.current.animateToRegion({
+            latitude: lat,
+            longitude: lng,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01
+        }, 1000);
+    }
 };
 
 // Clear typed text and results
@@ -114,7 +138,7 @@ return (
     <GooglePlacesAutocomplete
         placeholder="Search for places..."
         fetchDetails={true}
-        onPress={handleSelectSuggestion}
+        onPress={handleSelectPlace}
         query={{
         key: googleMapsKey,
         language: "en",

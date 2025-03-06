@@ -1,6 +1,8 @@
 import { PlacesAPIError } from "@/errors/PlacesAPIError";
 import { LatLng } from "react-native-maps";
 import { PlaceResult, SearchPlacesResponse } from "@/types/PlacesTypes";
+import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
+import { POIDetails } from "@/types/MapTypes";
 
 export const searchPlaces = async (
   searchText: string,
@@ -72,4 +74,35 @@ export const searchPlaces = async (
   } finally {
     controller.abort(); // Ensure the request is aborted to prevent memory leaks
   }
+};
+
+export const fetchPlaceDetails = async (placeId: string): Promise<POIDetails> => {
+    try {
+        const response = await fetch(
+            `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,formatted_address,opening_hours,formatted_phone_number,rating,types,website,photos&key=${GOOGLE_MAPS_API_KEY}`
+        );
+        
+        const data = await response.json();
+        
+        if (!data.result) {
+            throw new Error('No place details found');
+        }
+
+        return {
+            name: data.result.name,
+            address: data.result.formatted_address,
+            openingHours: data.result.opening_hours,
+            phoneNumber: data.result.formatted_phone_number,
+            rating: data.result.rating,
+            types: data.result.types,
+            website: data.result.website,
+            photos: data.result.photos?.map(
+                (photo: { photo_reference: string }) =>
+                    `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photo.photo_reference}&key=${GOOGLE_MAPS_API_KEY}`
+            ),
+        };
+    } catch (error) {
+        console.error('Error fetching place details:', error);
+        throw error;
+    }
 };

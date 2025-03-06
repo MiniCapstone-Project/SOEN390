@@ -1,5 +1,7 @@
+import React from "react";
 import { CustomMarkersProps } from "@/types/MapComponentTypes";
 import { Marker } from "react-native-maps";
+import { View } from "react-native";
 
 // For displaying a set of markers
 export const CustomMarkersComponent: React.FC<CustomMarkersProps> = ({
@@ -8,22 +10,33 @@ export const CustomMarkersComponent: React.FC<CustomMarkersProps> = ({
 }) => {
   return (
     <>
-      {data.map((item, index) => {
-        const latitude = item.Latitude ?? item.geometry?.location?.lat;
-        const longitude = item.Longitude ?? item.geometry?.location?.lng;
+      {data &&
+        data.length > 0 &&
+        data.map((item, index) => {
+          const latitude = item.Latitude ?? item.geometry?.location?.lat;
+          const longitude = item.Longitude ?? item.geometry?.location?.lng;
 
-        if (latitude === undefined || longitude === undefined) return null;
+          if (latitude === undefined || longitude === undefined) return null;
 
-        return (
-          <Marker
-            key={item.id ? `marker-${item.id}` : `marker-${index}`}
-            coordinate={{ latitude, longitude }}
-            title={item.BuildingName || item.name}
-            pinColor={item.BuildingName ? "#4A90E2" : "#FF5733"}
-            onPress={() => handleMarkerPress(item)}
-          />
-        );
-      })}
+          return (
+            <Marker
+              key={`data-marker-${index}`}
+              coordinate={{ latitude, longitude }}
+              title={item.name || `Location ${index}`}
+              description={item.formatted_address || ""}
+              pinColor="#FF0000"
+              onPress={() => {
+                handleMarkerPress({
+                  name: item.name || `Location ${index}`,
+                  formatted_address: item.formatted_address || "",
+                  ...item,
+                });
+
+                return false;
+              }}
+            />
+          );
+        })}
     </>
   );
 };
