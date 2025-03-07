@@ -32,6 +32,7 @@ const handleRoomPoiPress = (event: any) => {
 };
 
 const ZOOM_LEVEL_THRESHOLD = 19;
+const BUILDING_MARKERS_ZOOM_THRESHOLD = 18;
 
 // Wrapper for the <MapView> component
 const MapComponent = ({
@@ -120,14 +121,16 @@ const MapComponent = ({
       ]}
       onRegionChangeComplete={handleRegionChangeComplete}
     >
-      <Geojson
-        geojson={buildingMarkers}
-        strokeColor="blue"
-        fillColor="cyan"
-        strokeWidth={2}
-        tappable={true}
-        onPress={handleMarkerPress} // Add onPress handler
-      />
+      {zoomLevel > BUILDING_MARKERS_ZOOM_THRESHOLD && (
+        <Geojson
+          geojson={buildingMarkers}
+          strokeColor="blue"
+          fillColor="cyan"
+          strokeWidth={2}
+          tappable={true}
+          onPress={handleMarkerPress} // Add onPress handler
+        />
+      )}
       <Geojson
         geojson={buildingOutlines}
         strokeColor="green"
