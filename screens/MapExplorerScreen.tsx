@@ -37,11 +37,13 @@ const MapComponent = ({
   results,
   currentCampus,
   userLocation,
+  visibleLayers,
 }: {
   mapRef: React.RefObject<MapView>;
   results: any;
   currentCampus: Region;
   userLocation: Region | null;
+  visibleLayers: { [key: string]: boolean };
 }) => {
   const handleOutlinePress = (event: any) => {
     console.log("Building outline pressed:", event);
@@ -124,22 +126,46 @@ const MapComponent = ({
         onPress={handleOutlinePress}
         tappable={true}
       />
-      <Geojson
-        geojson={hall9RoomsPois}
-        image={markerImage}
-        strokeColor="red"
-        fillColor="rgba(255, 0, 0, 0.5)"
-        strokeWidth={2}
-        tappable={true}
-        onPress={handleRoomPoiPress}
-      />
-      <Geojson
-        geojson={hall9FloorPlan}
-        strokeColor="orange"
-        fillColor="rgba(255, 165, 0, 0.5)"
-        strokeWidth={2}
-        tappable={true}
-      />
+      {visibleLayers.hall9RoomsPois && (
+        <Geojson
+          geojson={hall9RoomsPois}
+          image={markerImage}
+          strokeColor="red"
+          fillColor="rgba(255, 0, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+          onPress={handleRoomPoiPress}
+        />
+      )}
+      {visibleLayers.hall9FloorPlan && (
+        <Geojson
+          geojson={hall9FloorPlan}
+          strokeColor="orange"
+          fillColor="rgba(255, 165, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+        />
+      )}
+      {visibleLayers.hall8RoomsPois && (
+        <Geojson
+          geojson={hall8RoomsPois}
+          image={markerImage}
+          strokeColor="red"
+          fillColor="rgba(255, 0, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+          onPress={handleRoomPoiPress}
+        />
+      )}
+      {visibleLayers.hall8FloorPlan && (
+        <Geojson
+          geojson={hall8FloorPlan}
+          strokeColor="orange"
+          fillColor="rgba(255, 165, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+        />
+      )}
       {results.features && (
         <Geojson
           geojson={results}
@@ -184,6 +210,12 @@ export default function MapExplorerScreen() {
   const [showInfoBox, setShowInfoBox] = useState(false);
   const [userLocation, setUserLocation] = useState<Region | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const [visibleLayers, setVisibleLayers] = useState({
+    hall9RoomsPois: true,
+    hall9FloorPlan: true,
+    hall8RoomsPois: true,
+    hall8FloorPlan: true,
+  });
   const navi = useNavigation();
 
   useEffect(() => {
@@ -258,6 +290,10 @@ export default function MapExplorerScreen() {
 
   const handlePress = () => setExpanded(!expanded);
 
+  const toggleLayerVisibility = (layer: string) => {
+    setVisibleLayers((prev) => ({ ...prev, [layer]: !prev[layer] }));
+  };
+
   return (
     <View style={DefaultMapStyle.container}>
       <MapComponent
@@ -265,6 +301,7 @@ export default function MapExplorerScreen() {
         results={results}
         currentCampus={userLocation || currentCampus}
         userLocation={userLocation}
+        visibleLayers={visibleLayers}
       />
       <View style={[ButtonsStyles.controlsContainer, MapExplorerScreenStyles.controlsContainer]}>
         <AutocompleteSearchWrapper
@@ -277,21 +314,31 @@ export default function MapExplorerScreen() {
         />
         <List.Section>
           <List.Accordion
-            title="Hall Building" // Change title to Hall Building
-            left={props => <List.Icon {...props} icon="office-building" />} // Change icon to office-building
+            title="Hall Building"
+            left={props => <List.Icon {...props} icon="office-building" />}
             expanded={expanded}
             onPress={handlePress}
-            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }} // Add background color with opacity
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
           >
-            <ScrollView style={{ maxHeight: 400 }}> // Set a max height for the scrollable area
-              {Array.from({ length: 12 }, (_, i) => (
-                <List.Item 
-                  key={i + 1} 
-                  title={`H${i + 1}`} // Change floor titles to H1, H2, ..., H12
-                  left={props => <List.Icon {...props} icon="floor-plan" />} // Add icon to each item
-                  style={{ backgroundColor: 'white' }} // Ensure white background for each item
-                />
-              ))}
+            <ScrollView style={{ maxHeight: 400 }}>
+              <List.Item 
+                title="Hall 9" 
+                left={props => <List.Icon {...props} icon="floor-plan" />} 
+                style={{ backgroundColor: 'white' }} 
+                onPress={() => {
+                  toggleLayerVisibility('hall9RoomsPois');
+                  toggleLayerVisibility('hall9FloorPlan');
+                }}
+              />
+              <List.Item 
+                title="Hall 8" 
+                left={props => <List.Icon {...props} icon="floor-plan" />} 
+                style={{ backgroundColor: 'white' }} 
+                onPress={() => {
+                  toggleLayerVisibility('hall8RoomsPois');
+                  toggleLayerVisibility('hall8FloorPlan');
+                }}
+              />
             </ScrollView>
           </List.Accordion>
         </List.Section>
