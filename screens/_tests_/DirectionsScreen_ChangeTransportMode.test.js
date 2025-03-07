@@ -38,7 +38,6 @@ jest.mock("@react-navigation/native", () => ({
 
 test("should change transport mode to Walking", () => {
   const { queryByText } = render(<DirectionsScreen />);
-
   const walkingButton = queryByText("Walking");
 
   if (walkingButton) {
@@ -51,7 +50,6 @@ test("should change transport mode to Walking", () => {
 
 test("should change transport mode to Driving", () => {
   const { queryByText } = render(<DirectionsScreen />);
-
   const drivingButton = queryByText("Driving");
 
   if (drivingButton) {
@@ -61,3 +59,4 @@ test("should change transport mode to Driving", () => {
     console.log("Driving button not found");
   }
 });
+
