@@ -1,26 +1,32 @@
+import React from 'react';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import * as Location from 'expo-location';
+
 /**
  * This screen will be responsible for handling general Settings like: 
  *  - Does the user use Wheel Chair for movement?
- *  - is the User blind?
- *  - is he Deaf?
+ *  - Is the User blind?
+ *  - Is he Deaf?
  */
 
-import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
-
-
 export default function SettingsScreen() {
-  const handleReset = () => {
-    console.log('Reset settings');
+  const handleGetLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Settings Screen</Text>
-      <Button title="Reset Settings" onPress={handleReset} />
+      <Button title="Get Location" onPress={handleGetLocation} />
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 

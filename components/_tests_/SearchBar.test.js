@@ -37,4 +37,3 @@ describe('SearchBar Component', () => {
     expect(mockOnClearPress).toHaveBeenCalledTimes(1);
   });
 });
-

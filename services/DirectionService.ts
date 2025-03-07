@@ -1,3 +1,5 @@
+import { DirectionsAPIError } from "@/errors/DirectionApiError";
+
 interface DirectionsResponse {
     status: string;
     routes: Array<any>;
@@ -11,27 +13,45 @@ export const retrieveRoutes = async (
     transportMode: string,
     apikey: string
     ) => {
-        // turn origin and destination into strings
+        const controller = new AbortController();
+        const signal = controller.signal;
+      
         const start = `${originLat},${originLong}`;
         const end = `${destinationLat},${destinationLong}`;
 
-        console.log("Transport Mode:", transportMode);
-
-        //construct api call url
         const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${end}&mode=${transportMode}&key=${apikey}`;
 
         try {
-            const response = await fetch(url);  // attempt api call
-            const data: DirectionsResponse = await response.json();  // retrieve data from api call
+            const response = await fetch(url, { signal });
+            if (!response.ok) {
+                throw new DirectionsAPIError(
+                  `Failed to fetch directions - HTTP ${response.status}`,
+                  response.status
+                );
+            }
+            
+            const data: DirectionsResponse = await response.json();
 
-            if (data.status == "OK") {  // if api call is successful
-                console.log("Route found");
+            if (data.status == "OK") {
                 return data.routes[0]; // 0 represents the shortest route
-            } else {  // if api call fails
+            } else { 
                 throw new Error(`Direction Fetch Failure with code ${data.status}`);
             }
-        } catch (error) {
-            console.error("Error fetching directions: ", error);
-            throw error;
-        }
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+              if (error.name === "AbortError") {
+                return null; 
+              }
+        
+              if (error instanceof DirectionsAPIError) {
+                throw error;
+              } else {
+                throw new DirectionsAPIError(error.message);
+              }
+            }
+        
+            throw new DirectionsAPIError("Unexpected error fetching directions");
+          } finally {
+            controller.abort();
+          } 
     }

@@ -7,24 +7,30 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "jest --watchAll"
+    "test": "jest --config jest.config.js"
   },
   "jest": {
     "preset": "jest-expo",
     "testEnvironment": "node",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "components/**/*.{js,jsx,ts,tsx}",
+      "components/InputComponents/**/*.{js,jsx,ts,tsx}",
+      "components/MapComponents/**/*.{js,jsx,ts,tsx}",
       "screens/**/*.{js,jsx,ts,tsx}",
       "services/**/*.{js,jsx,ts,tsx}",
       "navigation/**/*.{js,jsx,ts,tsx}",
       "hooks/**/*.{js,jsx,ts,tsx}",
-      "styles/**/*.{js,jsx,ts,tsx}",
-      "!**/node_modules/**",
-      "!**/coverage/**"
+      "!**/node_modules/**",  
+      "!**/coverage/**"       
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1"
+    },
+    "setupFiles": [
+      "<rootDir>/navigation/setupTests.js"
     ]
   },
   "overrides": {
@@ -40,6 +46,7 @@
     "@expo/vector-icons": "^14.0.2",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "^11.4.1",
+    "@react-native-community/slider": "^4.5.6",
     "@react-native/gradle-plugin": "^0.77.0",
     "@react-navigation/native": "^7.0.14",
     "expo": "~52.0.31",
@@ -56,6 +63,7 @@
     "react-native": "0.76.7",
     "react-native-async-storage": "^0.0.1",
     "react-native-config": "^1.5.3",
+    "react-native-elements": "^3.4.3",
     "react-native-get-random-values": "^1.11.0",
     "react-native-google-places-autocomplete": "^2.5.7",
     "react-native-maps": "1.18.0",
@@ -65,7 +73,8 @@
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
     "react-native-smartlook-analytics": "^2.1.19",
-    "react-native-web": "~0.19.13"
+    "react-native-web": "~0.19.13",
+    "expo-location": "^16.5.3"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

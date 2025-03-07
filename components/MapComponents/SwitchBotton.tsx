@@ -1,12 +1,9 @@
+import { SwitchButtonsProps } from '@/types/MapComponentTypes';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
-type SwitchButtonsProps = {
-    onSwitchToSGW: () => void; // Function type for the SGW button
-    onSwitchToLoyola: () => void; // Function type for the Loyola button
-  };
-  
+
 const SwitchButtons: React.FC<SwitchButtonsProps> = ({ onSwitchToSGW, onSwitchToLoyola }) => {
   return (
     <View style={styles.buttonContainer}>

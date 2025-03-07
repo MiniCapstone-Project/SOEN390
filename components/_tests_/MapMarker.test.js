@@ -1,32 +1,45 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import MapMarker from '../MapComponents/MapMarker';
+import MapMarker from '@/components/MapComponents/MapMarker';
+import { Marker } from 'react-native-maps';
 
 jest.mock('react-native-maps', () => {
-  const { View } = require('react-native');
+  const React = require('react');
   return {
-    __esModule: true,
-    Marker: ({ coordinate, title, ...props }) => (
-      <View {...props} testID="map-marker" coordinate={coordinate} title={title} />
-    ),
+    Marker: ({ children, ...props }) =>
+      React.createElement('Marker', { ...props, testID: 'marker' }, children),
   };
 });
 
 describe('MapMarker Component', () => {
-  it('renders correctly with provided coordinates', () => {
+  const mockCoordinate = { latitude: 37.78825, longitude: -122.4324 };
+  const mockTitle = 'Test Location';
+
+  it('renders without crashing', () => {
     const { getByTestId } = render(
-      <MapMarker coordinate={{ latitude: 45.5017, longitude: -73.5673 }} title="Test Marker" />
+      <MapMarker coordinate={mockCoordinate} title={mockTitle} />
     );
-    expect(getByTestId('map-marker')).toBeTruthy();
+    expect(getByTestId('marker')).toBeTruthy();
   });
 
-  it('displays the correct location', () => {
+  it('displays the title correctly', () => {
     const { getByTestId } = render(
-      <MapMarker coordinate={{ latitude: 40.7128, longitude: -74.0060 }} title="New York" />
+      <MapMarker coordinate={mockCoordinate} title={mockTitle} />
     );
+    expect(getByTestId('marker').props.title).toBe(mockTitle);
+  });
 
-    const marker = getByTestId('map-marker');
-    expect(marker.props.coordinate.latitude).toBe(40.7128);
-    expect(marker.props.coordinate.longitude).toBe(-74.0060);
+  it('receives the correct coordinate props', () => {
+    const { getByTestId } = render(
+      <MapMarker coordinate={mockCoordinate} title={mockTitle} />
+    );
+    expect(getByTestId('marker').props.coordinate).toEqual(mockCoordinate);
+  });
+
+  it('uses Marker component from react-native-maps', () => {
+    const { getByTestId } = render(
+      <MapMarker coordinate={mockCoordinate} title={mockTitle} />
+    );
+    expect(getByTestId('marker')).toBeTruthy();
   });
 });
