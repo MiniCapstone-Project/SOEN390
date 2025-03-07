@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Alert, ScrollView } from "react-native";
+import { View, Alert, ScrollView, Dimensions } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle, Marker } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import { CustomMarkersComponent } from "../components/MapComponents/MarkersComponent";
@@ -30,6 +30,8 @@ const markerImage = require("@/assets/images/marker.png");
 const handleRoomPoiPress = (event: any) => {
   console.log("Hall 9 room POI pressed:", event);
 };
+
+const ZOOM_LEVEL_THRESHOLD = 19;
 
 // Wrapper for the <MapView> component
 const MapComponent = ({
@@ -91,6 +93,13 @@ const MapComponent = ({
     Alert.alert("Search result pressed", message);
   };
 
+  const [zoomLevel, setZoomLevel] = useState<number>(0);
+
+  const handleRegionChangeComplete = (region: Region) => {
+    const zoom = Math.log2(360 * (Dimensions.get('window').width / 256 / region.longitudeDelta)) + 1;
+    setZoomLevel(zoom);
+  };
+
   return (
     <MapView
       ref={mapRef}
@@ -109,6 +118,7 @@ const MapComponent = ({
           stylers: [{ visibility: "off" }],
         },
       ]}
+      onRegionChangeComplete={handleRegionChangeComplete}
     >
       <Geojson
         geojson={buildingMarkers}
@@ -126,7 +136,7 @@ const MapComponent = ({
         onPress={handleOutlinePress}
         tappable={true}
       />
-      {visibleLayers.hall9RoomsPois && (
+      {visibleLayers.hall9RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
         <Geojson
           geojson={hall9RoomsPois}
           image={markerImage}
@@ -146,7 +156,7 @@ const MapComponent = ({
           tappable={true}
         />
       )}
-      {visibleLayers.hall8RoomsPois && (
+      {visibleLayers.hall8RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
         <Geojson
           geojson={hall8RoomsPois}
           image={markerImage}
