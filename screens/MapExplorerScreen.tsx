@@ -326,6 +326,12 @@ export default function MapExplorerScreen() {
                 left={props => <List.Icon {...props} icon="floor-plan" />} 
                 style={{ backgroundColor: 'white' }} 
                 onPress={() => {
+                  setVisibleLayers({
+                    hall9RoomsPois: false,
+                    hall9FloorPlan: false,
+                    hall8RoomsPois: false,
+                    hall8FloorPlan: false,
+                  });
                   toggleLayerVisibility('hall9RoomsPois');
                   toggleLayerVisibility('hall9FloorPlan');
                 }}
@@ -335,6 +341,12 @@ export default function MapExplorerScreen() {
                 left={props => <List.Icon {...props} icon="floor-plan" />} 
                 style={{ backgroundColor: 'white' }} 
                 onPress={() => {
+                  setVisibleLayers({
+                    hall9RoomsPois: false,
+                    hall9FloorPlan: false,
+                    hall8RoomsPois: false,
+                    hall8FloorPlan: false,
+                  });
                   toggleLayerVisibility('hall8RoomsPois');
                   toggleLayerVisibility('hall8FloorPlan');
                 }}
