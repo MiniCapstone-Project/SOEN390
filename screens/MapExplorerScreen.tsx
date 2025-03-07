@@ -337,7 +337,7 @@ export default function MapExplorerScreen() {
               <List.Item 
                 title="Hall 9" 
                 left={props => <List.Icon {...props} icon="floor-plan" />} 
-                style={{ backgroundColor: 'white' }} 
+                style={{ backgroundColor: visibleLayers.hall9RoomsPois ? 'lightgray' : 'white' }} // Highlight if selected
                 onPress={() => {
                   setVisibleLayers({
                     hall9RoomsPois: false,
@@ -352,7 +352,7 @@ export default function MapExplorerScreen() {
               <List.Item 
                 title="Hall 8" 
                 left={props => <List.Icon {...props} icon="floor-plan" />} 
-                style={{ backgroundColor: 'white' }} 
+                style={{ backgroundColor: visibleLayers.hall8RoomsPois ? 'lightgray' : 'white' }} // Highlight if selected
                 onPress={() => {
                   setVisibleLayers({
                     hall9RoomsPois: false,
