@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Alert, ScrollView } from "react-native";
+import { View, Alert, ScrollView, Dimensions } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle, Marker } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import { CustomMarkersComponent } from "../components/MapComponents/MarkersComponent";
@@ -20,6 +20,10 @@ const buildingMarkers = require("@/gis/building-markers.json") as FeatureCollect
 const buildingOutlines = require("@/gis/building-outlines.json") as FeatureCollection<Geometry, GeoJsonProperties>;
 const hall9RoomsPois = require("@/gis/hall-9-rooms-pois.json") as FeatureCollection<Geometry, GeoJsonProperties>;
 const hall9FloorPlan = require("@/gis/hall-9-floor-plan.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const hall8RoomsPois = require("@/gis/hall-8-rooms-pois.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const hall8FloorPlan = require("@/gis/hall-8-floor-plan.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+
+
 
 const markerImage = require("@/assets/images/marker.png");
 
@@ -27,17 +31,22 @@ const handleRoomPoiPress = (event: any) => {
   console.log("Hall 9 room POI pressed:", event);
 };
 
+const ZOOM_LEVEL_THRESHOLD = 19;
+const BUILDING_MARKERS_ZOOM_THRESHOLD = 18;
+
 // Wrapper for the <MapView> component
 const MapComponent = ({
   mapRef,
   results,
   currentCampus,
   userLocation,
+  visibleLayers,
 }: {
   mapRef: React.RefObject<MapView>;
   results: any;
   currentCampus: Region;
   userLocation: Region | null;
+  visibleLayers: { [key: string]: boolean };
 }) => {
   const handleOutlinePress = (event: any) => {
     console.log("Building outline pressed:", event);
@@ -85,6 +94,13 @@ const MapComponent = ({
     Alert.alert("Search result pressed", message);
   };
 
+  const [zoomLevel, setZoomLevel] = useState<number>(0);
+
+  const handleRegionChangeComplete = (region: Region) => {
+    const zoom = Math.log2(360 * (Dimensions.get('window').width / 256 / region.longitudeDelta)) + 1;
+    setZoomLevel(zoom);
+  };
+
   return (
     <MapView
       ref={mapRef}
@@ -103,15 +119,18 @@ const MapComponent = ({
           stylers: [{ visibility: "off" }],
         },
       ]}
+      onRegionChangeComplete={handleRegionChangeComplete}
     >
-      <Geojson
-        geojson={buildingMarkers}
-        strokeColor="blue"
-        fillColor="cyan"
-        strokeWidth={2}
-        tappable={true}
-        onPress={handleMarkerPress} // Add onPress handler
-      />
+      {zoomLevel > BUILDING_MARKERS_ZOOM_THRESHOLD && (
+        <Geojson
+          geojson={buildingMarkers}
+          strokeColor="blue"
+          fillColor="cyan"
+          strokeWidth={2}
+          tappable={true}
+          onPress={handleMarkerPress} // Add onPress handler
+        />
+      )}
       <Geojson
         geojson={buildingOutlines}
         strokeColor="green"
@@ -120,22 +139,46 @@ const MapComponent = ({
         onPress={handleOutlinePress}
         tappable={true}
       />
-      <Geojson
-        geojson={hall9RoomsPois}
-        image={markerImage}
-        strokeColor="red"
-        fillColor="rgba(255, 0, 0, 0.5)"
-        strokeWidth={2}
-        tappable={true}
-        onPress={handleRoomPoiPress}
-      />
-      <Geojson
-        geojson={hall9FloorPlan}
-        strokeColor="orange"
-        fillColor="rgba(255, 165, 0, 0.5)"
-        strokeWidth={2}
-        tappable={true}
-      />
+      {visibleLayers.hall9RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
+        <Geojson
+          geojson={hall9RoomsPois}
+          image={markerImage}
+          strokeColor="red"
+          fillColor="rgba(255, 0, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+          onPress={handleRoomPoiPress}
+        />
+      )}
+      {visibleLayers.hall9FloorPlan && (
+        <Geojson
+          geojson={hall9FloorPlan}
+          strokeColor="orange"
+          fillColor="rgba(255, 165, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+        />
+      )}
+      {visibleLayers.hall8RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
+        <Geojson
+          geojson={hall8RoomsPois}
+          image={markerImage}
+          strokeColor="red"
+          fillColor="rgba(255, 0, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+          onPress={handleRoomPoiPress}
+        />
+      )}
+      {visibleLayers.hall8FloorPlan && (
+        <Geojson
+          geojson={hall8FloorPlan}
+          strokeColor="orange"
+          fillColor="rgba(255, 165, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+        />
+      )}
       {results.features && (
         <Geojson
           geojson={results}
@@ -180,6 +223,12 @@ export default function MapExplorerScreen() {
   const [showInfoBox, setShowInfoBox] = useState(false);
   const [userLocation, setUserLocation] = useState<Region | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const [visibleLayers, setVisibleLayers] = useState({
+    hall9RoomsPois: true,
+    hall9FloorPlan: true,
+    hall8RoomsPois: true,
+    hall8FloorPlan: true,
+  });
   const navi = useNavigation();
 
   useEffect(() => {
@@ -254,6 +303,10 @@ export default function MapExplorerScreen() {
 
   const handlePress = () => setExpanded(!expanded);
 
+  const toggleLayerVisibility = (layer: string) => {
+    setVisibleLayers((prev) => ({ ...prev, [layer]: !prev[layer] }));
+  };
+
   return (
     <View style={DefaultMapStyle.container}>
       <MapComponent
@@ -261,6 +314,7 @@ export default function MapExplorerScreen() {
         results={results}
         currentCampus={userLocation || currentCampus}
         userLocation={userLocation}
+        visibleLayers={visibleLayers}
       />
       <View style={[ButtonsStyles.controlsContainer, MapExplorerScreenStyles.controlsContainer]}>
         <AutocompleteSearchWrapper
@@ -273,21 +327,43 @@ export default function MapExplorerScreen() {
         />
         <List.Section>
           <List.Accordion
-            title="Hall Building" // Change title to Hall Building
-            left={props => <List.Icon {...props} icon="office-building" />} // Change icon to office-building
+            title="Hall Building"
+            left={props => <List.Icon {...props} icon="office-building" />}
             expanded={expanded}
             onPress={handlePress}
-            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }} // Add background color with opacity
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
           >
-            <ScrollView style={{ maxHeight: 400 }}> // Set a max height for the scrollable area
-              {Array.from({ length: 12 }, (_, i) => (
-                <List.Item 
-                  key={i + 1} 
-                  title={`H${i + 1}`} // Change floor titles to H1, H2, ..., H12
-                  left={props => <List.Icon {...props} icon="floor-plan" />} // Add icon to each item
-                  style={{ backgroundColor: 'white' }} // Ensure white background for each item
-                />
-              ))}
+            <ScrollView style={{ maxHeight: 400 }}>
+              <List.Item 
+                title="Hall 9" 
+                left={props => <List.Icon {...props} icon="floor-plan" />} 
+                style={{ backgroundColor: visibleLayers.hall9RoomsPois ? 'lightgray' : 'white' }} // Highlight if selected
+                onPress={() => {
+                  setVisibleLayers({
+                    hall9RoomsPois: false,
+                    hall9FloorPlan: false,
+                    hall8RoomsPois: false,
+                    hall8FloorPlan: false,
+                  });
+                  toggleLayerVisibility('hall9RoomsPois');
+                  toggleLayerVisibility('hall9FloorPlan');
+                }}
+              />
+              <List.Item 
+                title="Hall 8" 
+                left={props => <List.Icon {...props} icon="floor-plan" />} 
+                style={{ backgroundColor: visibleLayers.hall8RoomsPois ? 'lightgray' : 'white' }} // Highlight if selected
+                onPress={() => {
+                  setVisibleLayers({
+                    hall9RoomsPois: false,
+                    hall9FloorPlan: false,
+                    hall8RoomsPois: false,
+                    hall8FloorPlan: false,
+                  });
+                  toggleLayerVisibility('hall8RoomsPois');
+                  toggleLayerVisibility('hall8FloorPlan');
+                }}
+              />
             </ScrollView>
           </List.Accordion>
         </List.Section>
