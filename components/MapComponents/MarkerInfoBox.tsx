@@ -1,24 +1,112 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { MarkerInfoBoxProps } from '@/types/MapTypes';
-import { MarkerInfoBoxStyles } from '@/Styles/MapStyles';
+import { View, Text, ScrollView } from 'react-native';
+import { Button, Surface, Divider } from 'react-native-paper';
+import { MarkerInfoBoxStyles } from '@/Styles/MarkerInfoBoxStyle';
 
-const MarkerInfoBox: React.FC<MarkerInfoBoxProps> = ({ title, address, onClose, onDirections }) => {
-  return (
-    <View style={MarkerInfoBoxStyles.container}>
-      <Text style={MarkerInfoBoxStyles.title}>{title}</Text>
-      <Text style={MarkerInfoBoxStyles.address}>{address}</Text>
-      <View style={MarkerInfoBoxStyles.buttonContainer}>
-        <TouchableOpacity style={MarkerInfoBoxStyles.button} onPress={onClose}>
-          <Text style={MarkerInfoBoxStyles.buttonText}>Close</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={MarkerInfoBoxStyles.button} onPress={onDirections}>
-          <Text style={MarkerInfoBoxStyles.buttonText}>Directions</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+interface MarkerInfoBoxProps {
+    coordinate: {
+        latitude: number;
+        longitude: number;
+    };
+    title?: string;
+    properties?: any;
+    onClose: () => void;
+}
+
+export const MarkerInfoBox: React.FC<MarkerInfoBoxProps> = ({
+    coordinate,
+    title,
+    properties,
+    onClose,
+}) => {
+    const displayProperties = properties || {};
+
+    const { coordinate: _, ...displayProps } = displayProperties;
+
+    return (
+        <View style={MarkerInfoBoxStyles.overlay}>
+            <Surface style={MarkerInfoBoxStyles.container}>
+                <ScrollView style={MarkerInfoBoxStyles.scrollView}>
+                    <View style={MarkerInfoBoxStyles.coordinateContainer}>
+                        <Text style={MarkerInfoBoxStyles.title}>
+                            {title || 'Selected Location'}
+                        </Text>
+
+                        <>
+                            <Divider style={MarkerInfoBoxStyles.divider} />
+                            <Text style={MarkerInfoBoxStyles.sectionTitle}>Building Details</Text>
+                            
+                    
+                            
+                            {properties?.Building_Long_Name && (
+                                <View style={MarkerInfoBoxStyles.propertyRow}>
+                                    <Text style={MarkerInfoBoxStyles.propertyKey}>Building Full Name:</Text>
+                                    <Text style={MarkerInfoBoxStyles.propertyValue}>{properties.Building_Long_Name}</Text>
+                                </View>
+                            )}
+                            
+                            {properties?.Address && (
+                                <View style={MarkerInfoBoxStyles.propertyRow}>
+                                    <Text style={MarkerInfoBoxStyles.propertyKey}>Address:</Text>
+                                    <Text style={MarkerInfoBoxStyles.propertyValue}>{properties.Address}</Text>
+                                </View>
+                            )}
+                            
+                            {properties?.Building && (
+                                <View style={MarkerInfoBoxStyles.propertyRow}>
+                                    <Text style={MarkerInfoBoxStyles.propertyKey}>Building Code:</Text>
+                                    <Text style={MarkerInfoBoxStyles.propertyValue}>{properties.Building}</Text>
+                                </View>
+                            )}
+                            
+                            {properties?.Campus && (
+                                <View style={MarkerInfoBoxStyles.propertyRow}>
+                                    <Text style={MarkerInfoBoxStyles.propertyKey}>Campus:</Text>
+                                    <Text style={MarkerInfoBoxStyles.propertyValue}>{properties.Campus}</Text>
+                                </View>
+                            )}
+                            
+                            {coordinate && (
+                                <>
+                                    <Divider style={MarkerInfoBoxStyles.divider} />
+                                    <Text style={MarkerInfoBoxStyles.sectionTitle}>Coordinates</Text>
+                                    <View style={MarkerInfoBoxStyles.propertyRow}>
+                                        <Text style={MarkerInfoBoxStyles.propertyKey}>Latitude:</Text>
+                                        <Text style={MarkerInfoBoxStyles.propertyValue}>{coordinate.latitude.toFixed(6)}</Text>
+                                    </View>
+                                    <View style={MarkerInfoBoxStyles.propertyRow}>
+                                        <Text style={MarkerInfoBoxStyles.propertyKey}>Longitude:</Text>
+                                        <Text style={MarkerInfoBoxStyles.propertyValue}>{coordinate.longitude.toFixed(6)}</Text>
+                                    </View>
+                                </>
+                            )}
+                        </>
+
+                        <View style={{ 
+                            flexDirection: 'row', 
+                            justifyContent: 'space-between',
+                            marginTop: 20
+                        }}>
+                            <Button 
+                                mode="contained" 
+                                onPress={onClose}
+                                style={{ flex: 1, marginRight: 10 }}
+                            >
+                                Close
+                            </Button>
+                            <Button 
+                                mode="contained" 
+                                onPress={() => {
+                                    console.log("Directions button pressed");
+                                }}
+                                style={{ flex: 1 }}
+                            >
+                                Directions 
+                            </Button>
+                        </View>
+                    </View>
+                </ScrollView>
+            </Surface>
+        </View>
+    );
 };
-
-
-export default MarkerInfoBox;
