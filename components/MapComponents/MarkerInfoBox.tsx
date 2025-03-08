@@ -11,6 +11,7 @@ interface MarkerInfoBoxProps {
     title?: string;
     properties?: any;
     onClose: () => void;
+    onDirections: () => void;
 }
 
 export const MarkerInfoBox: React.FC<MarkerInfoBoxProps> = ({
@@ -18,6 +19,7 @@ export const MarkerInfoBox: React.FC<MarkerInfoBoxProps> = ({
     title,
     properties,
     onClose,
+    onDirections,
 }) => {
     const displayProperties = properties || {};
 
@@ -96,9 +98,7 @@ export const MarkerInfoBox: React.FC<MarkerInfoBoxProps> = ({
                             </Button>
                             <Button 
                                 mode="contained" 
-                                onPress={() => {
-                                    console.log("Directions button pressed");
-                                }}
+                                onPress={onDirections}
                                 style={{ flex: 1 }}
                             >
                                 Directions 

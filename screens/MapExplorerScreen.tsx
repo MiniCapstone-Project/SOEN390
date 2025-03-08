@@ -10,7 +10,7 @@ import MapView, {
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import { CustomMarkersComponent } from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { FeatureCollection, Geometry, GeoJsonProperties } from "geojson";
 import { Button, List } from "react-native-paper";
 import * as Location from "expo-location";
@@ -23,6 +23,7 @@ import {
 } from "@/constants/MapsConstants";
 import { AutocompleteSearchWrapper } from "@/components/InputComponents/AutoCompleteSearchWrapper";
 import { MarkerInfoBox } from "@/components/MapComponents/MarkerInfoBox";
+import { CommonActions } from '@react-navigation/native';
 
 import { MapExplorerScreenStyles } from "@/Styles/MapExplorerScreenStyles";
 
@@ -79,23 +80,23 @@ const MapComponent = ({
   } | null>(null);
   const [selectedProperties, setSelectedProperties] = useState<any>(null);
   const [showInfoBox, setShowInfoBox] = useState(false);
+  const navi = useNavigation();
 
   const handleMarkerPress = (markerData: any) => {
     console.log("Building marker pressed:", markerData);
 
     if (markerData.coordinates) {
       setSelectedCoordinate(markerData.coordinates);
-      
 
       if (markerData.feature?.properties) {
         setSelectedProperties({
           ...markerData.feature.properties,
-          coordinate: markerData.coordinates
+          coordinate: markerData.coordinates,
         });
       } else {
         setSelectedProperties(markerData);
       }
-      
+
       setShowInfoBox(true);
       setSelectedMarker(markerData);
     } else {
@@ -103,10 +104,34 @@ const MapComponent = ({
     }
   };
 
-  const handleCloseInfoBox = () => {
-    setShowInfoBox(false);
-    setSelectedCoordinate(null);
+  const handleDirections = (selectedProperties: any) => {
+    if (!userLocation) {
+      Alert.alert(
+        "Location not available",
+        "User location is not available yet."
+      );
+      return;
+    }
+
+
+    navi.dispatch(
+      CommonActions.navigate({
+        name: 'Directions',
+        params: {
+          origin: {
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude,
+          },
+          destination: {
+            Address: selectedProperties.Address || selectedProperties.Building_Long_Name || "Selected Location",
+            Latitude: selectedProperties.coordinate.latitude, 
+            Longitude: selectedProperties.coordinate.longitude,
+          },
+        },
+      })
+    );
   };
+
 
   // const handleSearchResultPress = (event: any) => {
   //   console.log("Search result pressed:", event);
@@ -217,13 +242,34 @@ const MapComponent = ({
       {showInfoBox && selectedCoordinate && selectedProperties && (
         <MarkerInfoBox
           coordinate={selectedCoordinate}
-          title={selectedProperties.Building_Name || selectedProperties.BuildingName || "Building"}
+          title={
+            selectedProperties.Building_Name ||
+            selectedProperties.BuildingName ||
+            "Building"
+          }
           properties={selectedProperties}
-          onClose={handleCloseInfoBox}
+          onClose={() => {
+            setShowInfoBox(false);
+            setSelectedMarker(null);
+          }}
+          onDirections={() => handleDirections(selectedProperties)}
         />
       )}
     </>
   );
+};
+
+// Define the type for the route parameters
+type DirectionsRouteParams = {
+  origin: {
+    latitude: number;
+    longitude: number;
+  };
+  destination: {
+    Address: string;
+    Latitude: number;
+    Longitude: number;
+  };
 };
 
 export default function MapExplorerScreen() {
@@ -234,7 +280,22 @@ export default function MapExplorerScreen() {
   const [showInfoBox, setShowInfoBox] = useState(false);
   const [userLocation, setUserLocation] = useState<Region | null>(null);
   const [expanded, setExpanded] = useState(false);
-  const navi = useNavigation();
+
+  type RouteParams = {
+    origin?: {
+      latitude: number;
+      longitude: number;
+    };
+    destination?: {
+      Address: string;
+      Latitude: number;
+      Longitude: number;
+    };
+  };
+
+  const route = useRoute<{ key: string; name: string; params: RouteParams }>();
+  const { origin: originParam, destination: destinationParam } =
+    route.params || {};
 
   useEffect(() => {
     (async () => {
@@ -265,10 +326,25 @@ export default function MapExplorerScreen() {
     })();
   }, []);
 
-  const handleDirections = (marker: any) => {
-    console.log("Selected marker ", selectedMarker);
-    navi.navigate("Directions", { destination: selectedMarker });
-  };
+  useEffect(() => {
+    if (originParam) {
+      setUserLocation({
+        latitude: originParam.latitude,
+        longitude: originParam.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      });
+    }
+
+    if (destinationParam) {
+      setUserLocation({
+        latitude: destinationParam.Latitude,
+        longitude: destinationParam.Longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      });
+    }
+  }, [originParam, destinationParam]);
 
   const handleSwitchToSGW = () => {
     setCurrentCampus(SGW_CAMPUS);
@@ -378,17 +454,6 @@ export default function MapExplorerScreen() {
           GO
         </Button>
       </View>
-      {showInfoBox && selectedMarker && (
-        <MarkerInfoBox
-          title={selectedMarker.BuildingName || selectedMarker.name}
-          address={selectedMarker.Address || selectedMarker.vicinity}
-          onClose={() => {
-            setShowInfoBox(false);
-            setSelectedMarker(null);
-          }}
-          onDirections={handleDirections}
-        />
-      )}
     </View>
   );
 }

@@ -20,8 +20,8 @@
       "services/**/*.{js,jsx,ts,tsx}",
       "navigation/**/*.{js,jsx,ts,tsx}",
       "hooks/**/*.{js,jsx,ts,tsx}",
-      "!**/node_modules/**",  
-      "!**/coverage/**"       
+      "!**/node_modules/**",
+      "!**/coverage/**"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/"
@@ -52,6 +52,7 @@
     "expo": "~52.0.31",
     "expo-font": "~13.0.3",
     "expo-linking": "~7.0.4",
+    "expo-location": "^16.5.3",
     "expo-router": "~4.0.17",
     "expo-splash-screen": "~0.29.21",
     "expo-status-bar": "~2.0.1",
@@ -72,16 +73,16 @@
     "react-native-reanimated": "^2.9.1",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
-    "react-native-web": "~0.19.13",
-    "expo-location": "^16.5.3"
+    "react-native-web": "~0.19.13"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@eslint/js": "^9.20.0",
     "@react-native-community/cli": "latest",
+    "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/react-hooks": "^8.0.1",
-    "@testing-library/react-native": "^13.0.1",
+    "@testing-library/react-native": "^13.2.0",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.15",
     "@types/react": "~18.3.12",
@@ -92,7 +93,7 @@
     "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-react": "^7.37.4",
     "globals": "^15.14.0",
-    "jest": "^29.2.1",
+    "jest": "^29.7.0",
     "jest-expo": "~52.0.3",
     "metro": "^0.81.1",
     "metro-config": "^0.81.1",
