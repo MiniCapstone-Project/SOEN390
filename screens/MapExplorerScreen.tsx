@@ -1,20 +1,30 @@
 import React, { useState, useRef, useEffect } from "react";
+
 import { View, Alert, ScrollView, Dimensions } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle, Marker } from "react-native-maps";
+
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import { CustomMarkersComponent } from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { FeatureCollection, Geometry, GeoJsonProperties } from "geojson";
 import { Button, List } from "react-native-paper";
 import * as Location from "expo-location";
 import { ButtonsStyles } from "@/Styles/ButtonStyles";
-import { LATITUDE_DELTA, LONGITUDE_DELTA, LOY_CAMPUS, SGW_CAMPUS } from "@/constants/MapsConstants";
+import {
+  LATITUDE_DELTA,
+  LONGITUDE_DELTA,
+  LOY_CAMPUS,
+  SGW_CAMPUS,
+} from "@/constants/MapsConstants";
 import { AutocompleteSearchWrapper } from "@/components/InputComponents/AutoCompleteSearchWrapper";
-import MarkerInfoBox from "@/components/MapComponents/MarkerInfoBox";
+import { MarkerInfoBox } from "@/components/MapComponents/MarkerInfoBox";
+import { CommonActions } from '@react-navigation/native';
+
 import { MapExplorerScreenStyles } from "@/Styles/MapExplorerScreenStyles";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
+
 
 const buildingMarkers = require("@/gis/building-markers.json") as FeatureCollection<Geometry, GeoJsonProperties>;
 const buildingOutlines = require("@/gis/building-outlines.json") as FeatureCollection<Geometry, GeoJsonProperties>;
@@ -40,59 +50,84 @@ const MapComponent = ({
   results,
   currentCampus,
   userLocation,
+
+  setSelectedMarker,
+
   visibleLayers,
+
 }: {
   mapRef: React.RefObject<MapView>;
   results: any;
   currentCampus: Region;
   userLocation: Region | null;
+
+  setSelectedMarker: React.Dispatch<React.SetStateAction<any>>;
+
   visibleLayers: { [key: string]: boolean };
+
 }) => {
   const handleOutlinePress = (event: any) => {
     console.log("Building outline pressed:", event);
   };
 
-  const handleMarkerPress = (event: any) => {
-    console.log("Building marker pressed:", event);
-    const { coordinates, feature, type } = event;
-    const { latitude, longitude } = coordinates;
-    const { properties } = feature;
-    const message = `
-      Coordinates:
-        Latitude: ${latitude}
-        Longitude: ${longitude}
-      Feature:
-        Type: ${feature.type}
-        Geometry Type: ${feature.geometry.type}
-        Address: ${properties.Address}
-        Building: ${properties.Building}
-        Building Long Name: ${properties.Building_Long_Name}
-        Building Name: ${properties.Building_Name}
-        Campus: ${properties.Campus}
-      Type: ${type}
-    `;
-    Alert.alert("Building marker pressed", message);
+  const [selectedCoordinate, setSelectedCoordinate] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+  const [selectedProperties, setSelectedProperties] = useState<any>(null);
+  const [showInfoBox, setShowInfoBox] = useState(false);
+  const navi = useNavigation();
+
+  const handleMarkerPress = (markerData: any) => {
+    console.log("Building marker pressed:", markerData);
+
+    if (markerData.coordinates) {
+      setSelectedCoordinate(markerData.coordinates);
+
+      if (markerData.feature?.properties) {
+        setSelectedProperties({
+          ...markerData.feature.properties,
+          coordinate: markerData.coordinates,
+        });
+      } else {
+        setSelectedProperties(markerData);
+      }
+
+      setShowInfoBox(true);
+      setSelectedMarker(markerData);
+    } else {
+      console.log("No coordinates found in marker data");
+    }
   };
 
-  const handleSearchResultPress = (event: any) => {
-    console.log("Search result pressed:", event);
-    const { coordinates, feature, type } = event;
-    const { latitude, longitude } = coordinates;
-    const { properties } = feature;
-    const message = `
-      Coordinates:
-        Latitude: ${latitude}
-        Longitude: ${longitude}
-      Feature:
-        Type: ${feature.type}
-        Geometry Type: ${feature.geometry.type}
-        Formatted Address: ${properties.formatted_address}
-        Name: ${properties.name}
-        Place ID: ${properties.place_id}
-      Type: ${type}
-    `;
-    Alert.alert("Search result pressed", message);
+  const handleDirections = (selectedProperties: any) => {
+    if (!userLocation) {
+      Alert.alert(
+        "Location not available",
+        "User location is not available yet."
+      );
+      return;
+    }
+
+
+    navi.dispatch(
+      CommonActions.navigate({
+        name: 'Directions',
+        params: {
+          origin: {
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude,
+          },
+          destination: {
+            Address: selectedProperties.Address || selectedProperties.Building_Long_Name || "Selected Location",
+            Latitude: selectedProperties.coordinate.latitude, 
+            Longitude: selectedProperties.coordinate.longitude,
+          },
+        },
+      })
+    );
   };
+
 
   const [zoomLevel, setZoomLevel] = useState<number>(0);
 
@@ -122,6 +157,7 @@ const MapComponent = ({
       onRegionChangeComplete={handleRegionChangeComplete}
     >
       {zoomLevel > BUILDING_MARKERS_ZOOM_THRESHOLD && (
+
         <Geojson
           geojson={buildingMarkers}
           strokeColor="blue"
@@ -130,6 +166,7 @@ const MapComponent = ({
           tappable={true}
           onPress={handleMarkerPress} // Add onPress handler
         />
+
       )}
       <Geojson
         geojson={buildingOutlines}
@@ -180,39 +217,87 @@ const MapComponent = ({
         />
       )}
       {results.features && (
+
         <Geojson
-          geojson={results}
+          geojson={hall9RoomsPois}
+          image={markerImage}
           strokeColor="red"
-          fillColor="rgba(255,0,0,0.5)"
+          fillColor="rgba(255, 0, 0, 0.5)"
           strokeWidth={2}
           tappable={true}
-          onPress={handleSearchResultPress} // Add onPress handler for search results
+          onPress={handleRoomPoiPress}
+        />
+        <Geojson
+          geojson={hall9FloorPlan}
+          strokeColor="orange"
+          fillColor="rgba(255, 165, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+        />
+        {results.features && (
+          <Geojson
+            geojson={results}
+            strokeColor="red"
+            fillColor="rgba(255,0,0,0.5)"
+            strokeWidth={2}
+            tappable={true}
+            onPress={handleSearchResultPress} // Add onPress handler for search results
+          />
+        )}
+        {userLocation && (
+          <>
+            <Circle
+              center={{
+                latitude: userLocation.latitude,
+                longitude: userLocation.longitude,
+              }}
+              radius={10}
+              strokeColor="rgba(0, 122, 255, 0.3)"
+              fillColor="rgb(0, 123, 255)"
+            />
+            <Circle
+              center={{
+                latitude: userLocation.latitude,
+                longitude: userLocation.longitude,
+              }}
+              radius={50}
+              strokeColor="rgba(0, 122, 255, 0.3)"
+              fillColor="rgba(0, 122, 255, 0.1)"
+            />
+          </>
+        )}
+      </MapView>
+      {showInfoBox && selectedCoordinate && selectedProperties && (
+        <MarkerInfoBox
+          coordinate={selectedCoordinate}
+          title={
+            selectedProperties.Building_Name ||
+            selectedProperties.BuildingName ||
+            "Building"
+          }
+          properties={selectedProperties}
+          onClose={() => {
+            setShowInfoBox(false);
+            setSelectedMarker(null);
+          }}
+          onDirections={() => handleDirections(selectedProperties)}
         />
       )}
-      {userLocation && (
-        <>
-          <Circle
-            center={{
-              latitude: userLocation.latitude,
-              longitude: userLocation.longitude,
-            }}
-            radius={10}
-            strokeColor="rgba(0, 122, 255, 0.3)"
-            fillColor="rgb(0, 123, 255)"
-          />
-          <Circle
-            center={{
-              latitude: userLocation.latitude,
-              longitude: userLocation.longitude,
-            }}
-            radius={50}
-            strokeColor="rgba(0, 122, 255, 0.3)"
-            fillColor="rgba(0, 122, 255, 0.1)"
-          />
-        </>
-      )}
-    </MapView>
+    </>
   );
+};
+
+// Define the type for the route parameters
+type DirectionsRouteParams = {
+  origin: {
+    latitude: number;
+    longitude: number;
+  };
+  destination: {
+    Address: string;
+    Latitude: number;
+    Longitude: number;
+  };
 };
 
 export default function MapExplorerScreen() {
@@ -223,6 +308,24 @@ export default function MapExplorerScreen() {
   const [showInfoBox, setShowInfoBox] = useState(false);
   const [userLocation, setUserLocation] = useState<Region | null>(null);
   const [expanded, setExpanded] = useState(false);
+
+
+  type RouteParams = {
+    origin?: {
+      latitude: number;
+      longitude: number;
+    };
+    destination?: {
+      Address: string;
+      Latitude: number;
+      Longitude: number;
+    };
+  };
+
+  const route = useRoute<{ key: string; name: string; params: RouteParams }>();
+  const { origin: originParam, destination: destinationParam } =
+    route.params || {};
+
   const [visibleLayers, setVisibleLayers] = useState({
     hall9RoomsPois: true,
     hall9FloorPlan: true,
@@ -230,6 +333,7 @@ export default function MapExplorerScreen() {
     hall8FloorPlan: true,
   });
   const navi = useNavigation();
+
 
   useEffect(() => {
     (async () => {
@@ -260,24 +364,25 @@ export default function MapExplorerScreen() {
     })();
   }, []);
 
-  const handleMarkerPress = (marker: any) => {
-    if (selectedMarker === marker) {
-      setShowInfoBox(true);
-    } else {
-      setSelectedMarker(marker);
-      setShowInfoBox(false);
+  useEffect(() => {
+    if (originParam) {
+      setUserLocation({
+        latitude: originParam.latitude,
+        longitude: originParam.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      });
     }
-  };
 
-  const handleCloseInfoBox = () => {
-    setShowInfoBox(false);
-    setSelectedMarker(null);
-  };
-
-  const handleDirections = (marker: any) => {
-    console.log("Selected marker ", selectedMarker);
-    navi.navigate("Directions", { destination: selectedMarker });
-  };
+    if (destinationParam) {
+      setUserLocation({
+        latitude: destinationParam.Latitude,
+        longitude: destinationParam.Longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      });
+    }
+  }, [originParam, destinationParam]);
 
   const handleSwitchToSGW = () => {
     setCurrentCampus(SGW_CAMPUS);
@@ -293,7 +398,10 @@ export default function MapExplorerScreen() {
     if (userLocation) {
       mapRef.current?.animateToRegion(userLocation, 1000);
     } else {
-      Alert.alert("Location not available", "User location is not available yet.");
+      Alert.alert(
+        "Location not available",
+        "User location is not available yet."
+      );
     }
   };
 
@@ -314,9 +422,18 @@ export default function MapExplorerScreen() {
         results={results}
         currentCampus={userLocation || currentCampus}
         userLocation={userLocation}
+
+        setSelectedMarker={setSelectedMarker}
+
         visibleLayers={visibleLayers}
+
       />
-      <View style={[ButtonsStyles.controlsContainer, MapExplorerScreenStyles.controlsContainer]}>
+      <View
+        style={[
+          ButtonsStyles.controlsContainer,
+          MapExplorerScreenStyles.controlsContainer,
+        ]}
+      >
         <AutocompleteSearchWrapper
           mapRef={mapRef}
           setResults={setResults}
@@ -364,32 +481,46 @@ export default function MapExplorerScreen() {
                   toggleLayerVisibility('hall8FloorPlan');
                 }}
               />
+
             </ScrollView>
           </List.Accordion>
         </List.Section>
       </View>
-      <View style={[ButtonsStyles.buttonContainer, MapExplorerScreenStyles.buttonContainer]}>
-        <Button mode="contained" onPress={handleSwitchToSGW} style={ButtonsStyles.button}>
+      <View
+        style={[
+          ButtonsStyles.buttonContainer,
+          MapExplorerScreenStyles.buttonContainer,
+        ]}
+      >
+        <Button
+          mode="contained"
+          onPress={handleSwitchToSGW}
+          style={ButtonsStyles.button}
+        >
           SGW
         </Button>
-        <Button mode="contained" onPress={handleSwitchToLoyola} style={ButtonsStyles.button}>
+        <Button
+          mode="contained"
+          onPress={handleSwitchToLoyola}
+          style={ButtonsStyles.button}
+        >
           Loyola
         </Button>
-        <Button mode="contained" onPress={handleCenterToUserLocation} style={ButtonsStyles.button}>
+        <Button
+          mode="contained"
+          onPress={handleCenterToUserLocation}
+          style={ButtonsStyles.button}
+        >
           ME
         </Button>
-        <Button mode="contained" onPress={handleGoPress} style={ButtonsStyles.button}>
+        <Button
+          mode="contained"
+          onPress={handleGoPress}
+          style={ButtonsStyles.button}
+        >
           GO
         </Button>
       </View>
-      {showInfoBox && selectedMarker && (
-        <MarkerInfoBox
-          title={selectedMarker.BuildingName || selectedMarker.name}
-          address={selectedMarker.Address || selectedMarker.vicinity}
-          onClose={handleCloseInfoBox}
-          onDirections={handleDirections}
-        />
-      )}
     </View>
   );
 }
