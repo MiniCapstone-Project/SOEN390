@@ -1,12 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Alert, ScrollView } from "react-native";
-import MapView, {
-  PROVIDER_GOOGLE,
-  Region,
-  Geojson,
-  Circle,
-  Marker,
-} from "react-native-maps";
+
+import { View, Alert, ScrollView, Dimensions } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle, Marker } from "react-native-maps";
+
 import { DefaultMapStyle } from "@/Styles/MapStyles";
 import { CustomMarkersComponent } from "../components/MapComponents/MarkersComponent";
 import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
@@ -29,26 +25,15 @@ import { MapExplorerScreenStyles } from "@/Styles/MapExplorerScreenStyles";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 
-const buildingMarkers =
-  require("@/gis/building-markers.json") as FeatureCollection<
-    Geometry,
-    GeoJsonProperties
-  >;
-const buildingOutlines =
-  require("@/gis/building-outlines.json") as FeatureCollection<
-    Geometry,
-    GeoJsonProperties
-  >;
-const hall9RoomsPois =
-  require("@/gis/hall-9-rooms-pois.json") as FeatureCollection<
-    Geometry,
-    GeoJsonProperties
-  >;
-const hall9FloorPlan =
-  require("@/gis/hall-9-floor-plan.json") as FeatureCollection<
-    Geometry,
-    GeoJsonProperties
-  >;
+
+const buildingMarkers = require("@/gis/building-markers.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const buildingOutlines = require("@/gis/building-outlines.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const hall9RoomsPois = require("@/gis/hall-9-rooms-pois.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const hall9FloorPlan = require("@/gis/hall-9-floor-plan.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const hall8RoomsPois = require("@/gis/hall-8-rooms-pois.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+const hall8FloorPlan = require("@/gis/hall-8-floor-plan.json") as FeatureCollection<Geometry, GeoJsonProperties>;
+
+
 
 const markerImage = require("@/assets/images/marker.png");
 
@@ -56,19 +41,30 @@ const handleRoomPoiPress = (event: any) => {
   console.log("Hall 9 room POI pressed:", event);
 };
 
+const ZOOM_LEVEL_THRESHOLD = 19;
+const BUILDING_MARKERS_ZOOM_THRESHOLD = 18;
+
 // Wrapper for the <MapView> component
 const MapComponent = ({
   mapRef,
   results,
   currentCampus,
   userLocation,
+
   setSelectedMarker,
+
+  visibleLayers,
+
 }: {
   mapRef: React.RefObject<MapView>;
   results: any;
   currentCampus: Region;
   userLocation: Region | null;
+
   setSelectedMarker: React.Dispatch<React.SetStateAction<any>>;
+
+  visibleLayers: { [key: string]: boolean };
+
 }) => {
   const handleOutlinePress = (event: any) => {
     console.log("Building outline pressed:", event);
@@ -133,47 +129,35 @@ const MapComponent = ({
   };
 
 
-  // const handleSearchResultPress = (event: any) => {
-  //   console.log("Search result pressed:", event);
+  const [zoomLevel, setZoomLevel] = useState<number>(0);
 
-  //   // const { coordinates, feature, type } = event;
-  //   // const { latitude, longitude } = coordinates;
-  //   // const { properties } = feature;
-  //   // const message = `
-  //   //   Coordinates:
-  //   //     Latitude: ${latitude}
-  //   //     Longitude: ${longitude}
-  //   //   Feature:
-  //   //     Type: ${feature.type}
-  //   //     Geometry Type: ${feature.geometry.type}
-  //   //     Formatted Address: ${properties.formatted_address}
-  //   //     Name: ${properties.name}
-  //   //     Place ID: ${properties.place_id}
-  //   //   Type: ${type}
-  //   // `;
-  //   // Alert.alert("Search result pressed", message);
-  // };
+  const handleRegionChangeComplete = (region: Region) => {
+    const zoom = Math.log2(360 * (Dimensions.get('window').width / 256 / region.longitudeDelta)) + 1;
+    setZoomLevel(zoom);
+  };
 
   return (
-    <>
-      <MapView
-        ref={mapRef}
-        style={DefaultMapStyle.map}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={currentCampus}
-        showsBuildings={false} // Disable 3D buildings
-        customMapStyle={[
-          {
-            featureType: "poi",
-            elementType: "labels",
-            stylers: [{ visibility: "off" }],
-          },
-          {
-            featureType: "poi.business",
-            stylers: [{ visibility: "off" }],
-          },
-        ]}
-      >
+    <MapView
+      ref={mapRef}
+      style={DefaultMapStyle.map}
+      provider={PROVIDER_GOOGLE}
+      initialRegion={currentCampus}
+      showsBuildings={false} // Disable 3D buildings
+      customMapStyle={[
+        {
+          featureType: "poi",
+          elementType: "labels",
+          stylers: [{ visibility: "off" }],
+        },
+        {
+          featureType: "poi.business",
+          stylers: [{ visibility: "off" }],
+        },
+      ]}
+      onRegionChangeComplete={handleRegionChangeComplete}
+    >
+      {zoomLevel > BUILDING_MARKERS_ZOOM_THRESHOLD && (
+
         <Geojson
           geojson={buildingMarkers}
           strokeColor="blue"
@@ -182,14 +166,58 @@ const MapComponent = ({
           tappable={true}
           onPress={handleMarkerPress} // Add onPress handler
         />
+
+      )}
+      <Geojson
+        geojson={buildingOutlines}
+        strokeColor="green"
+        fillColor="rgba(255, 0, 200, 0.16)"
+        strokeWidth={2}
+        onPress={handleOutlinePress}
+        tappable={true}
+      />
+      {visibleLayers.hall9RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
         <Geojson
-          geojson={buildingOutlines}
-          strokeColor="green"
-          fillColor="rgba(255, 0, 200, 0.16)"
+          geojson={hall9RoomsPois}
+          image={markerImage}
+          strokeColor="red"
+          fillColor="rgba(255, 0, 0, 0.5)"
           strokeWidth={2}
-          onPress={handleOutlinePress}
+          tappable={true}
+          onPress={handleRoomPoiPress}
+        />
+      )}
+      {visibleLayers.hall9FloorPlan && (
+        <Geojson
+          geojson={hall9FloorPlan}
+          strokeColor="orange"
+          fillColor="rgba(255, 165, 0, 0.5)"
+          strokeWidth={2}
           tappable={true}
         />
+      )}
+      {visibleLayers.hall8RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
+        <Geojson
+          geojson={hall8RoomsPois}
+          image={markerImage}
+          strokeColor="red"
+          fillColor="rgba(255, 0, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+          onPress={handleRoomPoiPress}
+        />
+      )}
+      {visibleLayers.hall8FloorPlan && (
+        <Geojson
+          geojson={hall8FloorPlan}
+          strokeColor="orange"
+          fillColor="rgba(255, 165, 0, 0.5)"
+          strokeWidth={2}
+          tappable={true}
+        />
+      )}
+      {results.features && (
+
         <Geojson
           geojson={hall9RoomsPois}
           image={markerImage}
@@ -281,6 +309,7 @@ export default function MapExplorerScreen() {
   const [userLocation, setUserLocation] = useState<Region | null>(null);
   const [expanded, setExpanded] = useState(false);
 
+
   type RouteParams = {
     origin?: {
       latitude: number;
@@ -296,6 +325,15 @@ export default function MapExplorerScreen() {
   const route = useRoute<{ key: string; name: string; params: RouteParams }>();
   const { origin: originParam, destination: destinationParam } =
     route.params || {};
+
+  const [visibleLayers, setVisibleLayers] = useState({
+    hall9RoomsPois: true,
+    hall9FloorPlan: true,
+    hall8RoomsPois: true,
+    hall8FloorPlan: true,
+  });
+  const navi = useNavigation();
+
 
   useEffect(() => {
     (async () => {
@@ -373,6 +411,10 @@ export default function MapExplorerScreen() {
 
   const handlePress = () => setExpanded(!expanded);
 
+  const toggleLayerVisibility = (layer: string) => {
+    setVisibleLayers((prev) => ({ ...prev, [layer]: !prev[layer] }));
+  };
+
   return (
     <View style={DefaultMapStyle.container}>
       <MapComponent
@@ -380,7 +422,11 @@ export default function MapExplorerScreen() {
         results={results}
         currentCampus={userLocation || currentCampus}
         userLocation={userLocation}
+
         setSelectedMarker={setSelectedMarker}
+
+        visibleLayers={visibleLayers}
+
       />
       <View
         style={[
@@ -398,23 +444,44 @@ export default function MapExplorerScreen() {
         />
         <List.Section>
           <List.Accordion
-            title="Hall Building" // Change title to Hall Building
-            left={(props) => <List.Icon {...props} icon="office-building" />} // Change icon to office-building
+            title="Hall Building"
+            left={props => <List.Icon {...props} icon="office-building" />}
             expanded={expanded}
             onPress={handlePress}
-            style={{ backgroundColor: "rgba(255, 255, 255, 0.9)" }} // Add background color with opacity
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
           >
             <ScrollView style={{ maxHeight: 400 }}>
-              {" "}
-              // Set a max height for the scrollable area
-              {Array.from({ length: 12 }, (_, i) => (
-                <List.Item
-                  key={i + 1}
-                  title={`H${i + 1}`} // Change floor titles to H1, H2, ..., H12
-                  left={(props) => <List.Icon {...props} icon="floor-plan" />} // Add icon to each item
-                  style={{ backgroundColor: "white" }} // Ensure white background for each item
-                />
-              ))}
+              <List.Item 
+                title="Hall 9" 
+                left={props => <List.Icon {...props} icon="floor-plan" />} 
+                style={{ backgroundColor: visibleLayers.hall9RoomsPois ? 'lightgray' : 'white' }} // Highlight if selected
+                onPress={() => {
+                  setVisibleLayers({
+                    hall9RoomsPois: false,
+                    hall9FloorPlan: false,
+                    hall8RoomsPois: false,
+                    hall8FloorPlan: false,
+                  });
+                  toggleLayerVisibility('hall9RoomsPois');
+                  toggleLayerVisibility('hall9FloorPlan');
+                }}
+              />
+              <List.Item 
+                title="Hall 8" 
+                left={props => <List.Icon {...props} icon="floor-plan" />} 
+                style={{ backgroundColor: visibleLayers.hall8RoomsPois ? 'lightgray' : 'white' }} // Highlight if selected
+                onPress={() => {
+                  setVisibleLayers({
+                    hall9RoomsPois: false,
+                    hall9FloorPlan: false,
+                    hall8RoomsPois: false,
+                    hall8FloorPlan: false,
+                  });
+                  toggleLayerVisibility('hall8RoomsPois');
+                  toggleLayerVisibility('hall8FloorPlan');
+                }}
+              />
+
             </ScrollView>
           </List.Accordion>
         </List.Section>
