@@ -251,7 +251,7 @@ return (
         <GooglePlacesAutocomplete
           placeholder={destinationObject?.Address || "Destination"} // Placeholder restored
           fetchDetails
-          onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination")}
+          onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination", destinationObject)}
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
           styles={{ container: DirectionsScreenStyles.autoCompleteContainer, textInput: DirectionsScreenStyles.roundedInput }}
         />
