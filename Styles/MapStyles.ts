@@ -59,7 +59,7 @@ export const DefaultMapStyle = StyleSheet.create({
     marginBottom: 10,
   },
   campusButtons: {
-    
+
   },
   campusButton: {
     // marginHorizontal: 5,
@@ -67,30 +67,11 @@ export const DefaultMapStyle = StyleSheet.create({
   campusButtonWrapper: {
     flex: 1,
     justifyContent: 'space-between',
-  },
-  sliderText: {
-    marginTop: 10,
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  sliderContainer: {
-    position: "absolute",
-    bottom: 50, // Adjust as needed
-    left: 20,
-    right: 20,
-    backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent background
-    borderRadius: 10,
-    padding: 10,
-    elevation: 5, // For Android shadow
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
+  }
 });
 
 const { width, height } = Dimensions.get("window");
+
 
 export const DirectionsScreenStyles = StyleSheet.create({
   container: {
@@ -103,26 +84,67 @@ export const DirectionsScreenStyles = StyleSheet.create({
   searchContainer: {
     position: "absolute",
     width: "90%",
-    backgroundColor: "white",
-    padding: 10,
-    borderRadius: 8,
-    top: 40, 
+    backgroundColor: "transparent",
+    paddingHorizontal: 10,
+    top: 15,
     alignSelf: "center",
+  },
+  inputContainer: {
+    backgroundColor: "white",
+    borderRadius: 18,
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+    marginBottom: 7,
     shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-    elevation: 4,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+
+    elevation: 2,
   },
-  input: {
-    height: 40,
-    borderColor: "#888",
-    borderWidth: 1,
-    borderRadius: 4,
+  roundedInput: {
+    height: 25,
+    borderRadius: 18,
     paddingHorizontal: 8,
+    backgroundColor: "white",
+      textAlignVertical: "center",
+      paddingTop: 0,
+      paddingBottom: 0,
   },
-  stats: {
-    marginTop: 10,
+  transportModeContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "white",
+    borderRadius: 18,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  statsContainer: {
+    position: "absolute",
+    top: 155,
+    left: 20,
+    right: 20,
+    backgroundColor: "white",
+    padding: 8,
+    borderRadius: 18,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  statsText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#333",
   },
 });
+
 
