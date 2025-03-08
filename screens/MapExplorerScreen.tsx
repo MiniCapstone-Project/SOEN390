@@ -50,21 +50,15 @@ const MapComponent = ({
   results,
   currentCampus,
   userLocation,
-
   setSelectedMarker,
-
   visibleLayers,
-
 }: {
   mapRef: React.RefObject<MapView>;
   results: any;
   currentCampus: Region;
   userLocation: Region | null;
-
   setSelectedMarker: React.Dispatch<React.SetStateAction<any>>;
-
   visibleLayers: { [key: string]: boolean };
-
 }) => {
   const handleOutlinePress = (event: any) => {
     console.log("Building outline pressed:", event);
@@ -80,19 +74,11 @@ const MapComponent = ({
 
   const handleMarkerPress = (markerData: any) => {
     console.log("Building marker pressed:", markerData);
-
     if (markerData.coordinates) {
       setSelectedCoordinate(markerData.coordinates);
-
-      if (markerData.feature?.properties) {
-        setSelectedProperties({
-          ...markerData.feature.properties,
-          coordinate: markerData.coordinates,
-        });
-      } else {
-        setSelectedProperties(markerData);
-      }
-
+      setSelectedProperties(markerData.feature?.properties
+        ? { ...markerData.feature.properties, coordinate: markerData.coordinates }
+        : markerData);
       setShowInfoBox(true);
       setSelectedMarker(markerData);
     } else {
@@ -102,14 +88,9 @@ const MapComponent = ({
 
   const handleDirections = (selectedProperties: any) => {
     if (!userLocation) {
-      Alert.alert(
-        "Location not available",
-        "User location is not available yet."
-      );
+      Alert.alert("Location not available", "User location is not available yet.");
       return;
     }
-
-
     navi.dispatch(
       CommonActions.navigate({
         name: 'Directions',
@@ -120,14 +101,13 @@ const MapComponent = ({
           },
           destination: {
             Address: selectedProperties.Address || selectedProperties.Building_Long_Name || "Selected Location",
-            Latitude: selectedProperties.coordinate.latitude, 
+            Latitude: selectedProperties.coordinate.latitude,
             Longitude: selectedProperties.coordinate.longitude,
           },
         },
       })
     );
   };
-
 
   const [zoomLevel, setZoomLevel] = useState<number>(0);
 
@@ -137,103 +117,58 @@ const MapComponent = ({
   };
 
   return (
-    <MapView
-      ref={mapRef}
-      style={DefaultMapStyle.map}
-      provider={PROVIDER_GOOGLE}
-      initialRegion={currentCampus}
-      showsBuildings={false} // Disable 3D buildings
-      customMapStyle={[
-        {
-          featureType: "poi",
-          elementType: "labels",
-          stylers: [{ visibility: "off" }],
-        },
-        {
-          featureType: "poi.business",
-          stylers: [{ visibility: "off" }],
-        },
-      ]}
-      onRegionChangeComplete={handleRegionChangeComplete}
-    >
-      {zoomLevel > BUILDING_MARKERS_ZOOM_THRESHOLD && (
-
+    <>
+      <MapView
+        ref={mapRef}
+        style={DefaultMapStyle.map}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={currentCampus}
+        showsBuildings={false}
+        customMapStyle={[
+          { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] },
+          { featureType: "poi.business", stylers: [{ visibility: "off" }] },
+        ]}
+        onRegionChangeComplete={handleRegionChangeComplete}
+      >
+        {/* {zoomLevel > BUILDING_MARKERS_ZOOM_THRESHOLD && (
+        )} */}
+        
         <Geojson
           geojson={buildingMarkers}
           strokeColor="blue"
           fillColor="cyan"
           strokeWidth={2}
           tappable={true}
-          onPress={handleMarkerPress} // Add onPress handler
-        />
-
-      )}
-      <Geojson
-        geojson={buildingOutlines}
-        strokeColor="green"
-        fillColor="rgba(255, 0, 200, 0.16)"
-        strokeWidth={2}
-        onPress={handleOutlinePress}
-        tappable={true}
-      />
-      {visibleLayers.hall9RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
-        <Geojson
-          geojson={hall9RoomsPois}
-          image={markerImage}
-          strokeColor="red"
-          fillColor="rgba(255, 0, 0, 0.5)"
-          strokeWidth={2}
-          tappable={true}
-          onPress={handleRoomPoiPress}
-        />
-      )}
-      {visibleLayers.hall9FloorPlan && (
-        <Geojson
-          geojson={hall9FloorPlan}
-          strokeColor="orange"
-          fillColor="rgba(255, 165, 0, 0.5)"
-          strokeWidth={2}
-          tappable={true}
-        />
-      )}
-      {visibleLayers.hall8RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
-        <Geojson
-          geojson={hall8RoomsPois}
-          image={markerImage}
-          strokeColor="red"
-          fillColor="rgba(255, 0, 0, 0.5)"
-          strokeWidth={2}
-          tappable={true}
-          onPress={handleRoomPoiPress}
-        />
-      )}
-      {visibleLayers.hall8FloorPlan && (
-        <Geojson
-          geojson={hall8FloorPlan}
-          strokeColor="orange"
-          fillColor="rgba(255, 165, 0, 0.5)"
-          strokeWidth={2}
-          tappable={true}
-        />
-      )}
-      {results.features && (
-
-        <Geojson
-          geojson={hall9RoomsPois}
-          image={markerImage}
-          strokeColor="red"
-          fillColor="rgba(255, 0, 0, 0.5)"
-          strokeWidth={2}
-          tappable={true}
-          onPress={handleRoomPoiPress}
+          onPress={handleMarkerPress}
         />
         <Geojson
-          geojson={hall9FloorPlan}
-          strokeColor="orange"
-          fillColor="rgba(255, 165, 0, 0.5)"
+          geojson={buildingOutlines}
+          strokeColor="green"
+          fillColor="rgba(255, 0, 200, 0.16)"
           strokeWidth={2}
+          onPress={handleOutlinePress}
           tappable={true}
         />
+        {visibleLayers.hall9RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
+          <Geojson
+            geojson={hall9RoomsPois}
+            image={markerImage}
+            strokeColor="red"
+            fillColor="rgba(255, 0, 0, 0.5)"
+            strokeWidth={2}
+            tappable={true}
+            onPress={handleRoomPoiPress}
+          />
+        )}
+        {visibleLayers.hall9FloorPlan && (
+          <Geojson
+            geojson={hall9FloorPlan}
+            strokeColor="orange"
+            fillColor="rgba(255, 165, 0, 0.5)"
+            strokeWidth={2}
+            tappable={true}
+          />
+        )}
         {results.features && (
           <Geojson
             geojson={results}
@@ -241,25 +176,19 @@ const MapComponent = ({
             fillColor="rgba(255,0,0,0.5)"
             strokeWidth={2}
             tappable={true}
-            onPress={handleSearchResultPress} // Add onPress handler for search results
+            onPress={handleSearchResultPress}
           />
         )}
         {userLocation && (
           <>
             <Circle
-              center={{
-                latitude: userLocation.latitude,
-                longitude: userLocation.longitude,
-              }}
+              center={{ latitude: userLocation.latitude, longitude: userLocation.longitude }}
               radius={10}
               strokeColor="rgba(0, 122, 255, 0.3)"
               fillColor="rgb(0, 123, 255)"
             />
             <Circle
-              center={{
-                latitude: userLocation.latitude,
-                longitude: userLocation.longitude,
-              }}
+              center={{ latitude: userLocation.latitude, longitude: userLocation.longitude }}
               radius={50}
               strokeColor="rgba(0, 122, 255, 0.3)"
               fillColor="rgba(0, 122, 255, 0.1)"
@@ -270,11 +199,7 @@ const MapComponent = ({
       {showInfoBox && selectedCoordinate && selectedProperties && (
         <MarkerInfoBox
           coordinate={selectedCoordinate}
-          title={
-            selectedProperties.Building_Name ||
-            selectedProperties.BuildingName ||
-            "Building"
-          }
+          title={selectedProperties.Building_Name || selectedProperties.BuildingName || "Building"}
           properties={selectedProperties}
           onClose={() => {
             setShowInfoBox(false);
@@ -454,7 +379,7 @@ export default function MapExplorerScreen() {
               <List.Item 
                 title="Hall 9" 
                 left={props => <List.Icon {...props} icon="floor-plan" />} 
-                style={{ backgroundColor: visibleLayers.hall9RoomsPois ? 'lightgray' : 'white' }} // Highlight if selected
+                style={{ backgroundColor: visibleLayers.hall9RoomsPois ? 'lightgray' : 'white' }} 
                 onPress={() => {
                   setVisibleLayers({
                     hall9RoomsPois: false,
@@ -469,7 +394,7 @@ export default function MapExplorerScreen() {
               <List.Item 
                 title="Hall 8" 
                 left={props => <List.Icon {...props} icon="floor-plan" />} 
-                style={{ backgroundColor: visibleLayers.hall8RoomsPois ? 'lightgray' : 'white' }} // Highlight if selected
+                style={{ backgroundColor: visibleLayers.hall8RoomsPois ? 'lightgray' : 'white' }} 
                 onPress={() => {
                   setVisibleLayers({
                     hall9RoomsPois: false,
