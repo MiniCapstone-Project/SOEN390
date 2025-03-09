@@ -1,0 +1,18 @@
+appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name or bundle identifier)
+---
+- launchApp
+
+- tapOn: "Directions"
+
+- tapOn: "from"
+
+- inputText: "Rue Gertrude, Verdun, QC, Canada"
+
+- tapOn: "Destination"
+
+- inputText: "Poulet Rouge Ste-Catherine, Saint-Catherine Street West, Montreal, QC, Canada"
+
+- tapOn: 
+      id: "WALKING"
+
+
