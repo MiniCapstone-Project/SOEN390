@@ -2,18 +2,17 @@ appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name 
 ---
 - launchApp
 
-- tapOn: "Directions"
+- tapOn: "SGW"
 
-- tapOn: "from"
+- tapOn: "Search for places, coffee shops, restaurants..."
 
-- inputText: "Concordia University, Boulevard De Maisonneuve Ouest, Montreal, QC, Canada"
+- inputText: "Coffee"
 
-- tapOn: "Destination"
+- pressKey: Enter
 
-- inputText: "Atwater Avenue, Montreal, QC, Canada"
+- tapOn : SGW
 
-- tapOn: 
-      id: "WALKING"
+- tapOn: Off The Hook
 
 
 # Zoom out to see the path

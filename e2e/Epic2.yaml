@@ -1,0 +1,22 @@
+appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name or bundle identifier)
+---
+- launchApp
+
+- tapOn: "Directions"
+
+- tapOn: "from"
+
+- inputText: "Concordia University, Boulevard De Maisonneuve Ouest, Montreal, QC, Canada"
+
+- tapOn: "Destination"
+
+- inputText: "Atwater Avenue, Montreal, QC, Canada"
+
+- tapOn: 
+      id: "WALKING"
+- tapOn: 
+      id: "DRIVING"
+
+
+# Zoom out to see the path
+# Screen Record for the whole thing 
