@@ -208,13 +208,30 @@ const MapComponent = ({
         {results.features && (
           <Geojson
             geojson={results}
-            strokeColor="red"
-            fillColor="rgba(255,0,0,0.5)"
-            strokeWidth={2}
+            strokeColor="#0066CC"
+            fillColor="rgba(0, 102, 204, 0.5)"
+            strokeWidth={3}
+            lineDashPattern={[1]}
             tappable={true}
             onPress={handleSearchResultPress}
           />
         )}
+        {results.features && results.features.map((feature: any) => (
+          <Marker
+            coordinate={{
+              latitude: feature.geometry.coordinates[1],
+              longitude: feature.geometry.coordinates[0],
+            }}
+            title={feature.properties.name || "POI"}
+            key={feature.properties.place_id || Math.random().toString()}
+            pinColor="blue"
+            onPress={() => {
+              handleSearchResultPress({
+                feature: feature
+              });
+            }}
+          />
+        ))}
         {userLocation && (
           <>
             <Circle
@@ -264,6 +281,13 @@ type DirectionsRouteParams = {
 export default function MapExplorerScreen() {
   const mapRef = useRef<MapView | null>(null);
   const [results, setResults] = useState<any>({});
+  
+  // Add effect to log results when they change
+  useEffect(() => {
+    console.log("Results state updated:", results);
+    console.log("Results has features:", results?.features?.length || 0);
+  }, [results]);
+  
   const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
   const [showInfoBox, setShowInfoBox] = useState(false);
