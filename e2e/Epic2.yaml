@@ -6,11 +6,17 @@ appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name 
 
 - tapOn: "from"
 
-- inputText: "Concordia University, Boulevard De Maisonneuve Ouest, Montreal, QC, Canada"
+- inputText: "Concordia Montreal"
+
+- tapOn: "Concordia University, Boulevard De Maisonneuve Ouest, Montreal, QC, Canada"
 
 - tapOn: "Destination"
 
-- inputText: "Atwater Avenue, Montreal, QC, Canada"
+- inputText: "Atwater Montreal" 
+
+- tapOn: "Atwater Avenue, Montreal, QC, Canada"
+
+- pressKey: Enter
 
 - tapOn: 
       id: "WALKING"

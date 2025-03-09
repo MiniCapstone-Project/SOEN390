@@ -195,7 +195,7 @@ const MapComponent = ({
       >
         {/* Building markers */}
     
-{buildingMarkers.features.map((feature: any) => (
+             {buildingMarkers.features.map((feature: any) => (
           <Marker
             coordinate={{
               latitude: feature.geometry.coordinates[1],
