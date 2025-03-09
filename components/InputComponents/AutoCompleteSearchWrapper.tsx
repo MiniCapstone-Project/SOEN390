@@ -15,6 +15,7 @@ export const AutocompleteSearchWrapper = ({
   currentCampus,
   googleMapsKey,
   location, // Accept location prop
+  onSearchTextChange, // Add this prop to report search text changes
 }: {
   mapRef: React.RefObject<MapView>;
   setResults: React.Dispatch<React.SetStateAction<any[]>>;
@@ -22,6 +23,7 @@ export const AutocompleteSearchWrapper = ({
   currentCampus: Region;
   googleMapsKey: string;
   location: Region | null; // Define location prop type
+  onSearchTextChange?: (text: string) => void; // Optional callback
 }) => {
   // Check if Google Maps API key is available
   useEffect(() => {
@@ -39,6 +41,9 @@ export const AutocompleteSearchWrapper = ({
   // Perform a full text-based search, returning multiple results
   const handleFullTextSearch = async () => {
     if (!autoSearchText.trim()) return;
+    
+    // Report the search text to the parent component
+    onSearchTextChange?.(autoSearchText);
 
     const boundaries = await mapRef.current?.getMapBoundaries();
     console.log(boundaries);
@@ -113,6 +118,9 @@ export const AutocompleteSearchWrapper = ({
     console.log("Selected place:", data, details);
     if (!details) return;
 
+    // Report the search text to the parent component
+    onSearchTextChange?.(data.description || "");
+
     const { lat, lng } = details.geometry.location;
     
     // Animate to the location
@@ -164,6 +172,8 @@ export const AutocompleteSearchWrapper = ({
   const handleClearAll = () => {
     setAutoSearchText("");
     setResults([]);
+    // Report the empty search text to the parent component
+    onSearchTextChange?.("");
     // Force the GooglePlacesAutocomplete component to clear
     if (googlePlacesRef.current) {
       googlePlacesRef.current.clear();
@@ -193,6 +203,7 @@ export const AutocompleteSearchWrapper = ({
           onChangeText: (text) => {
             setAutoSearchText(text);
             console.log("Text changed:", text); // Debug
+            onSearchTextChange?.(text); // Report search text changes
           },
           onSubmitEditing: handleFullTextSearch,
           autoCapitalize: "none",

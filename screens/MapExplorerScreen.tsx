@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 
-import { View, Alert, ScrollView, Dimensions } from "react-native";
+import { View, Alert, ScrollView, Dimensions, Text } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle, Marker } from "react-native-maps";
 
 import { DefaultMapStyle } from "@/Styles/MapStyles";
@@ -22,9 +22,16 @@ import { MarkerInfoBox } from "@/components/MapComponents/MarkerInfoBox";
 import { CommonActions } from '@react-navigation/native';
 
 import { MapExplorerScreenStyles } from "@/Styles/MapExplorerScreenStyles";
+import { searchPlaces } from "@/services/PlacesService";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 
+// Add constants at the top of the file, near other constants
+const POI_MIN_ZOOM_LEVEL = 12; // Minimum zoom level to show POIs (zoomed in)
+const POI_MAX_ZOOM_LEVEL = 19; // Maximum zoom level for POIs (very zoomed in)
+const POI_RADIUS_MIN = 500; // Minimum radius in meters
+const POI_RADIUS_MAX = 5000; // Maximum radius in meters
+const POI_ZOOM_REFRESH_THRESHOLD = 1.5; // How much zoom needs to change before refreshing POIs
 
 const buildingMarkers = require("@/gis/building-markers.json") as FeatureCollection<Geometry, GeoJsonProperties>;
 const buildingOutlines = require("@/gis/building-outlines.json") as FeatureCollection<Geometry, GeoJsonProperties>;
@@ -52,6 +59,8 @@ const MapComponent = ({
   userLocation,
   setSelectedMarker,
   visibleLayers,
+  onRegionChangeComplete,
+  shouldShowPOIs
 }: {
   mapRef: React.RefObject<MapView>;
   results: any;
@@ -59,6 +68,8 @@ const MapComponent = ({
   userLocation: Region | null;
   setSelectedMarker: React.Dispatch<React.SetStateAction<any>>;
   visibleLayers: { [key: string]: boolean };
+  onRegionChangeComplete: (region: Region) => void;
+  shouldShowPOIs: boolean;
 }) => {
   const handleOutlinePress = (event: any) => {
     console.log("Outline pressed", event);
@@ -147,9 +158,11 @@ const MapComponent = ({
 
   const [zoomLevel, setZoomLevel] = useState<number>(0);
 
-  const handleRegionChangeComplete = (region: Region) => {
+  // This now just passes the region to the parent component
+  const handleRegionChange = (region: Region) => {
     const zoom = Math.log2(360 * (Dimensions.get('window').width / 256 / region.longitudeDelta)) + 1;
     setZoomLevel(zoom);
+    onRegionChangeComplete(region);
   };
 
   return (
@@ -164,7 +177,7 @@ const MapComponent = ({
           { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] },
           { featureType: "poi.business", stylers: [{ visibility: "off" }] },
         ]}
-        onRegionChangeComplete={handleRegionChangeComplete}
+        onRegionChangeComplete={handleRegionChange}
       >
         {/* {zoomLevel > BUILDING_MARKERS_ZOOM_THRESHOLD && (
         )} */}
@@ -205,7 +218,7 @@ const MapComponent = ({
             tappable={true}
           />
         )}
-        {results.features && (
+        {results.features && shouldShowPOIs && (
           <Geojson
             geojson={results}
             strokeColor="#0066CC"
@@ -216,7 +229,7 @@ const MapComponent = ({
             onPress={handleSearchResultPress}
           />
         )}
-        {results.features && results.features.map((feature: any) => (
+        {results.features && shouldShowPOIs && results.features.map((feature: any) => (
           <Marker
             coordinate={{
               latitude: feature.geometry.coordinates[1],
@@ -281,6 +294,11 @@ type DirectionsRouteParams = {
 export default function MapExplorerScreen() {
   const mapRef = useRef<MapView | null>(null);
   const [results, setResults] = useState<any>({});
+  const [searchRadius, setSearchRadius] = useState<number>(1500); // Default search radius in meters
+  const lastZoomRef = useRef<number>(0);
+  const [shouldShowPOIs, setShouldShowPOIs] = useState<boolean>(false);
+  const refreshTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [currentSearchText, setCurrentSearchText] = useState<string>("");
   
   // Add effect to log results when they change
   useEffect(() => {
@@ -400,6 +418,123 @@ export default function MapExplorerScreen() {
     setVisibleLayers((prev) => ({ ...prev, [layer]: !prev[layer] }));
   };
 
+  // Function to trigger a POI search with the current radius
+  const searchPOIs = useCallback(() => {
+    if (!currentSearchText || !shouldShowPOIs) return;
+    
+    console.log(`Searching for "${currentSearchText}" with radius ${searchRadius}m`);
+    
+    // Create a ref to the AutoCompleteSearchWrapper to trigger a search
+    // Since we don't have direct access to the component's handleFullTextSearch,
+    // we'll refresh the results by recreating the search manually
+    
+    const performSearch = async () => {
+      try {
+        const geojson = await searchPlaces(
+          currentSearchText,
+          userLocation?.latitude || currentCampus.latitude,
+          userLocation?.longitude || currentCampus.longitude,
+          googleMapsKey,
+          searchRadius
+        );
+        
+        if (geojson.features.length === 0) {
+          console.log("No results found");
+          return;
+        }
+        
+        setResults(geojson);
+        console.log(`Found ${geojson.features.length} POIs`);
+      } catch (error) {
+        console.error("Error searching for POIs:", error);
+      }
+    };
+    
+    performSearch();
+  }, [currentSearchText, searchRadius, shouldShowPOIs, userLocation, currentCampus, googleMapsKey]);
+  
+  // Effect to refresh POIs when search radius changes significantly
+  useEffect(() => {
+    if (refreshTimeoutRef.current) {
+      clearTimeout(refreshTimeoutRef.current);
+    }
+    
+    refreshTimeoutRef.current = setTimeout(() => {
+      if (currentSearchText && shouldShowPOIs) {
+        searchPOIs();
+      }
+    }, 1000);
+    
+    return () => {
+      if (refreshTimeoutRef.current) {
+        clearTimeout(refreshTimeoutRef.current);
+      }
+    };
+  }, [searchRadius, searchPOIs]);
+  
+  // Update the handleMapRegionChange function to use searchPOIs
+  const handleMapRegionChange = (region: Region) => {
+    const zoom = Math.log2(360 * (Dimensions.get('window').width / 256 / region.longitudeDelta)) + 1;
+    
+    // Calculate dynamic search radius based on zoom level
+    let newRadius;
+    const zoomDifference = Math.abs(zoom - lastZoomRef.current);
+    
+    if (zoom < POI_MIN_ZOOM_LEVEL) {
+      // Too zoomed out, hide POIs
+      setShouldShowPOIs(false);
+      newRadius = POI_RADIUS_MAX;
+    } else if (zoom > POI_MAX_ZOOM_LEVEL) {
+      // Very zoomed in, use minimum radius
+      setShouldShowPOIs(true);
+      newRadius = POI_RADIUS_MIN;
+    } else {
+      // In between, calculate proportional radius
+      setShouldShowPOIs(true);
+      const zoomRange = POI_MAX_ZOOM_LEVEL - POI_MIN_ZOOM_LEVEL;
+      const zoomFactor = (zoom - POI_MIN_ZOOM_LEVEL) / zoomRange;
+      newRadius = POI_RADIUS_MAX - (zoomFactor * (POI_RADIUS_MAX - POI_RADIUS_MIN));
+    }
+    
+    // Check if we need to update the search radius and requery
+    const radiusChange = Math.abs(newRadius - searchRadius) / searchRadius;
+    const shouldUpdateRadius = radiusChange > 0.1; // 10% change
+    
+    if (shouldUpdateRadius) {
+      setSearchRadius(Math.round(newRadius));
+      
+      // Trigger a new POI search if there's an active search and zoom changed significantly
+      if (currentSearchText && zoomDifference > 0.5) {
+        // Debounce the search to prevent too many API calls while zooming
+        if (refreshTimeoutRef.current) {
+          clearTimeout(refreshTimeoutRef.current);
+        }
+        
+        refreshTimeoutRef.current = setTimeout(() => {
+          console.log(`Zoom changed by ${zoomDifference}, refreshing POIs with radius ${newRadius}m`);
+          searchPOIs();
+        }, 500);
+      }
+    }
+    
+    lastZoomRef.current = zoom;
+  };
+
+  // Add debugging for search radius changes
+  useEffect(() => {
+    console.log(`Search radius updated to ${searchRadius}m`);
+    // When search radius updates, update any UI elements that depend on it
+  }, [searchRadius]);
+  
+  // Add debugging for search text changes
+  useEffect(() => {
+    console.log(`Current search text updated: "${currentSearchText}"`);
+    if (currentSearchText) {
+      // When a new search is performed, apply the current search radius
+      searchPOIs();
+    }
+  }, [currentSearchText]);
+
   return (
     <View style={DefaultMapStyle.container}>
       <MapComponent
@@ -407,13 +542,13 @@ export default function MapExplorerScreen() {
         results={results}
         currentCampus={userLocation || currentCampus}
         userLocation={userLocation}
-
         setSelectedMarker={setSelectedMarker}
-
         visibleLayers={visibleLayers}
-
+        onRegionChangeComplete={handleMapRegionChange}
+        shouldShowPOIs={shouldShowPOIs}
       />
       <View
+        pointerEvents="box-none"
         style={[
           ButtonsStyles.controlsContainer,
           MapExplorerScreenStyles.controlsContainer,
@@ -426,51 +561,27 @@ export default function MapExplorerScreen() {
           currentCampus={currentCampus}
           googleMapsKey={googleMapsKey}
           location={userLocation}
+          onSearchTextChange={setCurrentSearchText}
         />
-        <List.Section>
-          <List.Accordion
-            title="Hall Building"
-            left={props => <List.Icon {...props} icon="office-building" />}
-            expanded={expanded}
-            onPress={handlePress}
-            style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)' }}
-          >
-            <ScrollView style={{ maxHeight: 400 }}>
-              <List.Item 
-                title="Hall 9" 
-                left={props => <List.Icon {...props} icon="floor-plan" />} 
-                style={{ backgroundColor: visibleLayers.hall9RoomsPois ? 'lightgray' : 'white' }} 
-                onPress={() => {
-                  setVisibleLayers({
-                    hall9RoomsPois: false,
-                    hall9FloorPlan: false,
-                    hall8RoomsPois: false,
-                    hall8FloorPlan: false,
-                  });
-                  toggleLayerVisibility('hall9RoomsPois');
-                  toggleLayerVisibility('hall9FloorPlan');
-                }}
-              />
-              <List.Item 
-                title="Hall 8" 
-                left={props => <List.Icon {...props} icon="floor-plan" />} 
-                style={{ backgroundColor: visibleLayers.hall8RoomsPois ? 'lightgray' : 'white' }} 
-                onPress={() => {
-                  setVisibleLayers({
-                    hall9RoomsPois: false,
-                    hall9FloorPlan: false,
-                    hall8RoomsPois: false,
-                    hall8FloorPlan: false,
-                  });
-                  toggleLayerVisibility('hall8RoomsPois');
-                  toggleLayerVisibility('hall8FloorPlan');
-                }}
-              />
-
-            </ScrollView>
-          </List.Accordion>
-        </List.Section>
       </View>
+      
+      {/* Zoom indicator - shows when user searches for POIs but is zoomed out too far */}
+      {currentSearchText && !shouldShowPOIs && results.features && results.features.length > 0 && (
+        <View style={{
+          position: 'absolute',
+          bottom: 100,
+          alignSelf: 'center',
+          backgroundColor: 'rgba(0,0,0,0.7)',
+          padding: 10,
+          borderRadius: 5,
+          zIndex: 1000,
+        }}>
+          <Text style={{ color: 'white', textAlign: 'center' }}>
+            Zoom in to see POIs
+          </Text>
+        </View>
+      )}
+
       <View
         style={[
           ButtonsStyles.buttonContainer,
