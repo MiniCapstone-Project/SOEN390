@@ -690,6 +690,7 @@ export default function MapExplorerScreen() {
           googleMapsKey={googleMapsKey}
           location={userLocation}
           onSearchTextChange={setCurrentSearchText}
+          
         />
       </View>
       
