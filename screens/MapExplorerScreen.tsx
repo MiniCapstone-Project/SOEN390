@@ -123,12 +123,21 @@ const MapComponent = ({
   const [showInfoBox, setShowInfoBox] = useState(false);
   const navi = useNavigation();
 
+ 
+
   const handleMarkerPress = (markerData: any) => {
     console.log("Building marker pressed:", markerData);
-    if (markerData.coordinates) {
-      setSelectedCoordinate(markerData.coordinates);
-      setSelectedProperties(markerData.feature?.properties
-        ? { ...markerData.feature.properties, coordinate: markerData.coordinates }
+  
+    // Assuming markerData is the feature object
+    const coordinates = markerData.geometry.coordinates;
+  
+    if (coordinates) {
+      const [longitude, latitude] = coordinates;  // Destructure the coordinates
+      const coordinate = { latitude, longitude };
+  
+      setSelectedCoordinate(coordinate);
+      setSelectedProperties(markerData.properties
+        ? { ...markerData.properties, coordinate }
         : markerData);
       setShowInfoBox(true);
       setSelectedMarker(markerData);
@@ -136,6 +145,7 @@ const MapComponent = ({
       console.log("No coordinates found in marker data");
     }
   };
+  
 
   const handleDirections = (selectedProperties: any) => {
     if (!userLocation) {
@@ -184,14 +194,22 @@ const MapComponent = ({
         onRegionChangeComplete={handleRegionChange}
       >
         {/* Building markers */}
-        <Geojson
-          geojson={buildingMarkers}
-          strokeColor="blue"
-          fillColor="cyan"
-          strokeWidth={2}
-          tappable={true}
-          onPress={handleMarkerPress}
-        />
+    
+{buildingMarkers.features.map((feature: any) => (
+          <Marker
+            coordinate={{
+              latitude: feature.geometry.coordinates[1],
+              longitude: feature.geometry.coordinates[0],
+            }}
+            title={feature.properties.Building_Name || "POI"}
+            key={feature.properties.place_id || Math.random().toString()}
+            pinColor="red"
+           onPress={() => {
+              handleMarkerPress(feature);
+            }}
+          />
+        ))}
+
         <Geojson
           geojson={buildingOutlines}
           strokeColor="green"
