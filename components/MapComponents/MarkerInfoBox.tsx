@@ -36,7 +36,9 @@ export const MarkerInfoBox: React.FC<MarkerInfoBoxProps> = ({
 
                         <>
                             <Divider style={MarkerInfoBoxStyles.divider} />
-                            <Text style={MarkerInfoBoxStyles.sectionTitle}>Building Details</Text>
+                            <Text style={MarkerInfoBoxStyles.sectionTitle}>
+                                {properties?.poi_type ? 'Place Details' : 'Building Details'}
+                            </Text>
                             
                     
                             
@@ -51,6 +53,28 @@ export const MarkerInfoBox: React.FC<MarkerInfoBoxProps> = ({
                                 <View style={MarkerInfoBoxStyles.propertyRow}>
                                     <Text style={MarkerInfoBoxStyles.propertyKey}>Address:</Text>
                                     <Text style={MarkerInfoBoxStyles.propertyValue}>{properties.Address}</Text>
+                                </View>
+                            )}
+                            
+                            {/* Display POI-specific information */}
+                            {properties?.poi_type && (
+                                <View style={MarkerInfoBoxStyles.propertyRow}>
+                                    <Text style={MarkerInfoBoxStyles.propertyKey}>Type:</Text>
+                                    <Text style={MarkerInfoBoxStyles.propertyValue}>{properties.poi_type}</Text>
+                                </View>
+                            )}
+                            
+                            {properties?.rating > 0 && (
+                                <View style={MarkerInfoBoxStyles.propertyRow}>
+                                    <Text style={MarkerInfoBoxStyles.propertyKey}>Rating:</Text>
+                                    <Text style={MarkerInfoBoxStyles.propertyValue}>{properties.rating} ★</Text>
+                                </View>
+                            )}
+                            
+                            {properties?.price_level > 0 && (
+                                <View style={MarkerInfoBoxStyles.propertyRow}>
+                                    <Text style={MarkerInfoBoxStyles.propertyKey}>Price Level:</Text>
+                                    <Text style={MarkerInfoBoxStyles.propertyValue}>{Array(properties.price_level).fill('$').join('')}</Text>
                                 </View>
                             )}
                             

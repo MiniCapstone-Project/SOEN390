@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, Keyboard, Alert } from "react-native";
 import MapView, { Region } from "react-native-maps";
 import { DefaultMapStyle } from "@/Styles/MapStyles";
@@ -110,13 +110,21 @@ export const AutocompleteSearchWrapper = ({
   const handleClearAll = () => {
     setAutoSearchText("");
     setResults([]);
+    // Force the GooglePlacesAutocomplete component to clear
+    if (googlePlacesRef.current) {
+      googlePlacesRef.current.clear();
+    }
   };
+
+  // Create a ref for the GooglePlacesAutocomplete component
+  const googlePlacesRef = useRef<any>(null);
 
   return (
     <View style={ButtonsStyles.searchWrapper}>
       {/* The Google Places Autocomplete field */}
       <GooglePlacesAutocomplete
-        placeholder="Search for places..."
+        ref={googlePlacesRef}
+        placeholder="Search for places, coffee shops, restaurants..."
         fetchDetails={true}
         onPress={handleSelectSuggestion}
         query={{
@@ -124,6 +132,7 @@ export const AutocompleteSearchWrapper = ({
           language: "en",
           location: location ? `${location.latitude},${location.longitude}` : undefined, // Use location for suggestions
           radius: 20000, // 20 km radius
+          types: 'restaurant,cafe,bar,food,store,shop', // Add types for POIs
         }}
         textInputProps={{
           value: autoSearchText,

@@ -61,7 +61,43 @@ const MapComponent = ({
   visibleLayers: { [key: string]: boolean };
 }) => {
   const handleOutlinePress = (event: any) => {
-    console.log("Building outline pressed:", event);
+    console.log("Outline pressed", event);
+    // Additional handling for outline press events
+  };
+
+
+  const handleSearchResultPress = (event: any) => {
+    console.log("Search result pressed", event);
+    if (event.feature.properties) {
+      // Format the properties for display
+      const properties = event.feature.properties;
+      
+      // Add any missing properties needed by the UI
+      if (!properties.coordinate && event.feature.geometry) {
+        properties.coordinate = {
+          latitude: event.feature.geometry.coordinates[1],
+          longitude: event.feature.geometry.coordinates[0]
+        };
+      }
+      
+      // Set extra information for POIs
+      if (properties.types && properties.types.length > 0) {
+        // Capitalize and format types for display
+        properties.poi_type = properties.types
+          .map((type: string) => type.replace(/_/g, ' '))
+          .map((type: string) => type.charAt(0).toUpperCase() + type.slice(1))
+          .join(', ');
+      }
+      
+      // Set all required state variables to show the info box
+      setSelectedMarker(properties);
+      setSelectedCoordinate({
+        latitude: properties.coordinate.latitude,
+        longitude: properties.coordinate.longitude
+      });
+      setSelectedProperties(properties);
+      setShowInfoBox(true);
+    }
   };
 
   const [selectedCoordinate, setSelectedCoordinate] = useState<{
