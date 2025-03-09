@@ -183,9 +183,7 @@ const MapComponent = ({
         ]}
         onRegionChangeComplete={handleRegionChange}
       >
-        {/* {zoomLevel > BUILDING_MARKERS_ZOOM_THRESHOLD && (
-        )} */}
-        
+        {/* Building markers */}
         <Geojson
           geojson={buildingMarkers}
           strokeColor="blue"
