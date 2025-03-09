@@ -249,7 +249,7 @@ return (
       <View style={[DirectionsScreenStyles.inputContainer, { flexDirection: "row", alignItems: "center" }]}>
         <FontAwesome5 name="map-pin" size={16} color="gray" style={{ marginRight: 8 }} />
         <GooglePlacesAutocomplete
-          placeholder={destinationObject?.Address || "Destination"} // Placeholder restored
+          placeholder={"Destination"} // Placeholder restored
           fetchDetails
           onPress={(data, details) => details && handleLocationSelect(details, setDestination, "destination", destinationObject)}
           query={{ key: GOOGLE_MAPS_API_KEY, language: "en" }}
@@ -279,6 +279,7 @@ return (
             }
             }}
             style={{ alignItems: "center" }}
+            testID = {mode}
           >
             <FontAwesome5
               name={icon}
