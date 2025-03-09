@@ -38,9 +38,22 @@ export const AutocompleteSearchWrapper = ({
   // This local state tracks typed text in the Autocomplete's field
   const [autoSearchText, setAutoSearchText] = useState("");
 
+  // Create a ref for the GooglePlacesAutocomplete component
+  const googlePlacesRef = useRef<any>(null);
+
+  // Create a ref for the text change timeout
+  const textChangeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   // Perform a full text-based search, returning multiple results
   const handleFullTextSearch = async () => {
-    if (!autoSearchText.trim()) return;
+    if (!autoSearchText.trim()) {
+      // Clear results if search text is empty
+      setResults({
+        type: "FeatureCollection",
+        features: []
+      } as any);
+      return;
+    }
     
     // Report the search text to the parent component
     onSearchTextChange?.(autoSearchText);
@@ -170,18 +183,35 @@ export const AutocompleteSearchWrapper = ({
 
   // Clear typed text and results
   const handleClearAll = () => {
+    // Clear local state
     setAutoSearchText("");
-    setResults([]);
-    // Report the empty search text to the parent component
+    
+    // Set results to a properly formatted empty GeoJSON object
+    setResults({
+      type: "FeatureCollection",
+      features: []
+    } as any);
+    
+    // Cancel any pending text change notifications
+    if (textChangeTimeoutRef.current) {
+      clearTimeout(textChangeTimeoutRef.current);
+      textChangeTimeoutRef.current = null;
+    }
+    
+    // Report the empty search text to the parent component IMMEDIATELY
+    // This is critical - send an empty string to signal a complete reset
     onSearchTextChange?.("");
+    
     // Force the GooglePlacesAutocomplete component to clear
     if (googlePlacesRef.current) {
       googlePlacesRef.current.clear();
     }
+    
+    // Clear keyboard focus
+    Keyboard.dismiss();
+    
+    console.log("Search completely cleared and reset");
   };
-
-  // Create a ref for the GooglePlacesAutocomplete component
-  const googlePlacesRef = useRef<any>(null);
 
   return (
     <View style={ButtonsStyles.searchWrapper}>
@@ -201,9 +231,21 @@ export const AutocompleteSearchWrapper = ({
         }}
         textInputProps={{
           onChangeText: (text) => {
-            setAutoSearchText(text);
-            console.log("Text changed:", text); // Debug
-            onSearchTextChange?.(text); // Report search text changes
+            // Only update if text changed
+            if (text !== autoSearchText) {
+              setAutoSearchText(text);
+              // Only notify parent of non-empty text changes
+              if (text.trim()) {
+                console.log("Text changed:", text);
+                // Debounce notifying the parent component
+                if (textChangeTimeoutRef.current) {
+                  clearTimeout(textChangeTimeoutRef.current);
+                }
+                textChangeTimeoutRef.current = setTimeout(() => {
+                  onSearchTextChange?.(text);
+                }, 300);
+              }
+            }
           },
           onSubmitEditing: handleFullTextSearch,
           autoCapitalize: "none",

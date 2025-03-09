@@ -60,7 +60,9 @@ const MapComponent = ({
   setSelectedMarker,
   visibleLayers,
   onRegionChangeComplete,
-  shouldShowPOIs
+  shouldShowPOIs,
+  currentSearchText,
+  searchCleared
 }: {
   mapRef: React.RefObject<MapView>;
   results: any;
@@ -70,6 +72,8 @@ const MapComponent = ({
   visibleLayers: { [key: string]: boolean };
   onRegionChangeComplete: (region: Region) => void;
   shouldShowPOIs: boolean;
+  currentSearchText: string;
+  searchCleared: boolean;
 }) => {
   const handleOutlinePress = (event: any) => {
     console.log("Outline pressed", event);
@@ -218,7 +222,13 @@ const MapComponent = ({
             tappable={true}
           />
         )}
-        {results.features && shouldShowPOIs && (
+        {/* Search Results GeoJSON */}
+        {!searchCleared && 
+          results.features && 
+          shouldShowPOIs && 
+          currentSearchText && 
+          currentSearchText.trim() !== "" && 
+          results.features.length > 0 && (
           <Geojson
             geojson={results}
             strokeColor="#0066CC"
@@ -229,7 +239,15 @@ const MapComponent = ({
             onPress={handleSearchResultPress}
           />
         )}
-        {results.features && shouldShowPOIs && results.features.map((feature: any) => (
+        
+        {/* Search Results as Markers for better visibility */}
+        {!searchCleared && 
+          results.features && 
+          shouldShowPOIs && 
+          currentSearchText && 
+          currentSearchText.trim() !== "" && 
+          results.features.length > 0 && 
+          results.features.map((feature: any) => (
           <Marker
             coordinate={{
               latitude: feature.geometry.coordinates[1],
@@ -299,6 +317,8 @@ export default function MapExplorerScreen() {
   const [shouldShowPOIs, setShouldShowPOIs] = useState<boolean>(false);
   const refreshTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [currentSearchText, setCurrentSearchText] = useState<string>("");
+  // Add a flag to completely disable POI updates after clearing
+  const [searchCleared, setSearchCleared] = useState<boolean>(true);
   
   // Add effect to log results when they change
   useEffect(() => {
@@ -420,13 +440,37 @@ export default function MapExplorerScreen() {
 
   // Function to trigger a POI search with the current radius
   const searchPOIs = useCallback(() => {
-    if (!currentSearchText || !shouldShowPOIs) return;
+    // Skip everything if search has been cleared
+    if (searchCleared) {
+      console.log("Skipping POI search - search has been cleared");
+      return;
+    }
+    
+    // CRITICAL CHECK: Do not search if no search text
+    if (!currentSearchText || currentSearchText.trim() === "") {
+      console.log("Prevented POI search - no search text");
+      // Ensure results are cleared
+      setResults({
+        type: "FeatureCollection",
+        features: []
+      });
+      return;
+    }
+    
+    if (!shouldShowPOIs) {
+      console.log("Prevented POI search - POIs should not be shown at current zoom level");
+      return;
+    }
     
     console.log(`Searching for "${currentSearchText}" with radius ${searchRadius}m`);
     
-    // Create a ref to the AutoCompleteSearchWrapper to trigger a search
-    // Since we don't have direct access to the component's handleFullTextSearch,
-    // we'll refresh the results by recreating the search manually
+    // Use a flag to prevent multiple simultaneous searches
+    if (refreshTimeoutRef.current) {
+      clearTimeout(refreshTimeoutRef.current);
+      refreshTimeoutRef.current = null;
+    }
+    
+    // Set a loading indicator or similar if needed
     
     const performSearch = async () => {
       try {
@@ -443,26 +487,51 @@ export default function MapExplorerScreen() {
           return;
         }
         
-        setResults(geojson);
-        console.log(`Found ${geojson.features.length} POIs`);
+        // Compare with existing results to avoid unnecessary re-renders
+        if (JSON.stringify(results) !== JSON.stringify(geojson)) {
+          setResults(geojson);
+          console.log(`Found ${geojson.features.length} POIs`);
+        } else {
+          console.log("Results unchanged, skipping update");
+        }
       } catch (error) {
         console.error("Error searching for POIs:", error);
       }
     };
     
     performSearch();
-  }, [currentSearchText, searchRadius, shouldShowPOIs, userLocation, currentCampus, googleMapsKey]);
+  }, [currentSearchText, searchRadius, shouldShowPOIs, userLocation, currentCampus, googleMapsKey, results]);
   
   // Effect to refresh POIs when search radius changes significantly
   useEffect(() => {
+    // Skip initial render or if search has been cleared
     if (refreshTimeoutRef.current) {
       clearTimeout(refreshTimeoutRef.current);
     }
     
+    // Skip everything if search has been cleared
+    if (searchCleared) {
+      console.log("Skipping search radius effect - search has been cleared");
+      return;
+    }
+    
+    // Only trigger search if we already have a search and POIs should be visible
+    if (!currentSearchText || !shouldShowPOIs) {
+      return;
+    }
+    
+    // Use a longer timeout to allow for multiple zoom changes before refreshing
     refreshTimeoutRef.current = setTimeout(() => {
-      if (currentSearchText && shouldShowPOIs) {
-        searchPOIs();
-      }
+      // Store the current search radius to compare later
+      const currentRadiusSnapshot = searchRadius;
+      
+      // Only perform search if radius is still the same (no more zooming in progress)
+      setTimeout(() => {
+        if (currentRadiusSnapshot === searchRadius && currentSearchText) {
+          console.log(`Refreshing POIs after search radius settled at ${searchRadius}m`);
+          searchPOIs();
+        }
+      }, 300);
     }, 1000);
     
     return () => {
@@ -470,27 +539,39 @@ export default function MapExplorerScreen() {
         clearTimeout(refreshTimeoutRef.current);
       }
     };
-  }, [searchRadius, searchPOIs]);
+  }, [searchRadius, searchPOIs, currentSearchText, shouldShowPOIs]);
   
   // Update the handleMapRegionChange function to use searchPOIs
   const handleMapRegionChange = (region: Region) => {
+    // SKIP EVERYTHING if search has been cleared - critical fix!
+    if (searchCleared) {
+      console.log("Skipping region change processing - search is cleared");
+      return;
+    }
+    
     const zoom = Math.log2(360 * (Dimensions.get('window').width / 256 / region.longitudeDelta)) + 1;
+    
+    // Only process if zoom changed significantly (more than 0.5 levels)
+    const zoomDifference = Math.abs(zoom - lastZoomRef.current);
+    if (zoomDifference < 0.5) {
+      return; // Exit early if zoom hasn't changed enough
+    }
     
     // Calculate dynamic search radius based on zoom level
     let newRadius;
-    const zoomDifference = Math.abs(zoom - lastZoomRef.current);
+    let shouldShowPOIsNew = shouldShowPOIs;
     
     if (zoom < POI_MIN_ZOOM_LEVEL) {
       // Too zoomed out, hide POIs
-      setShouldShowPOIs(false);
+      shouldShowPOIsNew = false;
       newRadius = POI_RADIUS_MAX;
     } else if (zoom > POI_MAX_ZOOM_LEVEL) {
       // Very zoomed in, use minimum radius
-      setShouldShowPOIs(true);
+      shouldShowPOIsNew = true;
       newRadius = POI_RADIUS_MIN;
     } else {
       // In between, calculate proportional radius
-      setShouldShowPOIs(true);
+      shouldShowPOIsNew = true;
       const zoomRange = POI_MAX_ZOOM_LEVEL - POI_MIN_ZOOM_LEVEL;
       const zoomFactor = (zoom - POI_MIN_ZOOM_LEVEL) / zoomRange;
       newRadius = POI_RADIUS_MAX - (zoomFactor * (POI_RADIUS_MAX - POI_RADIUS_MIN));
@@ -498,14 +579,20 @@ export default function MapExplorerScreen() {
     
     // Check if we need to update the search radius and requery
     const radiusChange = Math.abs(newRadius - searchRadius) / searchRadius;
-    const shouldUpdateRadius = radiusChange > 0.1; // 10% change
+    const shouldUpdateRadius = radiusChange > 0.2; // 20% change
+    
+    // Prevent unnecessary state updates
+    if (shouldShowPOIsNew !== shouldShowPOIs) {
+      setShouldShowPOIs(shouldShowPOIsNew);
+    }
     
     if (shouldUpdateRadius) {
+      // Only update search radius if it changed significantly
       setSearchRadius(Math.round(newRadius));
       
       // Trigger a new POI search if there's an active search and zoom changed significantly
-      if (currentSearchText && zoomDifference > 0.5) {
-        // Debounce the search to prevent too many API calls while zooming
+      if (currentSearchText && zoomDifference > 1.0) {
+        // More aggressive debouncing to prevent rapid re-renders
         if (refreshTimeoutRef.current) {
           clearTimeout(refreshTimeoutRef.current);
         }
@@ -513,7 +600,7 @@ export default function MapExplorerScreen() {
         refreshTimeoutRef.current = setTimeout(() => {
           console.log(`Zoom changed by ${zoomDifference}, refreshing POIs with radius ${newRadius}m`);
           searchPOIs();
-        }, 500);
+        }, 800); // Longer delay to avoid rapid searches
       }
     }
     
@@ -530,8 +617,31 @@ export default function MapExplorerScreen() {
   useEffect(() => {
     console.log(`Current search text updated: "${currentSearchText}"`);
     if (currentSearchText) {
+      // When a new search is performed, enable POI updates
+      setSearchCleared(false);
       // When a new search is performed, apply the current search radius
       searchPOIs();
+    } else {
+      // When search text is cleared, do a complete reset of all POI-related state
+      setResults({
+        type: "FeatureCollection",
+        features: []
+      });
+      
+      // Set the cleared flag to true to disable POI updates on zoom
+      setSearchCleared(true);
+      
+      // Cancel any pending searches
+      if (refreshTimeoutRef.current) {
+        clearTimeout(refreshTimeoutRef.current);
+        refreshTimeoutRef.current = null;
+      }
+      
+      // Reset search-related state
+      setSelectedMarker(null);
+      setShowInfoBox(false);
+      
+      console.log("COMPLETE RESET: Cleared all search results and state due to empty search text");
     }
   }, [currentSearchText]);
 
@@ -546,6 +656,8 @@ export default function MapExplorerScreen() {
         visibleLayers={visibleLayers}
         onRegionChangeComplete={handleMapRegionChange}
         shouldShowPOIs={shouldShowPOIs}
+        currentSearchText={currentSearchText}
+        searchCleared={searchCleared}
       />
       <View
         pointerEvents="box-none"
