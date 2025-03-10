@@ -37,5 +37,6 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
+        maven { url "https://sdk.smartlook.com/android/release" }
     }
 }

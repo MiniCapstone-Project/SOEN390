@@ -6,9 +6,12 @@ import { SMARTLOOK_API_KEY } from '@/constants/SmartlookKey';
 import Smartlook from 'react-native-smartlook-analytics' ;
 
 export default function App() {
-  // useEffect(() => {
-  //   Smartlook.instance.preferences.setProjectKey(SMARTLOOK_API_KEY);
-  // }, []);
+  useEffect(() => {
+    Smartlook.instance.preferences.setProjectKey(SMARTLOOK_API_KEY);
+    Smartlook.instance.start();
+    console.log('Smartlook instance:', Smartlook.instance);
+    console.log(Smartlook.instance.preferences);
+  }, []);
 
   return (
     <>
