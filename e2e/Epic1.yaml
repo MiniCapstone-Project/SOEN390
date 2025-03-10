@@ -1,0 +1,10 @@
+appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name or bundle identifier)
+---
+- launchApp
+
+- tapOn: "Loyola"
+
+- tapOn: "SGW"
+
+- tapOn: "VA Building"
+

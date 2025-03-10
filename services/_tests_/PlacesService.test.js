@@ -21,11 +21,10 @@ describe("PlacesService", () => {
         const response = await searchPlaces("coffee", 45.5017, -73.5673);
 
         expect(response).toBeDefined();
-        expect(Array.isArray(response.results)).toBe(true);
-        expect(response.results.length).toBeGreaterThan(0);
-        expect(response.results[0]).toHaveProperty("name");
-        expect(response.results[0]).toHaveProperty("geometry");
-        expect(response.results[0].geometry).toHaveProperty("location");
+        expect(Array.isArray(response.features)).toBe(true);
+        expect(response.features.length).toBeGreaterThan(0);
+        expect(response.features[0].properties).toHaveProperty("name");
+        expect(response.features[0].geometry).toHaveProperty("coordinates");
     });
 
     test("searchPlaces should handle API errors gracefully", async () => {
