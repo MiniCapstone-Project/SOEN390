@@ -27,6 +27,26 @@ export default function App() {
         setUserInfo(JSON.parse(user))
     }
   };
+
+   const getUserInfo = async (token) => {
+ if(!token) return;
+ try {
+    const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+    {
+          headers: {Authorization : `Bearer ${token}`}
+    }
+);
+const user = await response.json();
+await AsyncStorage.setItem("@user", JSON.stringify(user));
+setUserInfo(user);
+ }
+ catch (error){
+    console.log(error);
+ }
+ 
+ };
+
   console.log(userInfo.access_token);
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
