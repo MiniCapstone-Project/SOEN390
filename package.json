@@ -42,6 +42,22 @@
       }
     }
   },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-native-maps",
+          "react-native-maps-directions",
+          "@react-native/gradle-plugin",
+          "eas-cli",
+          "lodash",
+          "react-native-async-storage",
+          "react-native-elements"
+        ],
+        "listUnknownPackages": false
+      }
+    }
+  },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "1.23.1",
@@ -49,7 +65,9 @@
     "@react-native-community/slider": "4.5.5",
     "@react-native/gradle-plugin": "^0.77.1",
     "@react-navigation/native": "^7.0.15",
+    "eas-cli": "^15.0.15",
     "expo": "~52.0.37",
+    "expo-dev-client": "^5.0.14",
     "expo-font": "~13.0.4",
     "expo-linking": "~7.0.5",
     "expo-location": "~18.0.7",
@@ -84,7 +102,6 @@
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.16",
     "@types/react": "~18.3.18",
-    "@types/react-native": "^0.72.8",
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
     "eslint": "^9.22.0",
