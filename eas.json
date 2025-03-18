@@ -4,9 +4,6 @@
     "appVersionSource": "remote"
   },
   "build": {
-    "env": {
-      "GRADLE_OPTS": "-Xmx4096m -XX:MaxMetaspaceSize=1024m"
-    },
     "development": {
       "developmentClient": true,
       "distribution": "internal"

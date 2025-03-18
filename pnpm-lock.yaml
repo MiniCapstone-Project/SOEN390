@@ -24,7 +24,7 @@ importers:
         specifier: ^0.77.1
         version: 0.77.1
       '@react-navigation/native':
-        specifier: ^7.0.15
+        specifier: ^7.0.14
         version: 7.0.15(react-native@0.76.7(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@react-native-community/cli-server-api@18.0.0)(@types/react@18.3.18)(react@18.3.1))(react@18.3.1)
       eas-cli:
         specifier: ^15.0.15
@@ -44,6 +44,9 @@ importers:
       expo-location:
         specifier: ~18.0.8
         version: 18.0.8(expo@52.0.39(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@expo/metro-runtime@4.0.1(react-native@0.76.7(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@react-native-community/cli-server-api@18.0.0)(@types/react@18.3.18)(react@18.3.1)))(graphql@16.8.1)(react-native@0.76.7(@babel/core@7.26.10)(@babel/preset-env@7.26.9(@babel/core@7.26.10))(@react-native-community/cli-server-api@18.0.0)(@types/react@18.3.18)(react@18.3.1))(react@18.3.1))
+      expo-modules-core:
+        specifier: ^2.2.3
+        version: 2.2.3
       expo-router:
         specifier: ~4.0.19
         version: 4.0.19(13e460dfc53e47b802c6d5427d2f8926)
