@@ -18,7 +18,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { getTripDuration } from "@/services/DurationService";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
-const EDGE_PADDING = { top: 70, right: 70, bottom: 70, left: 70 };
+const BASE_PADDING = 50;
 
 export default function DirectionsScreen() {
   const mapRef = useRef<MapView | null>(null);
@@ -75,7 +75,9 @@ export default function DirectionsScreen() {
         setLocation(position);
         await AsyncStorage.setItem(storageKey, JSON.stringify(position));
 
-        moveTo(position, 1);
+        const zoomLevel = details.types.includes("country") ? 5 : 0.02;
+
+        moveTo(position, zoomLevel);
       };
     initialDestinationSelect(setDestination, "destination", destinationObject);
     }
@@ -83,8 +85,10 @@ export default function DirectionsScreen() {
 
   useEffect(() => {
     if (origin && destination) {
+      const extraPadding = origin && destination ? 100 : 0;  // extra padding to fit markers on screen properly
+
       mapRef.current?.fitToCoordinates([origin, destination], {
-        edgePadding: EDGE_PADDING,
+        edgePadding: {top: BASE_PADDING + extraPadding - 40, right: BASE_PADDING + extraPadding - 40, bottom: BASE_PADDING + extraPadding - 40, left: BASE_PADDING + extraPadding - 40},
         animated: true,
       });
     }
@@ -115,7 +119,9 @@ export default function DirectionsScreen() {
 
     const zoomLevel = details.types.includes("country") ? 5 : 0.02;
 
-    moveTo(position, zoomLevel);
+    if ((origin && !destination) || (!origin && destination)) {  // if only one location marker is selected
+        moveTo(position, zoomLevel);  // zoom in onto it
+    }
   };
 
   const traceRoute = async () => {
