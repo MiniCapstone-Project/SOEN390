@@ -4,26 +4,76 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "expo run:android",
+    "android": "GRADLE_OPTS='-Xmx4096m -XX:MaxMetaspaceSize=1024m' expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "jest --watchAll"
+    "test": "jest --config jest.config.js"
   },
   "jest": {
     "preset": "jest-expo",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "components/InputComponents/**/*.{js,jsx,ts,tsx}",
+      "components/MapComponents/**/*.{js,jsx,ts,tsx}",
+      "screens/**/*.{js,jsx,ts,tsx}",
+      "services/**/*.{js,jsx,ts,tsx}",
+      "navigation/**/*.{js,jsx,ts,tsx}",
+      "hooks/**/*.{js,jsx,ts,tsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1"
+    },
+    "setupFiles": [
+      "<rootDir>/navigation/setupTests.js"
+    ]
+  },
+  "overrides": {
+    "@testing-library/react-hooks": {
+      "peerDependencies": {
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "@types/react": "^18.0.0"
+      }
+    }
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-native-maps",
+          "react-native-maps-directions",
+          "@react-native/gradle-plugin",
+          "eas-cli",
+          "lodash",
+          "react-native-async-storage",
+          "react-native-elements"
+        ],
+        "listUnknownPackages": false
+      }
+    }
   },
   "dependencies": {
-    "@expo/vector-icons": "^14.0.2",
+    "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "^11.4.1",
-    "@react-native/gradle-plugin": "^0.77.0",
+    "@react-native-community/slider": "4.5.5",
+    "@react-native/gradle-plugin": "^0.77.1",
     "@react-navigation/native": "^7.0.14",
-    "expo": "~52.0.31",
-    "expo-font": "~13.0.3",
-    "expo-linking": "~7.0.4",
-    "expo-router": "~4.0.17",
-    "expo-splash-screen": "~0.29.21",
+    "eas-cli": "^15.0.15",
+    "expo": "~52.0.39",
+    "expo-dev-client": "^5.0.14",
+    "expo-font": "~13.0.4",
+    "expo-linking": "~7.0.5",
+    "expo-location": "~18.0.8",
+    "expo-modules-core": "^2.2.3",
+    "expo-router": "~4.0.19",
+    "expo-splash-screen": "~0.29.22",
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.8",
     "expo-web-browser": "~14.0.2",
@@ -32,30 +82,51 @@
     "react-dom": "18.3.1",
     "react-native": "0.76.7",
     "react-native-async-storage": "^0.0.1",
-    "react-native-config": "^1.5.3",
+    "react-native-config": "^1.5.5",
+    "react-native-elements": "^3.4.3",
     "react-native-get-random-values": "^1.11.0",
     "react-native-google-places-autocomplete": "^2.5.7",
     "react-native-maps": "1.18.0",
     "react-native-maps-directions": "^1.9.0",
     "react-native-paper": "^5.13.1",
-    "react-native-reanimated": "^2.9.1",
+    "react-native-reanimated": "~3.16.7",
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
     "react-native-web": "~0.19.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2",
+    "@babel/core": "^7.26.10",
+    "@eslint/js": "^9.22.0",
     "@react-native-community/cli": "latest",
-    "@testing-library/react-native": "^13.0.1",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/react-hooks": "^8.0.1",
     "@types/jest": "^29.5.14",
-    "@types/lodash": "^4.17.15",
-    "@types/react": "~18.3.12",
-    "@types/react-native": "^0.72.8",
-    "jest": "^29.2.1",
-    "jest-expo": "~52.0.3",
+    "@types/lodash": "^4.17.16",
+    "@types/react": "~18.3.18",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
+    "eslint": "^9.22.0",
+    "eslint-plugin-jest": "^28.11.0",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^15.15.0",
+    "jest": "^29.7.0",
+    "jest-expo": "~52.0.5",
+    "metro": "^0.81.3",
+    "metro-config": "^0.81.3",
+    "metro-core": "^0.81.3",
+    "metro-react-native-babel-preset": "^0.77.0",
     "react-test-renderer": "^18.3.1",
-    "ts-jest": "^29.2.5",
-    "typescript": "~5.3.3"
+    "ts-jest": "^29.2.6",
+    "typescript": "~5.3.3",
+    "typescript-eslint": "^8.26.1"
   },
-  "private": true
+  "private": true,
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "react-native-elements"
+    ],
+    "onlyBuiltDependencies": [
+      "dtrace-provider"
+    ]
+  }
 }

@@ -4,6 +4,9 @@ Dont forget to checkout the [Wiki](https://github.com/MiniCapstone-Project/SOEN3
 
 ## links
 
+[![codecov](https://codecov.io/gh/MiniCapstone-Project/SOEN390/graph/badge.svg?token=6LP7PTTZTM)](https://codecov.io/gh/MiniCapstone-Project/SOEN390) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MiniCapstone-Project_SOEN390&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=MiniCapstone-Project_SOEN390)
+
+
 [Setting up React Native Environemnt](https://reactnative.dev/docs/set-up-your-environment)
 
 [Google Drive Link](https://drive.google.com/drive/folders/1UL6PJ-IIoOIFHoY5S4i67sVe1DtE99dF?usp=sharing)
@@ -45,4 +48,23 @@ npm install jest --global
 ```
 ```bash
 jest --updateSnapshot
+```
+
+if you need to login into expo use this: 
+```bash
+npx expo login
+```
+Username:
+```bash
+i_amtheguy
+```
+Password:
+```bash
+TheBrothers963
+```
+
+
+running eslint
+```bash 
+npx eslint .
 ```

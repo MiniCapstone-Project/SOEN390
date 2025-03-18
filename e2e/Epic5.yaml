@@ -1,0 +1,19 @@
+appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name or bundle identifier)
+---
+- launchApp
+
+- tapOn: "SGW"
+
+- tapOn: "Search for places, coffee shops, restaurants..."
+
+- inputText: "Coffee"
+
+- pressKey: Enter
+
+- tapOn : SGW
+
+- tapOn: Off The Hook
+
+
+# Zoom out to see the path
+# Screen Record for the whole thing 
