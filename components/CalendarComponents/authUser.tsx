@@ -4,9 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { Button, Text, View } from 'react-native';
 import { WEB_CLIENT_ID } from "../../constants/GoogleKey";
+import { AND_CLIENT_ID } from '../../constants/GoogleKey';
 
 WebBrowser.maybeCompleteAuthSession();
-const CLIENT_ID = WEB_CLIENT_ID;
 const SCOPES = encodeURI('https://www.googleapis.com/auth/calendar.readonly');
 const RESPONSE_TYPE = 'token';
 
@@ -15,8 +15,7 @@ export default function AuthUser() {
   const [accessToken, setAccessToken] = useState(null);
 
   const [request, response, promptAsync ] = Google.useAuthRequest({
-    androidClientId: CLIENT_ID,
-    scopes: ['https://www.googleapis.com/auth/calendar.readonly']
+    androidClientId: AND_CLIENT_ID,
   }); 
 
    useEffect(()=>{
@@ -56,13 +55,14 @@ setAccessToken(token);
  
  };
 
-  console.log(userInfo.access_token);
+  // console.log(userInfo.access_token);
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {!userInfo ? (
-        <Button title="Connect Google Calendar" onPress={promptAsync} />
+        <Button title="Connect Google Calendar" 
+        onPress= {promptAsync} />
       ) : (
-        <Text>Access Token: {userInfo.access_token}</Text>
+        <Text>Access Token: {userInfo}</Text>
       )}
     </View>
   );
