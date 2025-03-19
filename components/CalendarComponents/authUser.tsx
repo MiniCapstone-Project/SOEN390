@@ -10,19 +10,25 @@ const CLIENT_ID = WEB_CLIENT_ID;
 const SCOPES = encodeURI('https://www.googleapis.com/auth/calendar.readonly');
 const RESPONSE_TYPE = 'token';
 
-export default function App() {
+export default function AuthUser() {
   const [userInfo, setUserInfo] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
 
   const [request, response, promptAsync ] = Google.useAuthRequest({
     androidClientId: CLIENT_ID,
     scopes: ['https://www.googleapis.com/auth/calendar.readonly']
   }); 
 
+   useEffect(()=>{
+    handleSignIn();
+},[response]);
+
   async function handleSignIn (){
     const user = await AsyncStorage.getItem("@user");
     if(!user){
-
-    }
+        if (response?.type ==="success"){
+        await getUserInfo(response.authentication?.accessToken);
+    }}
     else {
         setUserInfo(JSON.parse(user))
     }
@@ -39,11 +45,14 @@ export default function App() {
 );
 const user = await response.json();
 await AsyncStorage.setItem("@user", JSON.stringify(user));
+await AsyncStorage.setItem("@accessToken", token);
 setUserInfo(user);
+setAccessToken(token);
+
  }
  catch (error){
-    console.log(error);
- }
+    console.log("Error fetching user info: ", error);
+}
  
  };
 
