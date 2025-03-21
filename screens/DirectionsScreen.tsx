@@ -86,9 +86,13 @@ export default function DirectionsScreen() {
   useEffect(() => {
     if (origin && destination) {
       const extraPadding = origin && destination ? 100 : 0;  // extra padding to fit markers on screen properly
+      const padding = BASE_PADDING + extraPadding - 40;
 
       mapRef.current?.fitToCoordinates([origin, destination], {
-        edgePadding: {top: BASE_PADDING + extraPadding - 40, right: BASE_PADDING + extraPadding - 40, bottom: BASE_PADDING + extraPadding - 40, left: BASE_PADDING + extraPadding - 40},
+        edgePadding: {top: padding,
+            right: padding,
+            bottom: padding,
+            left: padding},
         animated: true,
       });
     }
