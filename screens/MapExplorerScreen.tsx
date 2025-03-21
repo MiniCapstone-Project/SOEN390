@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 
-import { View, Alert, ScrollView, Dimensions, Text } from "react-native";
+import { View, Alert, ScrollView, Dimensions, Text, Modal, TouchableOpacity } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle, Marker } from "react-native-maps";
 
 import { DefaultMapStyle } from "@/Styles/MapStyles";
@@ -82,7 +82,8 @@ const MapComponent = ({
   } | null>(null);
   const [selectedProperties, setSelectedProperties] = useState<any>(null);
   const [showInfoBox, setShowInfoBox] = useState(false);
-  const [directionModalVisibility, setDirectionModalVisible] = useState(false);
+  const [directionModalVisible, setDirectionModalVisible] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState<number>(0);
   const navi = useNavigation();
 
   const handleOutlinePress = (event: any) => {
@@ -156,25 +157,53 @@ const MapComponent = ({
     }
 
     setDirectionModalVisible(true);
-    navi.dispatch(
-      CommonActions.navigate({
-        name: 'Directions',
-        params: {
-          origin: {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
-          },
-          destination: {
-            Address: selectedProperties.Address || selectedProperties.Building_Long_Name || "Selected Location",
-            Latitude: selectedProperties.coordinate.latitude,
-            Longitude: selectedProperties.coordinate.longitude,
-          },
-        },
-      })
+  };
+
+  const renderDirectionModal = () => {
+    return (
+      <Modal
+        visible={directionModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setDirectionModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Choose Direction</Text>
+            
+            <TouchableOpacity 
+              style={styles.modalButton}
+              onPress={() => {
+                setDirectionModalVisible(false);
+                navigateToDirections(userLocation, selectedProperties);
+              }}
+            >
+              <Text>Current Location → Selected Building</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.modalButton}
+              onPress={() => {
+                setDirectionModalVisible(false);
+                navigateToDirections(selectedProperties, userLocation);
+              }}
+            >
+              <Text>Selected Building → Current Location</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              // style={[styles.modalButton, styles.cancelButton]}
+              onPress={() => setDirectionModalVisible(false)}
+            >
+              <Text>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     );
   };
 
-  const [zoomLevel, setZoomLevel] = useState<number>(0);
+
 
   // This now just passes the region to the parent component
   const handleRegionChange = (region: Region) => {
