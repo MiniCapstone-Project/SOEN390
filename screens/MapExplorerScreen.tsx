@@ -75,6 +75,16 @@ const MapComponent = ({
   currentSearchText: string;
   searchCleared: boolean;
 }) => {
+
+  const [selectedCoordinate, setSelectedCoordinate] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+  const [selectedProperties, setSelectedProperties] = useState<any>(null);
+  const [showInfoBox, setShowInfoBox] = useState(false);
+  const [directionModalVisibility, setDirectionModalVisible] = useState(false);
+  const navi = useNavigation();
+
   const handleOutlinePress = (event: any) => {
     console.log("Outline pressed", event);
     // Additional handling for outline press events
@@ -115,14 +125,6 @@ const MapComponent = ({
     }
   };
 
-  const [selectedCoordinate, setSelectedCoordinate] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
-  const [selectedProperties, setSelectedProperties] = useState<any>(null);
-  const [showInfoBox, setShowInfoBox] = useState(false);
-  const navi = useNavigation();
-
  
 
   const handleMarkerPress = (markerData: any) => {
@@ -132,7 +134,7 @@ const MapComponent = ({
     const coordinates = markerData.geometry.coordinates;
   
     if (coordinates) {
-      const [longitude, latitude] = coordinates;  // Destructure the coordinates
+      const [longitude, latitude] = coordinates;  
       const coordinate = { latitude, longitude };
   
       setSelectedCoordinate(coordinate);
@@ -152,6 +154,8 @@ const MapComponent = ({
       Alert.alert("Location not available", "User location is not available yet.");
       return;
     }
+
+    setDirectionModalVisible(true);
     navi.dispatch(
       CommonActions.navigate({
         name: 'Directions',
