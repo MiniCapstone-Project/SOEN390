@@ -383,18 +383,19 @@ const MapComponent = ({
   );
 };
 
+// THIS IS NEVER USED - REMOVE IT
 // Define the type for the route parameters
-type DirectionsRouteParams = {
-  origin: {
-    latitude: number;
-    longitude: number;
-  };
-  destination: {
-    Address: string;
-    Latitude: number;
-    Longitude: number;
-  };
-};
+// type DirectionsRouteParams = {
+//   origin: {
+//     latitude: number;
+//     longitude: number;
+//   };
+//   destination: {
+//     Address: string;
+//     Latitude: number;
+//     Longitude: number;
+//   };
+// };
 
 export default function MapExplorerScreen() {
   const mapRef = useRef<MapView | null>(null);
