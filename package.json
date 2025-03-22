@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "GRADLE_OPTS='-Xmx4096m -XX:MaxMetaspaceSize=1024m' expo run:android",
+    "android": "set GRADLE_OPTS=-Xmx4096m -XX:MaxMetaspaceSize=1024m && expo run:android",    "ios": "expo run:ios",
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --config jest.config.js"
