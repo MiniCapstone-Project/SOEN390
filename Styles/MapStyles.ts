@@ -145,6 +145,13 @@ export const DirectionsScreenStyles = StyleSheet.create({
     fontWeight: "500",
     color: "#333",
   },
+  calloutContainer: {
+    width: 100,
+    padding: 5,
+  },
+  calloutText: {
+    textAlign: 'center',
+  },
 });
 
 

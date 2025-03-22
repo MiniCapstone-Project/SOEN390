@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 
-import { View, Alert, ScrollView, Dimensions, Text } from "react-native";
+import { View, Alert, ScrollView, Dimensions, Text, Modal, TouchableOpacity } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Region, Geojson, Circle, Marker } from "react-native-maps";
 
 import { DefaultMapStyle } from "@/Styles/MapStyles";
@@ -21,7 +21,7 @@ import { AutocompleteSearchWrapper } from "@/components/InputComponents/AutoComp
 import { MarkerInfoBox } from "@/components/MapComponents/MarkerInfoBox";
 import { CommonActions } from '@react-navigation/native';
 
-import { MapExplorerScreenStyles } from "@/Styles/MapExplorerScreenStyles";
+import { directionModalStyles, MapExplorerScreenStyles } from "@/Styles/MapExplorerScreenStyles";
 import { searchPlaces } from "@/services/PlacesService";
 
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
@@ -75,6 +75,17 @@ const MapComponent = ({
   currentSearchText: string;
   searchCleared: boolean;
 }) => {
+
+  const [selectedCoordinate, setSelectedCoordinate] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+  const [selectedProperties, setSelectedProperties] = useState<any>(null);
+  const [showInfoBox, setShowInfoBox] = useState(false);
+  const [directionModalVisible, setDirectionModalVisible] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState<number>(0);
+  const navi = useNavigation();
+
   const handleOutlinePress = (event: any) => {
     console.log("Outline pressed", event);
     // Additional handling for outline press events
@@ -115,14 +126,6 @@ const MapComponent = ({
     }
   };
 
-  const [selectedCoordinate, setSelectedCoordinate] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
-  const [selectedProperties, setSelectedProperties] = useState<any>(null);
-  const [showInfoBox, setShowInfoBox] = useState(false);
-  const navi = useNavigation();
-
  
 
   const handleMarkerPress = (markerData: any) => {
@@ -132,7 +135,7 @@ const MapComponent = ({
     const coordinates = markerData.geometry.coordinates;
   
     if (coordinates) {
-      const [longitude, latitude] = coordinates;  // Destructure the coordinates
+      const [longitude, latitude] = coordinates;  
       const coordinate = { latitude, longitude };
   
       setSelectedCoordinate(coordinate);
@@ -152,25 +155,92 @@ const MapComponent = ({
       Alert.alert("Location not available", "User location is not available yet.");
       return;
     }
+
+    setDirectionModalVisible(true);
+  };
+
+  // Function to navigate to the Directions screen given the selected building
+  const navigateToDirections = (origin: any, destination: any) => {
+    // Null safety check added on the users location
+    const destProps = destination === userLocation ? 
+      {
+        Address: "Your Location",
+        Latitude: userLocation?.latitude ?? 0,
+        Longitude: userLocation?.longitude ?? 0,
+      } : 
+      {
+        Address: destination.Address || destination.Building_Long_Name || "Selected Location",
+        Latitude: destination.coordinate.latitude,
+        Longitude: destination.coordinate.longitude,
+      };
+      
+    const originProps = origin === userLocation ?
+      {
+        latitude: userLocation?.latitude ?? 0,
+        longitude: userLocation?.longitude ?? 0,
+      } :
+      {
+        latitude: origin.coordinate.latitude,
+        longitude: origin.coordinate.longitude,
+      };
+      
     navi.dispatch(
       CommonActions.navigate({
         name: 'Directions',
         params: {
-          origin: {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
-          },
-          destination: {
-            Address: selectedProperties.Address || selectedProperties.Building_Long_Name || "Selected Location",
-            Latitude: selectedProperties.coordinate.latitude,
-            Longitude: selectedProperties.coordinate.longitude,
-          },
+          origin: originProps,
+          destination: destProps,
         },
       })
     );
   };
 
-  const [zoomLevel, setZoomLevel] = useState<number>(0);
+  // Renders the direction modal after the user has pressed the directions button
+  const renderDirectionModal = () => {
+    return (
+      <Modal
+        visible={directionModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setDirectionModalVisible(false)}
+      >
+        <View style={directionModalStyles.modalContainer}>
+          <View style={directionModalStyles.modalContent}>
+            <Text style={directionModalStyles.modalTitle}>Choose Direction</Text>
+            
+            <TouchableOpacity 
+              style={directionModalStyles.modalButton}
+              onPress={() => {
+                setDirectionModalVisible(false);
+                navigateToDirections(userLocation, selectedProperties);
+              }}
+            >
+              <Text>Current Location → Selected Building</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={directionModalStyles.modalButton}
+              onPress={() => {
+                setDirectionModalVisible(false);
+                navigateToDirections(selectedProperties, userLocation);
+              }}
+            >
+              <Text>Selected Building → Current Location</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              // style={[styles.modalButton, styles.cancelButton]}
+              onPress={() => setDirectionModalVisible(false)}
+            >
+              <Text>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
+
 
   // This now just passes the region to the parent component
   const handleRegionChange = (region: Region) => {
@@ -181,6 +251,7 @@ const MapComponent = ({
 
   return (
     <>
+    {renderDirectionModal()}
       <MapView
         ref={mapRef}
         style={DefaultMapStyle.map}
@@ -312,18 +383,19 @@ const MapComponent = ({
   );
 };
 
+// THIS IS NEVER USED - REMOVE IT
 // Define the type for the route parameters
-type DirectionsRouteParams = {
-  origin: {
-    latitude: number;
-    longitude: number;
-  };
-  destination: {
-    Address: string;
-    Latitude: number;
-    Longitude: number;
-  };
-};
+// type DirectionsRouteParams = {
+//   origin: {
+//     latitude: number;
+//     longitude: number;
+//   };
+//   destination: {
+//     Address: string;
+//     Latitude: number;
+//     Longitude: number;
+//   };
+// };
 
 export default function MapExplorerScreen() {
   const mapRef = useRef<MapView | null>(null);
@@ -335,18 +407,21 @@ export default function MapExplorerScreen() {
   const [currentSearchText, setCurrentSearchText] = useState<string>("");
   // Add a flag to completely disable POI updates after clearing
   const [searchCleared, setSearchCleared] = useState<boolean>(true);
-  
-  // Add effect to log results when they change
-  useEffect(() => {
-    console.log("Results state updated:", results);
-    console.log("Results has features:", results?.features?.length || 0);
-  }, [results]);
-  
   const [currentCampus, setCurrentCampus] = useState<Region>(SGW_CAMPUS);
   const [selectedMarker, setSelectedMarker] = useState<any>(null);
   const [showInfoBox, setShowInfoBox] = useState(false);
   const [userLocation, setUserLocation] = useState<Region | null>(null);
   const [expanded, setExpanded] = useState(false);
+  const route = useRoute<{ key: string; name: string; params: RouteParams }>();
+  const { origin: originParam, destination: destinationParam } =
+    route.params || {};
+  const [visibleLayers, setVisibleLayers] = useState({
+    hall9RoomsPois: true,
+    hall9FloorPlan: true,
+    hall8RoomsPois: true,
+    hall8FloorPlan: true,
+  });
+  const navi = useNavigation();
 
 
   type RouteParams = {
@@ -361,17 +436,6 @@ export default function MapExplorerScreen() {
     };
   };
 
-  const route = useRoute<{ key: string; name: string; params: RouteParams }>();
-  const { origin: originParam, destination: destinationParam } =
-    route.params || {};
-
-  const [visibleLayers, setVisibleLayers] = useState({
-    hall9RoomsPois: true,
-    hall9FloorPlan: true,
-    hall8RoomsPois: true,
-    hall8FloorPlan: true,
-  });
-  const navi = useNavigation();
 
 
   useEffect(() => {
@@ -403,6 +467,49 @@ export default function MapExplorerScreen() {
     })();
   }, []);
 
+    // Add debugging for search radius changes
+    useEffect(() => {
+      console.log(`Search radius updated to ${searchRadius}m`);
+      // When search radius updates, update any UI elements that depend on it
+    }, [searchRadius]);
+    
+    // Add debugging for search text changes
+    useEffect(() => {
+      console.log(`Current search text updated: "${currentSearchText}"`);
+      if (currentSearchText) {
+        // When a new search is performed, enable POI updates
+        setSearchCleared(false);
+        // When a new search is performed, apply the current search radius
+        searchPOIs();
+      } else {
+        // When search text is cleared, do a complete reset of all POI-related state
+        setResults({
+          type: "FeatureCollection",
+          features: []
+        });
+        
+        // Set the cleared flag to true to disable POI updates on zoom
+        setSearchCleared(true);
+        
+        // Cancel any pending searches
+        if (refreshTimeoutRef.current) {
+          clearTimeout(refreshTimeoutRef.current);
+          refreshTimeoutRef.current = null;
+        }
+        
+        // Reset search-related state
+        setSelectedMarker(null);
+        setShowInfoBox(false);
+        
+        console.log("COMPLETE RESET: Cleared all search results and state due to empty search text");
+      }
+    }, [currentSearchText]);
+    // Add effect to log results when they change
+    useEffect(() => {
+      console.log("Results state updated:", results);
+      console.log("Results has features:", results?.features?.length || 0);
+    }, [results]);
+
   useEffect(() => {
     if (originParam) {
       setUserLocation({
@@ -422,6 +529,45 @@ export default function MapExplorerScreen() {
       });
     }
   }, [originParam, destinationParam]);
+
+    // Effect to refresh POIs when search radius changes significantly
+    useEffect(() => {
+      // Skip initial render or if search has been cleared
+      if (refreshTimeoutRef.current) {
+        clearTimeout(refreshTimeoutRef.current);
+      }
+      
+      // Skip everything if search has been cleared
+      if (searchCleared) {
+        console.log("Skipping search radius effect - search has been cleared");
+        return;
+      }
+      
+      // Only trigger search if we already have a search and POIs should be visible
+      if (!currentSearchText || !shouldShowPOIs) {
+        return;
+      }
+      
+      // Use a longer timeout to allow for multiple zoom changes before refreshing
+      refreshTimeoutRef.current = setTimeout(() => {
+        // Store the current search radius to compare later
+        const currentRadiusSnapshot = searchRadius;
+        
+        // Only perform search if radius is still the same (no more zooming in progress)
+        setTimeout(() => {
+          if (currentRadiusSnapshot === searchRadius && currentSearchText) {
+            console.log(`Refreshing POIs after search radius settled at ${searchRadius}m`);
+            searchPOIs();
+          }
+        }, 300);
+      }, 1000);
+      
+      return () => {
+        if (refreshTimeoutRef.current) {
+          clearTimeout(refreshTimeoutRef.current);
+        }
+      };
+    }, [searchRadius, searchPOIs, currentSearchText, shouldShowPOIs]);
 
   const handleSwitchToSGW = () => {
     setCurrentCampus(SGW_CAMPUS);
@@ -448,11 +594,11 @@ export default function MapExplorerScreen() {
     console.log("GO button pressed");
   };
 
-  const handlePress = () => setExpanded(!expanded);
-
-  const toggleLayerVisibility = (layer: string) => {
-    setVisibleLayers((prev) => ({ ...prev, [layer]: !prev[layer] }));
-  };
+  // Functions are not being used, so they can be removed
+  // const handlePress = () => setExpanded(!expanded);
+  // const toggleLayerVisibility = (layer: string) => {
+  //   setVisibleLayers((prev) => ({ ...prev, [layer]: !prev[layer] }));
+  // };
 
   // Function to trigger a POI search with the current radius
   const searchPOIs = useCallback(() => {
@@ -518,44 +664,6 @@ export default function MapExplorerScreen() {
     performSearch();
   }, [currentSearchText, searchRadius, shouldShowPOIs, userLocation, currentCampus, googleMapsKey, results]);
   
-  // Effect to refresh POIs when search radius changes significantly
-  useEffect(() => {
-    // Skip initial render or if search has been cleared
-    if (refreshTimeoutRef.current) {
-      clearTimeout(refreshTimeoutRef.current);
-    }
-    
-    // Skip everything if search has been cleared
-    if (searchCleared) {
-      console.log("Skipping search radius effect - search has been cleared");
-      return;
-    }
-    
-    // Only trigger search if we already have a search and POIs should be visible
-    if (!currentSearchText || !shouldShowPOIs) {
-      return;
-    }
-    
-    // Use a longer timeout to allow for multiple zoom changes before refreshing
-    refreshTimeoutRef.current = setTimeout(() => {
-      // Store the current search radius to compare later
-      const currentRadiusSnapshot = searchRadius;
-      
-      // Only perform search if radius is still the same (no more zooming in progress)
-      setTimeout(() => {
-        if (currentRadiusSnapshot === searchRadius && currentSearchText) {
-          console.log(`Refreshing POIs after search radius settled at ${searchRadius}m`);
-          searchPOIs();
-        }
-      }, 300);
-    }, 1000);
-    
-    return () => {
-      if (refreshTimeoutRef.current) {
-        clearTimeout(refreshTimeoutRef.current);
-      }
-    };
-  }, [searchRadius, searchPOIs, currentSearchText, shouldShowPOIs]);
   
   // Update the handleMapRegionChange function to use searchPOIs
   const handleMapRegionChange = (region: Region) => {
@@ -623,43 +731,7 @@ export default function MapExplorerScreen() {
     lastZoomRef.current = zoom;
   };
 
-  // Add debugging for search radius changes
-  useEffect(() => {
-    console.log(`Search radius updated to ${searchRadius}m`);
-    // When search radius updates, update any UI elements that depend on it
-  }, [searchRadius]);
-  
-  // Add debugging for search text changes
-  useEffect(() => {
-    console.log(`Current search text updated: "${currentSearchText}"`);
-    if (currentSearchText) {
-      // When a new search is performed, enable POI updates
-      setSearchCleared(false);
-      // When a new search is performed, apply the current search radius
-      searchPOIs();
-    } else {
-      // When search text is cleared, do a complete reset of all POI-related state
-      setResults({
-        type: "FeatureCollection",
-        features: []
-      });
-      
-      // Set the cleared flag to true to disable POI updates on zoom
-      setSearchCleared(true);
-      
-      // Cancel any pending searches
-      if (refreshTimeoutRef.current) {
-        clearTimeout(refreshTimeoutRef.current);
-        refreshTimeoutRef.current = null;
-      }
-      
-      // Reset search-related state
-      setSelectedMarker(null);
-      setShowInfoBox(false);
-      
-      console.log("COMPLETE RESET: Cleared all search results and state due to empty search text");
-    }
-  }, [currentSearchText]);
+
 
   return (
     <View style={DefaultMapStyle.container}>
