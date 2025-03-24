@@ -20,6 +20,7 @@ import { retrieveRoutes } from "@/services/DirectionService.ts";
 import { findNextShuttle } from "@/services/ShuttleService.ts";
 import { TouchableOpacity } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import * as Location from "expo-location";
 
 import { getTripDuration } from "@/services/DurationService";
 
@@ -174,64 +175,64 @@ export default function DirectionsScreen() {
     }
   };
 
-  const setShuttleRoute = async () => {
-    console.log("Attempting to use shuttle service22.");
-    // TODO: Replace test start location with user's actual current location
-    console.log("Shuttle valid status before calling function1:", shuttleValid);
+const setShuttleRoute = async () => {
+    console.log("Attempting to use shuttle service.");  // Initial log to confirm function execution
 
-    const testStartLocation: LatLng = {
-      latitude: 45.496042,
-      longitude: -73.5796854,
-    }; // Tim Hortons Guy Street, near Hall
-    //const testStartLocation: LatLng = { latitude: 45.4581244, longitude: -73.6394280 };  // -11 longitude from Loyola, near Loyola
-    //const testStartLocation: LatLng = { latitude: 47.4581244, longitude: -75.6391280 };  // +-2 from longitude and latitude, too far from both
-    console.log("Shuttle valid status before calling function2:", shuttleValid);
-    const timeToHallBuilding = await getTripDuration(
-      testStartLocation,
-      HALL_BUILDING
-    );
-    const timeToLoyolaCampus = await getTripDuration(
-      testStartLocation,
-      LOYOLA_CAMPUS
-    ); // Get travel time to each campus
-    console.log("Shuttle valid status before calling function3:", shuttleValid);
-    console.log(
-      "Time to Loyola: " +
-        timeToLoyolaCampus +
-        ", time to Hall: " +
-        timeToHallBuilding
-    );
-
-    if (timeToHallBuilding != null && timeToLoyolaCampus != null) {
-      if (timeToHallBuilding <= 5 || timeToLoyolaCampus <= 5) {
-        // One of the travel times needs to be under 5 minutes
-        if (timeToHallBuilding < timeToLoyolaCampus) {
-          // IF HALL IS CLOSER
-          setDestination(LOYOLA_CAMPUS);
-          setOrigin(testStartLocation); // TODO: Change this to use user's true current location
-          setTransportMode("DRIVING"); // The shuttle bus drives, so use driving as routing method
-          console.log("Beginning shuttle service with Loyola as destination.");
-          setShuttleValid(true); // Shuttle service is allowed to be called
-          console.log(shuttleValid + ": shuttle valid status");
-          await traceRoute(); // Call trace route to trace shuttle bus service route
-        } else if (timeToLoyolaCampus < timeToHallBuilding) {
-          // IF LOYOLA IS CLOSER
-          setDestination(HALL_BUILDING);
-          setOrigin(testStartLocation); // TODO: Change this to use user's true current location
-          setTransportMode("DRIVING"); // The shuttle bus drives, so use driving as routing method
-          console.log("Beginning shuttle service with Hall as destination.");
-          setShuttleValid(true); // Shuttle service is allowed to be called
-          console.log(shuttleValid + ": shuttle valid status");
-          await traceRoute(); // Call trace route to trace shuttle bus service route
+    try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+            Alert.alert("Permission to access location was denied");  // Notify user if permission is denied
+            return;
         }
-      } else {
-        // IF BOTH CAMPUSES ARE MORE THAN 5 MINUTES AWAY
-        console.log("Too far from both campuses to use Shuttle Service.");
-        setShuttleValid(false); // Cannot use shuttle service if more than 5 minutes away
-        console.log(shuttleValid + ": shuttle valid status");
-      }
-    } else {
-      console.log("One or both of travel times are null");
+
+        const location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Highest,
+            maximumAge: 10000,  // Allow use of recent location within 10s
+            timeout: 5000,  // Fail if location isn't retrieved within 5s
+        });
+
+        const userLocation: LatLng = {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+        };
+
+        console.log("User's current location: ", userLocation);  // Debugging
+
+        // Get estimated time to each campus from user's location
+        console.log("Fetching trip duration to Hall Building...");
+        const timeToHallBuilding = await getTripDuration(userLocation, HALL_BUILDING, GOOGLE_MAPS_API_KEY);
+
+        console.log("Fetching trip duration to Loyola Campus...");
+        const timeToLoyolaCampus = await getTripDuration(userLocation, LOYOLA_CAMPUS, GOOGLE_MAPS_API_KEY);
+
+        console.log("Time to Loyola: " + timeToLoyolaCampus + ", time to Hall: " + timeToHallBuilding);
+
+        if (timeToHallBuilding != null && timeToLoyolaCampus != null) {  // both times need to exist
+            if (timeToHallBuilding <= 5 || timeToLoyolaCampus <= 5) {  // Shuttle only usable if either campus is ≤ 5 min away
+                if (timeToHallBuilding < timeToLoyolaCampus) {  // HALL is closer
+                    setDestination(LOYOLA_CAMPUS);  // If Hall is closer, set Loyola as destination
+                    console.log("Hall is closer, setting destination to Loyola.");
+                } else {  // LOYOLA is closer
+                    setDestination(HALL_BUILDING);  // If Loyola is closer, set Hall as destination
+                    console.log("Loyola is closer, setting destination to Hall.");
+                }
+
+                setOrigin(userLocation);  // Set user's current location as the trip origin
+                setTransportMode("DRIVING");  // Mode is driving since the shuttle is a driving type vehicle
+                setShuttleValid(true);  // Set shuttle valid to true since shuttle route exists
+
+                console.log("Beginning shuttle service...");
+                await traceRoute();  // Start navigation based on the new origin and destination
+            } else {
+                console.log("Too far from both campuses to use Shuttle Service.");  // User is too far from either campus to use the shuttle
+                setShuttleValid(false);
+            }
+        } else {
+            console.log("One or both of travel times are null.");  // Travel times cannot be retrieved and no error code was raised
+        }
+    } catch (error) {
+        console.error("Error getting location:", error);  // If current location cannot be retrieved
+        Alert.alert("Unable to get your location. Please enable location services.");
     }
   };
 
@@ -296,6 +297,7 @@ export default function DirectionsScreen() {
       <View style={DirectionsScreenStyles.calloutContainer}>
         <Text style={DirectionsScreenStyles.calloutText}>Destination</Text>
       </View>
+
     </Callout>
   </Marker>
 )}
@@ -403,11 +405,11 @@ export default function DirectionsScreen() {
             <TouchableOpacity
               key={mode}
               onPress={async () => {
-                setTransportMode(mode);
                 if (mode === "SHUTTLE") {
                   await setShuttleRoute();
                   setShowShuttleTime(true);
                 } else {
+                  setTransportMode(mode);
                   setShowShuttleTime(false);
                 }
               }}
