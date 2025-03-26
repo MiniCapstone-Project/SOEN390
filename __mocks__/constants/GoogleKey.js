@@ -1,1 +1,3 @@
-export const AND_CLIENT_ID = 'mock-client-id';
+module.exports = {
+  AND_CLIENT_ID: 'mock-client-id',
+};
