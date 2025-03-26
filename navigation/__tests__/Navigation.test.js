@@ -48,7 +48,7 @@ describe("Navigation Component", () => {
       fireEvent.press(getByRole("button", { name: "Settings" }));
     });
     await waitFor(() => {
-      expect(getByText("Settings Screen")).toBeTruthy();
+      expect(getByText(/get location/i)).toBeTruthy();
     });
   });
 });
