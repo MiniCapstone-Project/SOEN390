@@ -27,8 +27,8 @@
       "/node_modules/"
     ],
     "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/$1",
-      "^@/constants/GoogleKey$": "<rootDir>/__mocks__/constants/GoogleKey.js"
+      "^@/constants/GoogleKey$": "<rootDir>/__mocks__/constants/GoogleKey.js",
+      "^@/(.*)$": "<rootDir>/$1"
     },
     "setupFiles": [
       "<rootDir>/navigation/setupTests.js"

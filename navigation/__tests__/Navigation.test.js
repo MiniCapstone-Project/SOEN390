@@ -3,7 +3,7 @@ import { render, waitFor, fireEvent, act } from "@testing-library/react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "../Navigation";
 import React from "react";
-import { AND_CLIENT_ID } from '@/__mocks__/constants/GoogleKey';
+import { AND_CLIENT_ID } from '@/constants/GoogleKey';
 console.log("GoogleKey used in test:", AND_CLIENT_ID);
 
 describe("Navigation Component", () => {
