@@ -17,7 +17,7 @@ export default function AuthUser() {
   }
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [, setAccessToken] = useState<string | null>(null);
   const [authInProgress, setAuthInProgress] = useState(false);
 
   useEffect(() => {
@@ -49,12 +49,12 @@ export default function AuthUser() {
   // Handle the redirect back from Google auth
   const handleRedirect = async (event: { url: any; }) => {
     const { url } = event;
-    if (url && url.includes('access_token=')) {
+    if (url?.includes('access_token=')) {
       try {
         // Extract the access token
         const match = url.match(/access_token=([^&]*)/);
-        if (match && match[1]) {
-          const token = match[1];
+        const token = match?.[1];
+        if (token) {
           await getUserInfo(token);
         }
       } catch (error) {
@@ -90,9 +90,13 @@ export default function AuthUser() {
       if (result.type === 'success') {
         // The token should be handled by the URL listener
         // but just in case, try to extract it here too
-        if (result.url && result.url.includes('access_token=')) {
-          const match = result.url.match(/access_token=([^&]*)/);
-          if (match && match[1]) {
+        //if (result.url && result.url.includes('access_token=')) {
+        if (result.url?.includes('access_token=')) {
+          //const match = result.url.match(/access_token=([^&]*)/);
+          const regex = /access_token=([^&]*)/;
+          const match = regex.exec(result.url);
+
+          if (match?.[1]) {
             await getUserInfo(match[1]);
           }
         }
