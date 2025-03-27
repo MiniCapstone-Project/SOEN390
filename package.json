@@ -28,7 +28,7 @@
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/$1",
-      "^constants/GoogleKey$": "<rootDir>/__mocks__/constants/GoogleKey.js"
+      "^@/constants/GoogleKey$": "<rootDir>/__mocks__/constants/GoogleKey.js"
     },
     "setupFiles": [
       "<rootDir>/navigation/setupTests.js"
@@ -125,6 +125,7 @@
     "metro-react-native-babel-preset": "^0.77.0",
     "react-test-renderer": "^18.3.1",
     "ts-jest": "^29.2.6",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "~5.3.3",
     "typescript-eslint": "^8.26.1"
   },

@@ -3,7 +3,8 @@ import { Button, Text, View, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
 import * as Linking from 'expo-linking';
-import { AND_CLIENT_ID } from '../../constants/GoogleKey';
+import { AND_CLIENT_ID } from '@/constants/GoogleKey';
+
 
 
 WebBrowser.maybeCompleteAuthSession();
