@@ -21,6 +21,7 @@
       "navigation/**/*.{js,jsx,ts,tsx}",
       "hooks/**/*.{js,jsx,ts,tsx}",
       "!**/node_modules/**",
+      "!**/setupTests.js",
       "!**/coverage/**"
     ],
     "coveragePathIgnorePatterns": [

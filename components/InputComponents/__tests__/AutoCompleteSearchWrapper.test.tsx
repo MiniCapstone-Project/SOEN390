@@ -1,8 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { AutocompleteSearchWrapper } from '../AutoCompleteSearchWrapper';
-import MapView from 'react-native-maps';
-import { View, TextInput, Alert } from 'react-native';
+import { Alert, View, TextInput } from 'react-native';
 
 jest.mock('react-native-maps', () => {
   const MockMapView = jest.fn();
@@ -12,18 +11,23 @@ jest.mock('react-native-maps', () => {
   return MockMapView;
 });
 
+// Fixing the warning
 jest.mock('react-native-google-places-autocomplete', () => {
   const React = require('react');
+  const { forwardRef } = React;
+  const { View, TextInput } = require('react-native');
+
   return {
-    GooglePlacesAutocomplete: jest.fn().mockImplementation(({ placeholder, textInputProps }) => (
-      React.createElement('View', null,
-        React.createElement('TextInput', {
-          placeholder: placeholder ?? 'Search for places...',
-          value: textInputProps.value,
-          onChangeText: textInputProps.onChangeText,
-          onSubmitEditing: textInputProps.onSubmitEditing
-        })
-      )
+    GooglePlacesAutocomplete: forwardRef(({ placeholder, textInputProps }, ref) => (
+      <View>
+        <TextInput
+          ref={ref}
+          placeholder={placeholder ?? 'Search for places...'}
+          value={textInputProps.value}
+          onChangeText={textInputProps.onChangeText}
+          onSubmitEditing={textInputProps.onSubmitEditing}
+        />
+      </View>
     )),
   };
 });
@@ -39,6 +43,16 @@ jest.mock('@/services/PlacesService', () => ({
     ],
   }),
 }));
+
+const originalConsoleError = console.error;
+
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation((msg, ...args) => {
+    if (typeof msg === 'string' && msg.includes('Failed to fetch places')) return;
+    originalConsoleError(msg, ...args);
+  });
+});
+
 
 describe('AutocompleteSearchWrapper', () => {
   const mockMapRef = {
