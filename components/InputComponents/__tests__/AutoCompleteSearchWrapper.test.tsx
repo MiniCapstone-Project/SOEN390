@@ -1,8 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { AutocompleteSearchWrapper } from '../AutoCompleteSearchWrapper';
-import MapView from 'react-native-maps';
-import { View, TextInput, Alert } from 'react-native';
+import { Alert, View, TextInput } from 'react-native';
 
 jest.mock('react-native-maps', () => {
   const MockMapView = jest.fn();
@@ -12,18 +11,23 @@ jest.mock('react-native-maps', () => {
   return MockMapView;
 });
 
+// Fixing the warning
 jest.mock('react-native-google-places-autocomplete', () => {
   const React = require('react');
+  const { forwardRef } = React;
+  const { View, TextInput } = require('react-native');
+
   return {
-    GooglePlacesAutocomplete: jest.fn().mockImplementation(({ placeholder, textInputProps }) => (
-      React.createElement('View', null,
-        React.createElement('TextInput', {
-          placeholder: placeholder,
-          value: textInputProps.value,
-          onChangeText: textInputProps.onChangeText,
-          onSubmitEditing: textInputProps.onSubmitEditing
-        })
-      )
+    GooglePlacesAutocomplete: forwardRef(({ placeholder, textInputProps }, ref) => (
+      <View>
+        <TextInput
+          ref={ref}
+          placeholder={placeholder ?? 'Search for places...'}
+          value={textInputProps.value}
+          onChangeText={textInputProps.onChangeText}
+          onSubmitEditing={textInputProps.onSubmitEditing}
+        />
+      </View>
     )),
   };
 });
@@ -39,6 +43,16 @@ jest.mock('@/services/PlacesService', () => ({
     ],
   }),
 }));
+
+const originalConsoleError = console.error;
+
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation((msg, ...args) => {
+    if (typeof msg === 'string' && msg.includes('Failed to fetch places')) return;
+    originalConsoleError(msg, ...args);
+  });
+});
+
 
 describe('AutocompleteSearchWrapper', () => {
   const mockMapRef = {
@@ -67,12 +81,12 @@ describe('AutocompleteSearchWrapper', () => {
 
   it('renders correctly', () => {
     const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    expect(getByPlaceholderText('Search for places...')).toBeTruthy();
+    expect(getByPlaceholderText('Search for places, coffee shops, restaurants...')).toBeTruthy();
   });
 
   it('performs a full text search on submit', async () => {
     const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    const input = getByPlaceholderText('Search for places...');
+    const input = getByPlaceholderText('Search for places, coffee shops, restaurants...');
 
     fireEvent.changeText(input, 'test');
     fireEvent(input, 'submitEditing');
@@ -84,7 +98,7 @@ describe('AutocompleteSearchWrapper', () => {
 
   it('handles suggestion selection', async () => {
     const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    const input = getByPlaceholderText('Search for places...');
+    const input = getByPlaceholderText('Search for places, coffee shops, restaurants...');
 
     fireEvent.changeText(input, 'test');
     fireEvent(input, 'submitEditing');
@@ -100,7 +114,10 @@ describe('AutocompleteSearchWrapper', () => {
 
     fireEvent.press(clearButton);
 
-    expect(defaultProps.setResults).toHaveBeenCalledWith([]);
+    expect(defaultProps.setResults).toHaveBeenCalledWith({
+      type: 'FeatureCollection',
+      features: [],
+    });
   });
 
   it('handles no results found', async () => {
@@ -110,7 +127,7 @@ describe('AutocompleteSearchWrapper', () => {
     });
 
     const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    const input = getByPlaceholderText('Search for places...');
+    const input = getByPlaceholderText('Search for places, coffee shops, restaurants...');
 
     fireEvent.changeText(input, 'test');
     fireEvent(input, 'submitEditing');
@@ -125,7 +142,7 @@ describe('AutocompleteSearchWrapper', () => {
     searchPlaces.mockRejectedValueOnce(new Error('Failed to fetch places'));
 
     const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    const input = getByPlaceholderText('Search for places...');
+    const input = getByPlaceholderText('Search for places, coffee shops, restaurants...');
 
     fireEvent.changeText(input, 'test');
     fireEvent(input, 'submitEditing');

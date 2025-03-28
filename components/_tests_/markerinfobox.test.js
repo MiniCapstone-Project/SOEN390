@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import MarkerInfoBox from '@/components/MapComponents/MarkerInfoBox';
+import { MarkerInfoBox } from '@/components/MapComponents/MarkerInfoBox';
 
 describe('MarkerInfoBox Component', () => {
   const mockTitle = 'Test Location';
@@ -27,6 +27,7 @@ describe('MarkerInfoBox Component', () => {
         address={mockAddress}
         onClose={mockOnClose}
         onDirections={mockOnDirections}
+        properties={{ Address: mockAddress }}
       />
     );
     expect(getByText(mockTitle)).toBeTruthy();
