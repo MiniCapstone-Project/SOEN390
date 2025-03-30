@@ -13,9 +13,10 @@ describe('SettingsScreen', () => {
     jest.clearAllMocks();
   });
 
+
   it('renders correctly', () => {
     const { getByText } = render(<SettingsScreen />);
-    expect(getByText('Settings Screen')).toBeTruthy();
+    expect(getByText('Connect Google Calendar')).toBeTruthy();
   });
 
   it('requests location permission and gets location on button press', async () => {

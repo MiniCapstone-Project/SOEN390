@@ -3,6 +3,8 @@ import { render, waitFor, fireEvent, act } from "@testing-library/react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "../Navigation";
 import React from "react";
+import { AND_CLIENT_ID } from '@/constants/GoogleKey';
+console.log("GoogleKey used in test:", AND_CLIENT_ID);
 
 describe("Navigation Component", () => {
   let renderResult, getByRole, getByText, getAllByText;
@@ -48,7 +50,7 @@ describe("Navigation Component", () => {
       fireEvent.press(getByRole("button", { name: "Settings" }));
     });
     await waitFor(() => {
-      expect(getByText("Settings Screen")).toBeTruthy();
+      expect(getByText(/get location/i)).toBeTruthy();
     });
   });
 });

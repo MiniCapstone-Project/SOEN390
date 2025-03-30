@@ -39,3 +39,6 @@ jest.mock("expo-font", () => ({
 // Mock react-native-vector-icons to prevent rendering issues
 jest.mock("react-native-vector-icons/Ionicons", () => "Ionicons");
 
+jest.mock("constants/GoogleKey", () => ({
+  AND_CLIENT_ID: "mock-client-id"
+}));

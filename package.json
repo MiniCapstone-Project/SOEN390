@@ -21,12 +21,14 @@
       "navigation/**/*.{js,jsx,ts,tsx}",
       "hooks/**/*.{js,jsx,ts,tsx}",
       "!**/node_modules/**",
+      "!**/setupTests.js",
       "!**/coverage/**"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ],
     "moduleNameMapper": {
+      "^@/constants/GoogleKey$": "<rootDir>/__mocks__/constants/GoogleKey.js",
       "^@/(.*)$": "<rootDir>/$1"
     },
     "setupFiles": [
@@ -106,6 +108,7 @@
     "@react-native-community/cli": "latest",
     "@testing-library/react": "^16.2.0",
     "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/react-native": "^13.2.0",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.16",
     "@types/react": "~18.3.18",
@@ -123,6 +126,7 @@
     "metro-react-native-babel-preset": "^0.77.0",
     "react-test-renderer": "^18.3.1",
     "ts-jest": "^29.2.6",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "~5.3.3",
     "typescript-eslint": "^8.26.1"
   },
