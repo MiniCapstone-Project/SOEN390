@@ -4,13 +4,17 @@ import {
     statusCodes,
     isErrorWithCode
   } from '@react-native-google-signin/google-signin';
-  
-  // Somewhere in your code
-  export const signIn = async () => {
+import { getCalendarEvents } from './CalendarEvent';
+ 
+ 
+ 
+ export const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const response = await GoogleSignin.signIn();
       console.log(response.data?.user)
+      getCalendarEvents();
+
     } catch (error) {
       if (isErrorWithCode(error)) {
         switch (error.code) {
