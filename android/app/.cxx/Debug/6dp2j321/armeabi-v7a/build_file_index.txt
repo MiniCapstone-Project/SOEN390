@@ -1,0 +1,7 @@
+C:\GitHub\SOEN390\node_modules\.pnpm\react-native@0.76.7_@babel+_7306ec42695dc34b85c1607f84a3a60c\node_modules\react-native\ReactAndroid\cmake-utils\default-app-setup\CMakeLists.txt
+C:\GitHub\SOEN390\node_modules\@react-native-async-storage\async-storage\android\build\generated\source\codegen\jni\CMakeLists.txt
+C:\GitHub\SOEN390\node_modules\@react-native-community\slider\android\src\main\jni\CMakeLists.txt
+C:\GitHub\SOEN390\node_modules\react-native-gesture-handler\android\build\generated\source\codegen\jni\CMakeLists.txt
+C:\GitHub\SOEN390\node_modules\react-native-reanimated\android\build\generated\source\codegen\jni\CMakeLists.txt
+C:\GitHub\SOEN390\node_modules\react-native-safe-area-context\android\src\main\jni\CMakeLists.txt
+C:\GitHub\SOEN390\node_modules\react-native-screens\android\src\main\jni\CMakeLists.txt
