@@ -3,6 +3,8 @@ import {
     GoogleSigninButton,
     statusCodes,
   } from '@react-native-google-signin/google-signin';
+  import { View, Alert, ScrollView, Dimensions, Text, Modal, TouchableOpacity, StatusBar } from "react-native";
+
 
 
 
@@ -14,5 +16,14 @@ import {
 
 
   export default function GoogleSignin () {
+return (
 
+<View>
+    <Text></Text>
+    <GoogleSigninButton
+    size={GoogleSigninButton.Size.Wide}
+    color={GoogleSigninButton.Color.Dark}/>
+    <StatusBar></StatusBar>
+</View>
+);
   }
