@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 import * as Location from 'expo-location';
 import AuthUser from '@/components/CalendarComponents/authUser';
+import GoogleSign from '@/components/CalendarComponents/googleSignIn'
 
 /**
  * This screen will be responsible for handling general Settings like: 
@@ -22,7 +23,7 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-      <AuthUser></AuthUser>
+      <GoogleSign></GoogleSign>
       <Button title="Get Location" onPress={handleGetLocation} />
     </View>
   );
