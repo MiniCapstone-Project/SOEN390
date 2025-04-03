@@ -50,4 +50,7 @@ constants/GoogleKey.ts
 .vscode/
 /.vscode
 android/app/src/main/AndroidManifest.xml
+android/app/build/outputs/apk/debug/app-debug.apk
+android/app/build/intermediates/cxx/Debug/**/libreactnative.so
+
 
