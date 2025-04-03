@@ -5,6 +5,7 @@ import {
     statusCodes,
   } from '@react-native-google-signin/google-signin';
   import { View, Alert, ScrollView, Dimensions, Text, Modal, TouchableOpacity, StatusBar } from "react-native";
+import { signIn } from './signIn';
 
 
 
@@ -24,7 +25,8 @@ return (
     <Text>I AM BACKKKKK</Text>
     <GoogleSigninButton
     size={GoogleSigninButton.Size.Wide}
-    color={GoogleSigninButton.Color.Dark}/>
+    color={GoogleSigninButton.Color.Dark}
+    onPress={signIn}/>
     <StatusBar ></StatusBar>
 </View>
 );
