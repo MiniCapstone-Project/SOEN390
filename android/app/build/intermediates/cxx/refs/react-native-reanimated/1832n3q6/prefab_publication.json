@@ -1,0 +1,41 @@
+{
+  "installationFolder": "C:\\GitHub\\SOEN390\\node_modules\\react-native-reanimated\\android\\build\\intermediates\\prefab_package\\debug\\prefab",
+  "gradlePath": ":react-native-reanimated",
+  "packageInfo": {
+    "packageName": "react-native-reanimated",
+    "packageSchemaVersion": 2,
+    "packageDependencies": [],
+    "modules": [
+      {
+        "moduleName": "reanimated",
+        "moduleHeaders": "C:\\GitHub\\SOEN390\\node_modules\\react-native-reanimated\\android\\build\\prefab-headers\\reanimated",
+        "moduleExportLibraries": [],
+        "abis": [
+          {
+            "abiName": "armeabi-v7a",
+            "abiApi": 24,
+            "abiNdkMajor": 26,
+            "abiStl": "c++_shared",
+            "abiLibrary": "C:\\GitHub\\SOEN390\\node_modules\\react-native-reanimated\\android\\build\\intermediates\\cxx\\Debug\\o414356m\\obj\\armeabi-v7a\\libreanimated.so",
+            "abiAndroidGradleBuildJsonFile": "C:\\GitHub\\SOEN390\\node_modules\\react-native-reanimated\\android\\.cxx\\Debug\\o414356m\\armeabi-v7a\\android_gradle_build.json"
+          }
+        ]
+      },
+      {
+        "moduleName": "worklets",
+        "moduleHeaders": "C:\\GitHub\\SOEN390\\node_modules\\react-native-reanimated\\android\\build\\prefab-headers\\worklets",
+        "moduleExportLibraries": [],
+        "abis": [
+          {
+            "abiName": "armeabi-v7a",
+            "abiApi": 24,
+            "abiNdkMajor": 26,
+            "abiStl": "c++_shared",
+            "abiLibrary": "C:\\GitHub\\SOEN390\\node_modules\\react-native-reanimated\\android\\build\\intermediates\\cxx\\Debug\\o414356m\\obj\\armeabi-v7a\\libworklets.so",
+            "abiAndroidGradleBuildJsonFile": "C:\\GitHub\\SOEN390\\node_modules\\react-native-reanimated\\android\\.cxx\\Debug\\o414356m\\armeabi-v7a\\android_gradle_build.json"
+          }
+        ]
+      }
+    ]
+  }
+}

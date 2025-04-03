@@ -1,0 +1,649 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.i_amtheguy.potato"
+4    android:versionCode="1"
+5    android:versionName="1.0.1" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+11-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:6:3-75
+11-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:6:20-73
+12    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+12-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:2:3-78
+12-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:2:20-76
+13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+13-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:3:3-76
+13-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:3:20-74
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:4:3-64
+14-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:4:20-62
+15    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+15-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:5:3-77
+15-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:5:20-75
+16    <uses-permission android:name="android.permission.VIBRATE" />
+16-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:7:3-63
+16-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:7:20-61
+17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+17-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:8:3-78
+17-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:8:20-76
+18
+19    <queries>
+19-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:9:3-15:13
+20        <intent>
+20-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:10:5-14:14
+21            <action android:name="android.intent.action.VIEW" />
+21-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:11:7-58
+21-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:11:15-56
+22
+23            <category android:name="android.intent.category.BROWSABLE" />
+23-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:12:7-67
+23-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:12:17-65
+24
+25            <data android:scheme="https" />
+25-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:7-37
+25-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:13-35
+26        </intent>
+27
+28        <package android:name="host.exp.exponent" /> <!-- Query open documents -->
+28-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:9-53
+28-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:18-50
+29        <intent>
+29-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:15:9-17:18
+30            <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
+30-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:13-79
+30-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:21-76
+31        </intent>
+32        <intent>
+32-->[:expo-web-browser] C:\GitHub\SOEN390\node_modules\.pnpm\expo-web-browser@14.0.2_exp_3f569ddc76c153ed1ed409638bf4a854\node_modules\expo-web-browser\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:9-12:18
+33
+34            <!-- Required for opening tabs if targeting API 30 -->
+35            <action android:name="android.support.customtabs.action.CustomTabsService" />
+35-->[:expo-web-browser] C:\GitHub\SOEN390\node_modules\.pnpm\expo-web-browser@14.0.2_exp_3f569ddc76c153ed1ed409638bf4a854\node_modules\expo-web-browser\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-90
+35-->[:expo-web-browser] C:\GitHub\SOEN390\node_modules\.pnpm\expo-web-browser@14.0.2_exp_3f569ddc76c153ed1ed409638bf4a854\node_modules\expo-web-browser\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:21-87
+36        </intent> <!-- Needs to be explicitly declared on Android R+ -->
+37        <package android:name="com.google.android.apps.maps" />
+37-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\4aac41246362e0abccd474e2b7390968\transformed\play-services-maps-18.2.0\AndroidManifest.xml:33:9-64
+37-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\4aac41246362e0abccd474e2b7390968\transformed\play-services-maps-18.2.0\AndroidManifest.xml:33:18-61
+38    </queries>
+39
+40    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+40-->[:react-native-community_netinfo] C:\GitHub\SOEN390\node_modules\@react-native-community\netinfo\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:7:5-79
+40-->[:react-native-community_netinfo] C:\GitHub\SOEN390\node_modules\@react-native-community\netinfo\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:7:22-76
+41    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+41-->[:react-native-community_netinfo] C:\GitHub\SOEN390\node_modules\@react-native-community\netinfo\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:5-76
+41-->[:react-native-community_netinfo] C:\GitHub\SOEN390\node_modules\@react-native-community\netinfo\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:22-73
+42
+43    <uses-feature
+43-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\4aac41246362e0abccd474e2b7390968\transformed\play-services-maps-18.2.0\AndroidManifest.xml:26:5-28:35
+44        android:glEsVersion="0x00020000"
+44-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\4aac41246362e0abccd474e2b7390968\transformed\play-services-maps-18.2.0\AndroidManifest.xml:27:9-41
+45        android:required="true" />
+45-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\4aac41246362e0abccd474e2b7390968\transformed\play-services-maps-18.2.0\AndroidManifest.xml:28:9-32
+46
+47    <uses-permission android:name="android.permission.WAKE_LOCK" />
+47-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:25:5-68
+47-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:25:22-65
+48    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+48-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:27:5-81
+48-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:27:22-78
+49    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+49-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:28:5-77
+49-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:28:22-74
+50
+51    <permission
+51-->[androidx.core:core:1.13.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\152740e363b1ef2a2c682c948dbced74\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+52        android:name="com.i_amtheguy.potato.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+52-->[androidx.core:core:1.13.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\152740e363b1ef2a2c682c948dbced74\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+53        android:protectionLevel="signature" />
+53-->[androidx.core:core:1.13.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\152740e363b1ef2a2c682c948dbced74\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+54
+55    <uses-permission android:name="com.i_amtheguy.potato.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+55-->[androidx.core:core:1.13.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\152740e363b1ef2a2c682c948dbced74\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+55-->[androidx.core:core:1.13.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\152740e363b1ef2a2c682c948dbced74\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+56    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+56-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:15:5-98
+56-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:15:22-95
+57    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+57-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:16:5-94
+57-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:16:22-91
+58
+59    <application
+59-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:16:3-36:17
+60        android:name="com.i_amtheguy.potato.MainApplication"
+60-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:16:16-47
+61        android:allowBackup="true"
+61-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:16:162-188
+62        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+62-->[androidx.core:core:1.13.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\152740e363b1ef2a2c682c948dbced74\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+63        android:debuggable="true"
+64        android:extractNativeLibs="false"
+65        android:icon="@mipmap/ic_launcher"
+65-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:16:81-115
+66        android:label="@string/app_name"
+66-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:16:48-80
+67        android:roundIcon="@mipmap/ic_launcher_round"
+67-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:16:116-161
+68        android:supportsRtl="true"
+68-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:16:221-247
+69        android:theme="@style/AppTheme"
+69-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:16:189-220
+70        android:usesCleartextTraffic="true" >
+70-->C:\GitHub\SOEN390\android\app\src\debug\AndroidManifest.xml:6:18-53
+71        <meta-data
+71-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:17:5-119
+72            android:name="com.google.android.geo.API_KEY"
+72-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:17:16-61
+73            android:value="AIzaSyCvhMP0gPi5-BbQRCVCrk8h3Qzc4P8-3TU" />
+73-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:17:62-117
+74        <meta-data
+74-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:18:5-83
+75            android:name="expo.modules.updates.ENABLED"
+75-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:18:16-59
+76            android:value="false" />
+76-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:18:60-81
+77        <meta-data
+77-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:19:5-105
+78            android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH"
+78-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:19:16-80
+79            android:value="ALWAYS" />
+79-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:19:81-103
+80        <meta-data
+80-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:20:5-99
+81            android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS"
+81-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:20:16-79
+82            android:value="0" />
+82-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:20:80-97
+83
+84        <activity
+84-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:21:5-34:16
+85            android:name="com.i_amtheguy.potato.MainActivity"
+85-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:21:15-43
+86            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+86-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:21:44-134
+87            android:exported="true"
+87-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:21:256-279
+88            android:launchMode="singleTask"
+88-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:21:135-166
+89            android:screenOrientation="portrait"
+89-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:21:280-316
+90            android:theme="@style/Theme.App.SplashScreen"
+90-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:21:210-255
+91            android:windowSoftInputMode="adjustResize" >
+91-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:21:167-209
+92            <intent-filter>
+92-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:22:7-25:23
+93                <action android:name="android.intent.action.MAIN" />
+93-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:23:9-60
+93-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:23:17-58
+94
+95                <category android:name="android.intent.category.LAUNCHER" />
+95-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:24:9-68
+95-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:24:19-66
+96            </intent-filter>
+97            <intent-filter>
+97-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:26:7-33:23
+98                <action android:name="android.intent.action.VIEW" />
+98-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:11:7-58
+98-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:11:15-56
+99
+100                <category android:name="android.intent.category.DEFAULT" />
+100-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:28:9-67
+100-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:28:19-65
+101                <category android:name="android.intent.category.BROWSABLE" />
+101-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:12:7-67
+101-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:12:17-65
+102
+103                <data android:scheme="myapp" />
+103-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:7-37
+103-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:13-35
+104                <data android:scheme="com.i_amtheguy.potato" />
+104-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:7-37
+104-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:13-35
+105                <data android:scheme="exp+potato" />
+105-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:7-37
+105-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:13-35
+106            </intent-filter>
+107        </activity>
+108
+109        <uses-library
+109-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:35:5-83
+110            android:name="org.apache.http.legacy"
+110-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:35:19-56
+111            android:required="false" />
+111-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:35:57-81
+112
+113        <activity
+113-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:9-25:20
+114            android:name="expo.modules.devlauncher.launcher.DevLauncherActivity"
+114-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-81
+115            android:exported="true"
+115-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-36
+116            android:launchMode="singleTask"
+116-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:15:13-44
+117            android:theme="@style/Theme.DevLauncher.LauncherActivity" >
+117-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:13-70
+118            <intent-filter>
+118-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:17:13-24:29
+119                <action android:name="android.intent.action.VIEW" />
+119-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:11:7-58
+119-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:11:15-56
+120
+121                <category android:name="android.intent.category.DEFAULT" />
+121-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:28:9-67
+121-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:28:19-65
+122                <category android:name="android.intent.category.BROWSABLE" />
+122-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:12:7-67
+122-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:12:17-65
+123
+124                <data android:scheme="expo-dev-launcher" />
+124-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:7-37
+124-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:13-35
+125            </intent-filter>
+126        </activity>
+127        <activity
+127-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:26:9-29:70
+128            android:name="expo.modules.devlauncher.launcher.errors.DevLauncherErrorActivity"
+128-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:27:13-93
+129            android:screenOrientation="portrait"
+129-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:28:13-49
+130            android:theme="@style/Theme.DevLauncher.ErrorActivity" />
+130-->[:expo-dev-launcher] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-launcher@5.0.30_ex_37f3eacb842bb83df9c17b7898363672\node_modules\expo-dev-launcher\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:29:13-67
+131        <activity
+131-->[:expo-dev-menu] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-menu@6.0.21_expo@5_78436b8ffdb064cc13ee00110c91141d\node_modules\expo-dev-menu\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:9-21:20
+132            android:name="expo.modules.devmenu.DevMenuActivity"
+132-->[:expo-dev-menu] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-menu@6.0.21_expo@5_78436b8ffdb064cc13ee00110c91141d\node_modules\expo-dev-menu\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:13-64
+133            android:exported="true"
+133-->[:expo-dev-menu] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-menu@6.0.21_expo@5_78436b8ffdb064cc13ee00110c91141d\node_modules\expo-dev-menu\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-36
+134            android:launchMode="singleTask"
+134-->[:expo-dev-menu] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-menu@6.0.21_expo@5_78436b8ffdb064cc13ee00110c91141d\node_modules\expo-dev-menu\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-44
+135            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar" >
+135-->[:expo-dev-menu] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-menu@6.0.21_expo@5_78436b8ffdb064cc13ee00110c91141d\node_modules\expo-dev-menu\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:13-75
+136            <intent-filter>
+136-->[:expo-dev-menu] C:\GitHub\SOEN390\node_modules\.pnpm\expo-dev-menu@6.0.21_expo@5_78436b8ffdb064cc13ee00110c91141d\node_modules\expo-dev-menu\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-20:29
+137                <action android:name="android.intent.action.VIEW" />
+137-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:11:7-58
+137-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:11:15-56
+138
+139                <category android:name="android.intent.category.DEFAULT" />
+139-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:28:9-67
+139-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:28:19-65
+140                <category android:name="android.intent.category.BROWSABLE" />
+140-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:12:7-67
+140-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:12:17-65
+141
+142                <data android:scheme="expo-dev-menu" />
+142-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:7-37
+142-->C:\GitHub\SOEN390\android\app\src\main\AndroidManifest.xml:13:13-35
+143            </intent-filter>
+144        </activity>
+145
+146        <provider
+146-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:21:9-30:20
+147            android:name="expo.modules.filesystem.FileSystemFileProvider"
+147-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:22:13-74
+148            android:authorities="com.i_amtheguy.potato.FileSystemFileProvider"
+148-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:23:13-74
+149            android:exported="false"
+149-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:24:13-37
+150            android:grantUriPermissions="true" >
+150-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:25:13-47
+151            <meta-data
+151-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:27:13-29:70
+152                android:name="android.support.FILE_PROVIDER_PATHS"
+152-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:28:17-67
+153                android:resource="@xml/file_system_provider_paths" />
+153-->[:expo-file-system] C:\GitHub\SOEN390\node_modules\.pnpm\expo-file-system@18.0.11_ex_2bc032035621cd713461178adbf22d6c\node_modules\expo-file-system\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:29:17-67
+154        </provider>
+155
+156        <service
+156-->[:expo-location] C:\GitHub\SOEN390\node_modules\.pnpm\expo-location@18.0.8_expo@5_daae433033de92ceb685850a3a0db7f2\node_modules\expo-location\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:9-14:56
+157            android:name="expo.modules.location.services.LocationTaskService"
+157-->[:expo-location] C:\GitHub\SOEN390\node_modules\.pnpm\expo-location@18.0.8_expo@5_daae433033de92ceb685850a3a0db7f2\node_modules\expo-location\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:13-78
+158            android:exported="false"
+158-->[:expo-location] C:\GitHub\SOEN390\node_modules\.pnpm\expo-location@18.0.8_expo@5_daae433033de92ceb685850a3a0db7f2\node_modules\expo-location\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-37
+159            android:foregroundServiceType="location" />
+159-->[:expo-location] C:\GitHub\SOEN390\node_modules\.pnpm\expo-location@18.0.8_expo@5_daae433033de92ceb685850a3a0db7f2\node_modules\expo-location\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-53
+160
+161        <meta-data
+161-->[:expo-modules-core] C:\GitHub\SOEN390\node_modules\.pnpm\expo-modules-core@2.2.3\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:9-11:89
+162            android:name="org.unimodules.core.AppLoader#react-native-headless"
+162-->[:expo-modules-core] C:\GitHub\SOEN390\node_modules\.pnpm\expo-modules-core@2.2.3\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-79
+163            android:value="expo.modules.adapters.react.apploader.RNHeadlessAppLoader" />
+163-->[:expo-modules-core] C:\GitHub\SOEN390\node_modules\.pnpm\expo-modules-core@2.2.3\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-86
+164        <meta-data
+164-->[:expo-modules-core] C:\GitHub\SOEN390\node_modules\.pnpm\expo-modules-core@2.2.3\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:9-15:45
+165            android:name="com.facebook.soloader.enabled"
+165-->[:expo-modules-core] C:\GitHub\SOEN390\node_modules\.pnpm\expo-modules-core@2.2.3\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-57
+166            android:value="true" />
+166-->[:expo-modules-core] C:\GitHub\SOEN390\node_modules\.pnpm\expo-modules-core@2.2.3\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-33
+167
+168        <activity
+168-->[com.facebook.react:react-android:0.76.7] C:\Users\tarik\.gradle\caches\8.10.2\transforms\e7d2cf3ea0f710e01bb7af2449bcb768\transformed\react-android-0.76.7-debug\AndroidManifest.xml:19:9-21:40
+169            android:name="com.facebook.react.devsupport.DevSettingsActivity"
+169-->[com.facebook.react:react-android:0.76.7] C:\Users\tarik\.gradle\caches\8.10.2\transforms\e7d2cf3ea0f710e01bb7af2449bcb768\transformed\react-android-0.76.7-debug\AndroidManifest.xml:20:13-77
+170            android:exported="false" />
+170-->[com.facebook.react:react-android:0.76.7] C:\Users\tarik\.gradle\caches\8.10.2\transforms\e7d2cf3ea0f710e01bb7af2449bcb768\transformed\react-android-0.76.7-debug\AndroidManifest.xml:21:13-37
+171        <activity
+171-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:23:9-27:75
+172            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+172-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:24:13-93
+173            android:excludeFromRecents="true"
+173-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:25:13-46
+174            android:exported="false"
+174-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:26:13-37
+175            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+175-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:27:13-72
+176        <!--
+177            Service handling Google Sign-In user revocation. For apps that do not integrate with
+178            Google Sign-In, this service will never be started.
+179        -->
+180        <service
+180-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:33:9-37:51
+181            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+181-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:34:13-89
+182            android:exported="true"
+182-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:35:13-36
+183            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+183-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:36:13-107
+184            android:visibleToInstantApps="true" />
+184-->[com.google.android.gms:play-services-auth:21.0.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\862c36f2214b36d8d5b03b751a4c5427\transformed\play-services-auth-21.0.0\AndroidManifest.xml:37:13-48
+185
+186        <meta-data
+186-->[com.google.maps.android:android-maps-utils:3.8.2] C:\Users\tarik\.gradle\caches\8.10.2\transforms\c01962603f84c18077fc86deb6204ba6\transformed\android-maps-utils-3.8.2\AndroidManifest.xml:8:9-10:69
+187            android:name="com.google.android.gms.version"
+187-->[com.google.maps.android:android-maps-utils:3.8.2] C:\Users\tarik\.gradle\caches\8.10.2\transforms\c01962603f84c18077fc86deb6204ba6\transformed\android-maps-utils-3.8.2\AndroidManifest.xml:9:13-58
+188            android:value="@integer/google_play_services_version" />
+188-->[com.google.maps.android:android-maps-utils:3.8.2] C:\Users\tarik\.gradle\caches\8.10.2\transforms\c01962603f84c18077fc86deb6204ba6\transformed\android-maps-utils-3.8.2\AndroidManifest.xml:10:13-66
+189
+190        <activity
+190-->[com.google.android.gms:play-services-base:18.2.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\0b5a895e457d9fbf280ed4df9afc9309\transformed\play-services-base-18.2.0\AndroidManifest.xml:20:9-22:45
+191            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+191-->[com.google.android.gms:play-services-base:18.2.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\0b5a895e457d9fbf280ed4df9afc9309\transformed\play-services-base-18.2.0\AndroidManifest.xml:20:19-85
+192            android:exported="false"
+192-->[com.google.android.gms:play-services-base:18.2.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\0b5a895e457d9fbf280ed4df9afc9309\transformed\play-services-base-18.2.0\AndroidManifest.xml:22:19-43
+193            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+193-->[com.google.android.gms:play-services-base:18.2.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\0b5a895e457d9fbf280ed4df9afc9309\transformed\play-services-base-18.2.0\AndroidManifest.xml:21:19-78
+194
+195        <provider
+195-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:31:9-39:20
+196            android:name="androidx.startup.InitializationProvider"
+196-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:32:13-67
+197            android:authorities="com.i_amtheguy.potato.androidx-startup"
+197-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:33:13-68
+198            android:exported="false" >
+198-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:34:13-37
+199            <meta-data
+199-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:36:13-38:52
+200                android:name="androidx.work.WorkManagerInitializer"
+200-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:37:17-68
+201                android:value="androidx.startup" />
+201-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:38:17-49
+202            <meta-data
+202-->[androidx.emoji2:emoji2:1.3.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\43348f4790489d0d58047534c8ae45cc\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+203                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+203-->[androidx.emoji2:emoji2:1.3.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\43348f4790489d0d58047534c8ae45cc\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+204                android:value="androidx.startup" />
+204-->[androidx.emoji2:emoji2:1.3.0] C:\Users\tarik\.gradle\caches\8.10.2\transforms\43348f4790489d0d58047534c8ae45cc\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+205            <meta-data
+205-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\tarik\.gradle\caches\8.10.2\transforms\f4e0fabf694af3fb20704deb6901023f\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:29:13-31:52
+206                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+206-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\tarik\.gradle\caches\8.10.2\transforms\f4e0fabf694af3fb20704deb6901023f\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:30:17-78
+207                android:value="androidx.startup" />
+207-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\tarik\.gradle\caches\8.10.2\transforms\f4e0fabf694af3fb20704deb6901023f\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:31:17-49
+208            <meta-data
+208-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+209                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+209-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+210                android:value="androidx.startup" />
+210-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+211        </provider>
+212
+213        <service
+213-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:41:9-46:35
+214            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+214-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:42:13-88
+215            android:directBootAware="false"
+215-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:43:13-44
+216            android:enabled="@bool/enable_system_alarm_service_default"
+216-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:44:13-72
+217            android:exported="false" />
+217-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:45:13-37
+218        <service
+218-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:47:9-53:35
+219            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+219-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:48:13-84
+220            android:directBootAware="false"
+220-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:49:13-44
+221            android:enabled="@bool/enable_system_job_service_default"
+221-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:50:13-70
+222            android:exported="true"
+222-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:51:13-36
+223            android:permission="android.permission.BIND_JOB_SERVICE" />
+223-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:52:13-69
+224        <service
+224-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:54:9-59:35
+225            android:name="androidx.work.impl.foreground.SystemForegroundService"
+225-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:55:13-81
+226            android:directBootAware="false"
+226-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:56:13-44
+227            android:enabled="@bool/enable_system_foreground_service_default"
+227-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:57:13-77
+228            android:exported="false" />
+228-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:58:13-37
+229
+230        <receiver
+230-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:61:9-66:35
+231            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+231-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:62:13-88
+232            android:directBootAware="false"
+232-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:63:13-44
+233            android:enabled="true"
+233-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:64:13-35
+234            android:exported="false" />
+234-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:65:13-37
+235        <receiver
+235-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:67:9-77:20
+236            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+236-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:68:13-106
+237            android:directBootAware="false"
+237-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:69:13-44
+238            android:enabled="false"
+238-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:70:13-36
+239            android:exported="false" >
+239-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:71:13-37
+240            <intent-filter>
+240-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:73:13-76:29
+241                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+241-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:74:17-87
+241-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:74:25-84
+242                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+242-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:75:17-90
+242-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:75:25-87
+243            </intent-filter>
+244        </receiver>
+245        <receiver
+245-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:78:9-88:20
+246            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+246-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:79:13-104
+247            android:directBootAware="false"
+247-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:80:13-44
+248            android:enabled="false"
+248-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:81:13-36
+249            android:exported="false" >
+249-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:82:13-37
+250            <intent-filter>
+250-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:84:13-87:29
+251                <action android:name="android.intent.action.BATTERY_OKAY" />
+251-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:85:17-77
+251-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:85:25-74
+252                <action android:name="android.intent.action.BATTERY_LOW" />
+252-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:86:17-76
+252-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:86:25-73
+253            </intent-filter>
+254        </receiver>
+255        <receiver
+255-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:89:9-99:20
+256            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+256-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:90:13-104
+257            android:directBootAware="false"
+257-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:91:13-44
+258            android:enabled="false"
+258-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:92:13-36
+259            android:exported="false" >
+259-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:93:13-37
+260            <intent-filter>
+260-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:95:13-98:29
+261                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+261-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:96:17-83
+261-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:96:25-80
+262                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+262-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:97:17-82
+262-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:97:25-79
+263            </intent-filter>
+264        </receiver>
+265        <receiver
+265-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:100:9-109:20
+266            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+266-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:101:13-103
+267            android:directBootAware="false"
+267-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:102:13-44
+268            android:enabled="false"
+268-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:103:13-36
+269            android:exported="false" >
+269-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:104:13-37
+270            <intent-filter>
+270-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:106:13-108:29
+271                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+271-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:107:17-79
+271-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:107:25-76
+272            </intent-filter>
+273        </receiver>
+274        <receiver
+274-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:110:9-121:20
+275            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+275-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:111:13-88
+276            android:directBootAware="false"
+276-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:112:13-44
+277            android:enabled="false"
+277-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:113:13-36
+278            android:exported="false" >
+278-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:114:13-37
+279            <intent-filter>
+279-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:116:13-120:29
+280                <action android:name="android.intent.action.BOOT_COMPLETED" />
+280-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:117:17-79
+280-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:117:25-76
+281                <action android:name="android.intent.action.TIME_SET" />
+281-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:118:17-73
+281-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:118:25-70
+282                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+282-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:119:17-81
+282-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:119:25-78
+283            </intent-filter>
+284        </receiver>
+285        <receiver
+285-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:122:9-131:20
+286            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+286-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:123:13-99
+287            android:directBootAware="false"
+287-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:124:13-44
+288            android:enabled="@bool/enable_system_alarm_service_default"
+288-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:125:13-72
+289            android:exported="false" >
+289-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:126:13-37
+290            <intent-filter>
+290-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:128:13-130:29
+291                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+291-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:129:17-98
+291-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:129:25-95
+292            </intent-filter>
+293        </receiver>
+294        <receiver
+294-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:132:9-142:20
+295            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+295-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:133:13-78
+296            android:directBootAware="false"
+296-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:134:13-44
+297            android:enabled="true"
+297-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:135:13-35
+298            android:exported="true"
+298-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:136:13-36
+299            android:permission="android.permission.DUMP" >
+299-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:137:13-57
+300            <intent-filter>
+300-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:139:13-141:29
+301                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+301-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:140:17-88
+301-->[androidx.work:work-runtime:2.7.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\30b537bb7c1781f876b963954ea30a1a\transformed\work-runtime-2.7.1\AndroidManifest.xml:140:25-85
+302            </intent-filter>
+303        </receiver>
+304        <receiver
+304-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+305            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+305-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+306            android:directBootAware="false"
+306-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+307            android:enabled="true"
+307-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+308            android:exported="true"
+308-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+309            android:permission="android.permission.DUMP" >
+309-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+310            <intent-filter>
+310-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+311                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+311-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+311-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+312            </intent-filter>
+313            <intent-filter>
+313-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+314                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+314-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+314-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+315            </intent-filter>
+316            <intent-filter>
+316-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+317                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+317-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+317-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+318            </intent-filter>
+319            <intent-filter>
+319-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+320                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+320-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+320-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\tarik\.gradle\caches\8.10.2\transforms\54c4dfb50a623bb88cfb1a28df88c5ed\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+321            </intent-filter>
+322        </receiver>
+323
+324        <service
+324-->[androidx.room:room-runtime:2.2.5] C:\Users\tarik\.gradle\caches\8.10.2\transforms\d7fad06b386e2105274538b9540b61b0\transformed\room-runtime-2.2.5\AndroidManifest.xml:25:9-28:40
+325            android:name="androidx.room.MultiInstanceInvalidationService"
+325-->[androidx.room:room-runtime:2.2.5] C:\Users\tarik\.gradle\caches\8.10.2\transforms\d7fad06b386e2105274538b9540b61b0\transformed\room-runtime-2.2.5\AndroidManifest.xml:26:13-74
+326            android:directBootAware="true"
+326-->[androidx.room:room-runtime:2.2.5] C:\Users\tarik\.gradle\caches\8.10.2\transforms\d7fad06b386e2105274538b9540b61b0\transformed\room-runtime-2.2.5\AndroidManifest.xml:27:13-43
+327            android:exported="false" />
+327-->[androidx.room:room-runtime:2.2.5] C:\Users\tarik\.gradle\caches\8.10.2\transforms\d7fad06b386e2105274538b9540b61b0\transformed\room-runtime-2.2.5\AndroidManifest.xml:28:13-37
+328        <service
+328-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:19:9-21:40
+329            android:name="io.nlopez.smartlocation.activity.providers.ActivityGooglePlayServicesProvider$ActivityRecognitionService"
+329-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:20:13-132
+330            android:exported="false" />
+330-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:21:13-37
+331        <service
+331-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:22:9-24:40
+332            android:name="io.nlopez.smartlocation.geofencing.providers.GeofencingGooglePlayServicesProvider$GeofencingService"
+332-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:23:13-127
+333            android:exported="false" />
+333-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:24:13-37
+334        <service
+334-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:25:9-27:40
+335            android:name="io.nlopez.smartlocation.geocoding.providers.AndroidGeocodingProvider$AndroidGeocodingService"
+335-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:26:13-120
+336            android:exported="false" />
+336-->[:expo-location$io.nlopez.smartlocation-jetified-aar] C:\Users\tarik\.gradle\caches\8.10.2\transforms\fd4948d0eadfdb7320be40b2eeeb263b\transformed\io.nlopez.smartlocation-3.3.3-jetified\AndroidManifest.xml:27:13-37
+337    </application>
+338
+339</manifest>
