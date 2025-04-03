@@ -51,6 +51,5 @@ constants/GoogleKey.ts
 /.vscode
 android/app/src/main/AndroidManifest.xml
 android/app/build/
-
-
-
+*.so 
+*.apk
