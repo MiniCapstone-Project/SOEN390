@@ -9,6 +9,8 @@ import { GOOGLE_MAPS_API_KEY } from "@/constants/GoogleKey";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FeatureCollection, Geometry, GeoJsonProperties } from "geojson";
 import { Button, List } from "react-native-paper";
+import { Dropdown } from 'react-native-paper-dropdown';
+import { Provider as PaperProvider } from 'react-native-paper';
 import * as Location from "expo-location";
 import { ButtonsStyles } from "@/Styles/ButtonStyles";
 import {
@@ -24,6 +26,9 @@ import { CommonActions } from '@react-navigation/native';
 import { directionModalStyles, MapExplorerScreenStyles } from "@/Styles/MapExplorerScreenStyles";
 import { searchPlaces } from "@/services/PlacesService";
 
+import { Building, Floor, getBuildingOutlines, getBuildingMarkers, getBuilding } from "@/services/GISImporterService";
+import { floor } from "lodash";
+
 const googleMapsKey = GOOGLE_MAPS_API_KEY;
 
 // Add constants at the top of the file, near other constants
@@ -32,13 +37,6 @@ const POI_MAX_ZOOM_LEVEL = 19; // Maximum zoom level for POIs (very zoomed in)
 const POI_RADIUS_MIN = 500; // Minimum radius in meters
 const POI_RADIUS_MAX = 5000; // Maximum radius in meters
 const POI_ZOOM_REFRESH_THRESHOLD = 1.5; // How much zoom needs to change before refreshing POIs
-
-const buildingMarkers = require("@/gis/building-markers.json") as FeatureCollection<Geometry, GeoJsonProperties>;
-const buildingOutlines = require("@/gis/building-outlines.json") as FeatureCollection<Geometry, GeoJsonProperties>;
-const hall9RoomsPois = require("@/gis/hall-9-rooms-pois.json") as FeatureCollection<Geometry, GeoJsonProperties>;
-const hall9FloorPlan = require("@/gis/hall-9-floor-plan.json") as FeatureCollection<Geometry, GeoJsonProperties>;
-const hall8RoomsPois = require("@/gis/hall-8-rooms-pois.json") as FeatureCollection<Geometry, GeoJsonProperties>;
-const hall8FloorPlan = require("@/gis/hall-8-floor-plan.json") as FeatureCollection<Geometry, GeoJsonProperties>;
 
 
 
@@ -58,22 +56,28 @@ const MapComponent = ({
   currentCampus,
   userLocation,
   setSelectedMarker,
-  visibleLayers,
   onRegionChangeComplete,
   shouldShowPOIs,
   currentSearchText,
-  searchCleared
+  searchCleared,
+  selectedBuilding,
+  setSelectedBuilding,
+  selectedFloor,
+  setSelectedFloor
 }: {
   mapRef: React.RefObject<MapView>;
   results: any;
   currentCampus: Region;
   userLocation: Region | null;
   setSelectedMarker: React.Dispatch<React.SetStateAction<any>>;
-  visibleLayers: { [key: string]: boolean };
   onRegionChangeComplete: (region: Region) => void;
   shouldShowPOIs: boolean;
   currentSearchText: string;
   searchCleared: boolean;
+  selectedBuilding: Building | null;
+  setSelectedBuilding: (building: Building | null) => void;
+  selectedFloor: Floor | null;
+  setSelectedFloor: (floor: Floor | null) => void;
 }) => {
 
   const [selectedCoordinate, setSelectedCoordinate] = useState<{
@@ -87,8 +91,6 @@ const MapComponent = ({
   const navi = useNavigation();
 
   const handleOutlinePress = (event: any) => {
-    console.log("Outline pressed", event);
-    // Additional handling for outline press events
   };
 
 
@@ -129,7 +131,21 @@ const MapComponent = ({
  
 
   const handleMarkerPress = (markerData: any) => {
-    console.log("Building marker pressed:", markerData);
+    const buildingID = markerData.properties.Building;
+    if(buildingID)
+    {
+      const newBuilding: Building = getBuilding(buildingID);
+      if(newBuilding)
+      {
+        setSelectedBuilding(newBuilding);
+        setSelectedFloor((Object.values(newBuilding.floors)[0]) as Floor);
+      }
+      else
+      {
+        setSelectedBuilding(null);
+        setSelectedFloor(null);
+      }
+    }
   
     // Assuming markerData is the feature object
     const coordinates = markerData.geometry.coordinates;
@@ -266,7 +282,7 @@ const MapComponent = ({
       >
         {/* Building markers */}
     
-             {buildingMarkers.features.map((feature: any) => (
+             {getBuildingMarkers().features.map((feature: any) => (
           <Marker
             coordinate={{
               latitude: feature.geometry.coordinates[1],
@@ -282,16 +298,16 @@ const MapComponent = ({
         ))}
 
         <Geojson
-          geojson={buildingOutlines}
+          geojson={getBuildingOutlines()}
           strokeColor="green"
           fillColor="rgba(255, 0, 200, 0.16)"
           strokeWidth={2}
           onPress={handleOutlinePress}
           tappable={true}
         />
-        {visibleLayers.hall9RoomsPois && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
+        {selectedBuilding && selectedFloor && zoomLevel > ZOOM_LEVEL_THRESHOLD && (
           <Geojson
-            geojson={hall9RoomsPois}
+            geojson={selectedFloor.roomPOIs}
             image={markerImage}
             strokeColor="red"
             fillColor="rgba(255, 0, 0, 0.5)"
@@ -300,9 +316,9 @@ const MapComponent = ({
             onPress={handleRoomPoiPress}
           />
         )}
-        {visibleLayers.hall9FloorPlan && (
+        {selectedBuilding && selectedFloor && (
           <Geojson
-            geojson={hall9FloorPlan}
+            geojson={selectedFloor.plan}
             strokeColor="orange"
             fillColor="rgba(255, 165, 0, 0.5)"
             strokeWidth={2}
@@ -415,14 +431,9 @@ export default function MapExplorerScreen() {
   const route = useRoute<{ key: string; name: string; params: RouteParams }>();
   const { origin: originParam, destination: destinationParam } =
     route.params || {};
-  const [visibleLayers, setVisibleLayers] = useState({
-    hall9RoomsPois: true,
-    hall9FloorPlan: true,
-    hall8RoomsPois: true,
-    hall8FloorPlan: true,
-  });
   const navi = useNavigation();
-
+  const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
+  const [selectedFloor, setSelectedFloor] = useState<Floor | null>(null);
 
   type RouteParams = {
     origin?: {
@@ -435,8 +446,6 @@ export default function MapExplorerScreen() {
       Longitude: number;
     };
   };
-
-
 
   useEffect(() => {
     (async () => {
@@ -591,14 +600,18 @@ export default function MapExplorerScreen() {
   };
 
   const handleGoPress = () => {
-    console.log("GO button pressed");
   };
 
-  // Functions are not being used, so they can be removed
-  // const handlePress = () => setExpanded(!expanded);
-  // const toggleLayerVisibility = (layer: string) => {
-  //   setVisibleLayers((prev) => ({ ...prev, [layer]: !prev[layer] }));
-  // };
+  const handleSelectFloor = (floorId: string | undefined) => {
+    if(selectedBuilding && floorId)
+    {
+      setSelectedFloor(selectedBuilding.floors[floorId]);
+    }
+    else
+    {
+      setSelectedFloor(null);
+    }
+  };
 
   // Function to trigger a POI search with the current radius
   const searchPOIs = useCallback(() => {
@@ -734,90 +747,111 @@ export default function MapExplorerScreen() {
 
 
   return (
-    <View style={DefaultMapStyle.container}>
-      <MapComponent
-        mapRef={mapRef}
-        results={results}
-        currentCampus={userLocation || currentCampus}
-        userLocation={userLocation}
-        setSelectedMarker={setSelectedMarker}
-        visibleLayers={visibleLayers}
-        onRegionChangeComplete={handleMapRegionChange}
-        shouldShowPOIs={shouldShowPOIs}
-        currentSearchText={currentSearchText}
-        searchCleared={searchCleared}
-      />
-      <View
-        pointerEvents="box-none"
-        style={[
-          ButtonsStyles.controlsContainer,
-          MapExplorerScreenStyles.controlsContainer,
-        ]}
-      >
-        <AutocompleteSearchWrapper
+    <PaperProvider>
+      <View style={DefaultMapStyle.container}>
+        <MapComponent
           mapRef={mapRef}
-          setResults={setResults}
+          results={results}
+          currentCampus={userLocation || currentCampus}
           userLocation={userLocation}
-          currentCampus={currentCampus}
-          googleMapsKey={googleMapsKey}
-          location={userLocation}
-          onSearchTextChange={setCurrentSearchText}
-          
+          setSelectedMarker={setSelectedMarker}
+          onRegionChangeComplete={handleMapRegionChange}
+          shouldShowPOIs={shouldShowPOIs}
+          currentSearchText={currentSearchText}
+          searchCleared={searchCleared}
+          selectedBuilding={selectedBuilding}
+          setSelectedBuilding={setSelectedBuilding}
+          selectedFloor={selectedFloor}
+          setSelectedFloor={setSelectedFloor}
         />
-      </View>
-      
-      {/* Zoom indicator - shows when user searches for POIs but is zoomed out too far */}
-      {currentSearchText && !shouldShowPOIs && results.features && results.features.length > 0 && (
-        <View style={{
-          position: 'absolute',
-          bottom: 100,
-          alignSelf: 'center',
-          backgroundColor: 'rgba(0,0,0,0.7)',
-          padding: 10,
-          borderRadius: 5,
-          zIndex: 1000,
-        }}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>
-            Zoom in to see POIs
-          </Text>
+        <View
+          pointerEvents="box-none"
+          style={[
+            ButtonsStyles.controlsContainer,
+            MapExplorerScreenStyles.controlsContainer,
+          ]}
+        >
+          <AutocompleteSearchWrapper
+            mapRef={mapRef}
+            setResults={setResults}
+            userLocation={userLocation}
+            currentCampus={currentCampus}
+            googleMapsKey={googleMapsKey}
+            location={userLocation}
+            onSearchTextChange={setCurrentSearchText}
+            
+          />
         </View>
-      )}
+        {/* Zoom indicator - shows when user searches for POIs but is zoomed out too far */}
+        {currentSearchText && !shouldShowPOIs && results.features && results.features.length > 0 && (
+          <View style={{
+            position: 'absolute',
+            bottom: 100,
+            alignSelf: 'center',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            padding: 10,
+            borderRadius: 5,
+            zIndex: 1000,
+          }}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>
+              Zoom in to see POIs
+            </Text>
+          </View>
+        )}
 
-      <View
-        style={[
-          ButtonsStyles.buttonContainer,
-          MapExplorerScreenStyles.buttonContainer,
-        ]}
-      >
-        <Button
-          mode="contained"
-          onPress={handleSwitchToSGW}
-          style={ButtonsStyles.button}
+        <View
+          style={[
+            ButtonsStyles.buttonContainer,
+            MapExplorerScreenStyles.buttonContainer,
+          ]}
         >
-          SGW
-        </Button>
-        <Button
-          mode="contained"
-          onPress={handleSwitchToLoyola}
-          style={ButtonsStyles.button}
-        >
-          Loyola
-        </Button>
-        <Button
-          mode="contained"
-          onPress={handleCenterToUserLocation}
-          style={ButtonsStyles.button}
-        >
-          ME
-        </Button>
-        <Button
-          mode="contained"
-          onPress={handleGoPress}
-          style={ButtonsStyles.button}
-        >
-          GO
-        </Button>
-      </View>
+          <View style={MapExplorerScreenStyles.dropdownContainer}>
+            { selectedBuilding && (
+              <Dropdown
+                label={selectedFloor? selectedFloor.id: "Floor"}
+                options={
+                  selectedBuilding ? 
+                    Object.values(selectedBuilding.floors).map((floor: Floor) => ({
+                      label: floor.id, 
+                      value: floor.id
+                    }))
+                  : []
+                }
+                onSelect={handleSelectFloor}
+              />
+            )}
+          </View>
+          <Button
+            mode="contained"
+            onPress={handleSwitchToSGW}
+            style={ButtonsStyles.button}
+          >
+            SGW
+          </Button>
+          <Button
+            mode="contained"
+            onPress={handleSwitchToLoyola}
+            style={ButtonsStyles.button}
+          >
+            Loyola
+          </Button>
+          <Button
+            mode="contained"
+            onPress={handleCenterToUserLocation}
+            style={ButtonsStyles.button}
+          >
+            ME
+          </Button>
+          <Button
+            mode="contained"
+            onPress={handleGoPress}
+            style={ButtonsStyles.button}
+          >
+            GO
+          </Button>
+
+        </View>
     </View>
+    </PaperProvider>
   );
 }

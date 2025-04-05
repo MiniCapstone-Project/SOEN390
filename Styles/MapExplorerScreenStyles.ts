@@ -10,6 +10,13 @@ export const MapExplorerScreenStyles = StyleSheet.create({
     bottom: 20,
     width: '100%',
   },
+  dropdownContainer: {
+    position: 'absolute',
+    bottom: 70,
+    left: 10,
+    width: '50%',
+    color: "rgba(0, 0, 0, 0.5)"
+  }
 });
 
 
