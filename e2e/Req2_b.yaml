@@ -1,0 +1,6 @@
+appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name or bundle identifier)
+---
+- launchApp
+- tapOn: "SB Building. "
+- tapOn: "Directions"
+- tapOn: "Current Location → Selected Building"
