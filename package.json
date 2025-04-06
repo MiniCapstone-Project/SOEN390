@@ -31,7 +31,8 @@
     },
     "setupFiles": [
       "<rootDir>/navigation/setupTests.js"
-    ]
+    ],
+    "testMatch": ["**/__tests__/**/*.[jt]s?(x)", "**/_tests_/**/*.[jt]s?(x)"]
   },
   "overrides": {
     "@testing-library/react-hooks": {

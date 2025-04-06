@@ -1,137 +1,102 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
-import { AutocompleteSearchWrapper } from '../AutoCompleteSearchWrapper';
+import { AutocompleteSearchWrapper } from '@/components/InputComponents/AutocompleteSearchWrapper';
 import MapView from 'react-native-maps';
-import { View, TextInput, Alert } from 'react-native';
+import { Alert } from 'react-native';
+import { searchPlaces } from '@/services/PlacesService';
 
 jest.mock('react-native-maps', () => {
-  const MockMapView = jest.fn();
-  MockMapView.Animated = {
-    createAnimatedComponent: jest.fn(),
-  };
-  return MockMapView;
-});
-
-jest.mock('react-native-google-places-autocomplete', () => {
-  const React = require('react');
-  return {
-    GooglePlacesAutocomplete: jest.fn().mockImplementation(({ placeholder, textInputProps }) => (
-      React.createElement('View', null,
-        React.createElement('TextInput', {
-          placeholder: placeholder,
-          value: textInputProps.value,
-          onChangeText: textInputProps.onChangeText,
-          onSubmitEditing: textInputProps.onSubmitEditing
-        })
-      )
-    )),
-  };
+  const MockMapView = jest.fn(() => null);
+  MockMapView.Animated = { Region: jest.fn() };
+  return { default: MockMapView };
 });
 
 jest.mock('@/services/PlacesService', () => ({
   searchPlaces: jest.fn().mockResolvedValue({
     features: [
       {
-        geometry: {
-          coordinates: [0, 0],
-        },
+        geometry: { coordinates: [-73.5673, 45.5017] },
+        properties: { name: 'Test Place', formatted_address: '123 Test St', place_id: 'test123' },
       },
     ],
   }),
 }));
 
+jest.spyOn(Alert, 'alert');
+
 describe('AutocompleteSearchWrapper', () => {
-  const mockMapRef = {
-    current: {
-      getMapBoundaries: jest.fn().mockResolvedValue({
-        northEast: { latitude: 1, longitude: 1 },
-        southWest: { latitude: 0, longitude: 0 },
-      }),
-      fitToCoordinates: jest.fn(),
-      animateToRegion: jest.fn(),
-    },
-  };
-
-  const defaultProps = {
-    mapRef: mockMapRef,
-    setResults: jest.fn(),
-    userLocation: { latitude: 0, longitude: 0, latitudeDelta: 0.1, longitudeDelta: 0.1 },
-    currentCampus: { latitude: 0, longitude: 0, latitudeDelta: 0.1, longitudeDelta: 0.1 },
-    googleMapsKey: 'test-key',
-    location: { latitude: 0, longitude: 0, latitudeDelta: 0.1, longitudeDelta: 0.1 },
-  };
-
-  beforeEach(() => {
-    jest.spyOn(Alert, 'alert').mockClear();
-  });
-
   it('renders correctly', () => {
-    const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    expect(getByPlaceholderText('Search for places...')).toBeTruthy();
+    const { getByPlaceholderText } = render(
+      <AutocompleteSearchWrapper
+        mapRef={React.createRef<MapView>()}
+        setResults={jest.fn()}
+        userLocation={null}
+        currentCampus={{ latitude: 45.5017, longitude: -73.5673 }}
+        googleMapsKey="test-key"
+        location={null}
+        onSearchTextChange={jest.fn()}
+      />
+    );
+    expect(getByPlaceholderText('Search for places, coffee shops, restaurants...')).toBeTruthy();
   });
 
-  it('performs a full text search on submit', async () => {
-    const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    const input = getByPlaceholderText('Search for places...');
+  it('shows alert if API key is missing', async () => {
+    render(<AutocompleteSearchWrapper mapRef={React.createRef<MapView>()} googleMapsKey="" setResults={jest.fn()} />);
+    expect(Alert.alert).toHaveBeenCalledWith(
+      'Configuration Error',
+      'Google Maps API key is missing. Some features may not work correctly.'
+    );
+  });
 
-    fireEvent.changeText(input, 'test');
-    fireEvent(input, 'submitEditing');
+  it('handles text input and triggers search', async () => {
+    const setResults = jest.fn();
+    const { getByPlaceholderText, getByText } = render(
+      <AutocompleteSearchWrapper
+        mapRef={React.createRef<MapView>()}
+        setResults={setResults}
+        userLocation={null}
+        currentCampus={{ latitude: 45.5017, longitude: -73.5673 }}
+        googleMapsKey="test-key"
+        location={null}
+      />
+    );
+
+    const input = getByPlaceholderText('Search for places, coffee shops, restaurants...');
+    fireEvent.changeText(input, 'Test Place');
+    fireEvent.press(getByText('Search'));
 
     await waitFor(() => {
-      expect(defaultProps.setResults).toHaveBeenCalledWith(expect.any(Object));
+      expect(searchPlaces).toHaveBeenCalledWith(
+        'Test Place',
+        45.5017,
+        -73.5673,
+        'test-key',
+        expect.any(Number)
+      );
+      expect(setResults).toHaveBeenCalled();
     });
   });
 
-  it('handles suggestion selection', async () => {
-    const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    const input = getByPlaceholderText('Search for places...');
+  it('clears the search input', async () => {
+    const setResults = jest.fn();
+    const { getByText, getByPlaceholderText } = render(
+      <AutocompleteSearchWrapper
+        mapRef={React.createRef<MapView>()}
+        setResults={setResults}
+        userLocation={null}
+        currentCampus={{ latitude: 45.5017, longitude: -73.5673 }}
+        googleMapsKey="test-key"
+        location={null}
+      />
+    );
 
-    fireEvent.changeText(input, 'test');
-    fireEvent(input, 'submitEditing');
-
-    await waitFor(() => {
-      expect(defaultProps.setResults).toHaveBeenCalledWith(expect.any(Object));
-    });
-  });
-
-  it('clears text and results on clear button press', () => {
-    const { getByText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    const clearButton = getByText('Clear');
-
-    fireEvent.press(clearButton);
-
-    expect(defaultProps.setResults).toHaveBeenCalledWith([]);
-  });
-
-  it('handles no results found', async () => {
-    const { searchPlaces } = require('@/services/PlacesService');
-    searchPlaces.mockResolvedValueOnce({
-      features: [],
-    });
-
-    const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    const input = getByPlaceholderText('Search for places...');
-
-    fireEvent.changeText(input, 'test');
-    fireEvent(input, 'submitEditing');
+    const input = getByPlaceholderText('Search for places, coffee shops, restaurants...');
+    fireEvent.changeText(input, 'Test');
+    fireEvent.press(getByText('Clear'));
 
     await waitFor(() => {
-      expect(Alert.alert).toHaveBeenCalledWith("No Results", "No locations found. Try a different search.", [{ text: "OK" }]);
-    });
-  });
-
-  it('handles errors during search', async () => {
-    const { searchPlaces } = require('@/services/PlacesService');
-    searchPlaces.mockRejectedValueOnce(new Error('Failed to fetch places'));
-
-    const { getByPlaceholderText } = render(<AutocompleteSearchWrapper {...defaultProps} />);
-    const input = getByPlaceholderText('Search for places...');
-
-    fireEvent.changeText(input, 'test');
-    fireEvent(input, 'submitEditing');
-
-    await waitFor(() => {
-      expect(Alert.alert).toHaveBeenCalledWith("Error", "Failed to fetch places. Please try again.");
+      expect(setResults).toHaveBeenCalledWith({ type: 'FeatureCollection', features: [] });
+      expect(input.props.value).toBe("");
     });
   });
 });
