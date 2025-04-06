@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/24</span>
+                <span class='fraction'>0/22</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/9</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/24</span>
+                <span class='fraction'>0/22</span>
             </div>
         
             
@@ -99,9 +99,12 @@
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
 <a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -113,14 +116,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -129,53 +128,48 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// MapExplorerScreen Tests
-<span class="cstat-no" title="statement not covered" >it('renders MapExplorerScreen without crashing', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-  const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  expect(getByText('SGW')).toBeTruthy();</span>
-<span class="cstat-no" title="statement not covered" >  expect(getByText('Loyola')).toBeTruthy();</span>
-});
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import MapExplorerScreen from '../MapExplorerScreen';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >it('switches to SGW campus', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-  const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  act(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >describe('MapExplorerScreen', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  it('renders correctly', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('SGW')).toBeTruthy();</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('Loyola')).toBeTruthy();</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('ME')).toBeTruthy();</span>
+  });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  it('switches to SGW campus', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
 <span class="cstat-no" title="statement not covered" >    fireEvent.press(getByText('SGW'));</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('SGW')).toBeTruthy();</span>
   });
-<span class="cstat-no" title="statement not covered" >  expect(getByText('SGW')).toBeTruthy();</span>
-});
 &nbsp;
-<span class="cstat-no" title="statement not covered" >it('centers to user location on ME button press', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-  const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  act(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  it('switches to Loyola campus', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
+<span class="cstat-no" title="statement not covered" >    fireEvent.press(getByText('Loyola'));</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('Loyola')).toBeTruthy();</span>
+  });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  it('centers to user location', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
 <span class="cstat-no" title="statement not covered" >    fireEvent.press(getByText('ME'));</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('ME')).toBeTruthy();</span>
   });
-<span class="cstat-no" title="statement not covered" >  expect(getByText('ME')).toBeTruthy();</span>
-});
 &nbsp;
-<span class="cstat-no" title="statement not covered" >it('shows search results when text is entered', <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-  const { getByPlaceholderText, getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  await act(<span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  it('searches places when typing', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const { getByPlaceholderText, getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
 <span class="cstat-no" title="statement not covered" >    fireEvent.changeText(getByPlaceholderText('Search for places...'), 'Test Place');</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('Test Place')).toBeTruthy();</span>
   });
-<span class="cstat-no" title="statement not covered" >  expect(getByText('Test Place')).toBeTruthy();</span>
-});
-&nbsp;
-<span class="cstat-no" title="statement not covered" >it('handles map region change correctly', <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-  const { getByTestId } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  await act(<span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fireEvent.press(getByTestId('MAP_REGION_CHANGE'));</span>
-  });
-<span class="cstat-no" title="statement not covered" >  expect(getByTestId('MAP_REGION_CHANGE')).toBeTruthy();</span>
 });
 &nbsp;</pre></td></tr></table></pre>
 
@@ -184,7 +178,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-06T01:12:07.329Z
+                at 2025-04-06T19:54:18.630Z
             </div>
         <script src="../prettify.js"></script>
         <script>
