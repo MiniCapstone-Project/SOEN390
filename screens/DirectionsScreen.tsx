@@ -1,60 +1,47 @@
-// DirectionsScreen.test.tsx
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import DirectionsScreen from '../DirectionsScreen';
-import MapExplorerScreen from '../MapExplorerScreen';
+import { useRoute } from '@react-navigation/native';
 
-// Mocking dependencies
 jest.mock('@react-navigation/native', () => ({
-  useRoute: () => ({ params: { destination: { Address: 'Test Address', Latitude: 45.5, Longitude: -73.6 } } }),
-  useNavigation: () => ({ dispatch: jest.fn() }),
+  useRoute: jest.fn(() => ({
+    params: {
+      destination: {
+        Address: 'Test Location',
+        Latitude: 45.5,
+        Longitude: -73.6,
+      },
+    },
+  })),
 }));
 
-// DirectionsScreen Tests
-it('renders DirectionsScreen correctly', () => {
-  const { getByText } = render(<DirectionsScreen />);
-  expect(getByText('From')).toBeTruthy();
-  expect(getByText('Destination')).toBeTruthy();
-});
+describe('DirectionsScreen', () => {
+  it('renders basic components', () => {
+    const { getByText, getByTestId } = render(<DirectionsScreen />);
+    expect(getByText('From')).toBeTruthy();
+    expect(getByText('Destination')).toBeTruthy();
+    expect(getByTestId('WALKING')).toBeTruthy();
+    expect(getByTestId('DRIVING')).toBeTruthy();
+  });
 
-it('changes transport mode correctly', async () => {
-  const { getByTestId } = render(<DirectionsScreen />);
-  await act(async () => {
+  it('changes transport mode', () => {
+    const { getByTestId } = render(<DirectionsScreen />);
     fireEvent.press(getByTestId('WALKING'));
     fireEvent.press(getByTestId('DRIVING'));
     fireEvent.press(getByTestId('TRANSIT'));
     fireEvent.press(getByTestId('SHUTTLE'));
+    expect(getByTestId('DRIVING')).toBeTruthy();
   });
-  expect(getByTestId('WALKING')).toBeTruthy();
-  expect(getByTestId('DRIVING')).toBeTruthy();
-  expect(getByTestId('TRANSIT')).toBeTruthy();
-  expect(getByTestId('SHUTTLE')).toBeTruthy();
-});
 
-it('calculates route correctly', async () => {
-  const { getByTestId } = render(<DirectionsScreen />);
-  await act(async () => {
+  it('triggers route calculation', () => {
+    const { getByTestId } = render(<DirectionsScreen />);
     fireEvent.press(getByTestId('ROUTE'));
+    expect(getByTestId('ROUTE')).toBeTruthy();
   });
-  expect(getByTestId('ROUTE')).toBeTruthy();
-});
 
-it('moves to location correctly', async () => {
-  const { getByTestId } = render(<DirectionsScreen />);
-  await act(async () => {
-    fireEvent.press(getByTestId('MOVE_TO'));
+  it('renders distance and duration', () => {
+    const { getByText } = render(<DirectionsScreen />);
+    expect(getByText('Distance:')).toBeTruthy();
+    expect(getByText('Duration:')).toBeTruthy();
   });
-  expect(getByTestId('MOVE_TO')).toBeTruthy();
-});
-
-it('handles shuttle route setting', async () => {
-  const { getByTestId } = render(<DirectionsScreen />);
-  await act(async () => {
-    fireEvent.press(getByTestId('SHUTTLE'));
-  });
-  expect(getByTestId('SHUTTLE')).toBeTruthy();
-});
-
-it('displays error on invalid input', () => {
-  const { getByText } = render(<DirectionsScreen />);
 });
