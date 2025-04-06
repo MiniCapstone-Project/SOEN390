@@ -1,51 +1,48 @@
-// DirectionsScreen.test.tsx
+
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import DirectionsScreen from '../DirectionsScreen';
-import { act } from 'react-test-renderer';
+import { useRoute } from '@react-navigation/native';
 
-// Basic Rendering Test
-it('renders DirectionsScreen without crashing', () => {
-  const { getByText } = render(<DirectionsScreen />);
-  expect(getByText('From')).toBeTruthy();
-  expect(getByText('Destination')).toBeTruthy();
-});
+jest.mock('@react-navigation/native', () => ({
+  useRoute: jest.fn(() => ({
+    params: {
+      destination: {
+        Address: 'Test Location',
+        Latitude: 45.5,
+        Longitude: -73.6,
+      },
+    },
+  })),
+}));
 
-// Transport Mode Buttons
-it('changes transport mode on button click', () => {
-  const { getByTestId } = render(<DirectionsScreen />);
-  act(() => {
+describe('DirectionsScreen', () => {
+  it('renders basic components', () => {
+    const { getByText, getByTestId } = render(<DirectionsScreen />);
+    expect(getByText('From')).toBeTruthy();
+    expect(getByText('Destination')).toBeTruthy();
+    expect(getByTestId('WALKING')).toBeTruthy();
+    expect(getByTestId('DRIVING')).toBeTruthy();
+  });
+
+  it('changes transport mode', () => {
+    const { getByTestId } = render(<DirectionsScreen />);
     fireEvent.press(getByTestId('WALKING'));
     fireEvent.press(getByTestId('DRIVING'));
+    fireEvent.press(getByTestId('TRANSIT'));
+    fireEvent.press(getByTestId('SHUTTLE'));
+    expect(getByTestId('DRIVING')).toBeTruthy();
   });
-  expect(getByTestId('WALKING')).toBeTruthy();
-  expect(getByTestId('DRIVING')).toBeTruthy();
-});
 
-// MapExplorerScreen.test.tsx
-import MapExplorerScreen from '../MapExplorerScreen';
-
-// Basic Rendering Test
-it('renders MapExplorerScreen without crashing', () => {
-  const { getByText } = render(<MapExplorerScreen />);
-  expect(getByText('SGW')).toBeTruthy();
-  expect(getByText('Loyola')).toBeTruthy();
-});
-
-// User Location Button
-it('centers map on user location when ME button is pressed', () => {
-  const { getByText } = render(<MapExplorerScreen />);
-  act(() => {
-    fireEvent.press(getByText('ME'));
+  it('triggers route calculation', () => {
+    const { getByTestId } = render(<DirectionsScreen />);
+    fireEvent.press(getByTestId('ROUTE'));
+    expect(getByTestId('ROUTE')).toBeTruthy();
   });
-  expect(getByText('ME')).toBeTruthy();
-});
 
-// Campus Switching
-it('switches campus when SGW button is pressed', () => {
-  const { getByText } = render(<MapExplorerScreen />);
-  act(() => {
-    fireEvent.press(getByText('SGW'));
+  it('renders distance and duration', () => {
+    const { getByText } = render(<DirectionsScreen />);
+    expect(getByText('Distance:')).toBeTruthy();
+    expect(getByText('Duration:')).toBeTruthy();
   });
-  expect(getByText('SGW')).toBeTruthy();
 });

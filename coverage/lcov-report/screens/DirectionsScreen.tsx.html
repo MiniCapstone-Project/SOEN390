@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/25</span>
+                <span class='fraction'>0/24</span>
             </div>
         
             
@@ -111,30 +111,18 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -145,82 +133,88 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// DirectionsScreen.test.tsx
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import DirectionsScreen from '../DirectionsScreen';
-import { act } from 'react-test-renderer';
+import { useRoute } from '@react-navigation/native';
 &nbsp;
-// Basic Rendering Test
-<span class="cstat-no" title="statement not covered" >it('renders DirectionsScreen without crashing', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-  const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;DirectionsScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  expect(getByText('From')).toBeTruthy();</span>
-<span class="cstat-no" title="statement not covered" >  expect(getByText('Destination')).toBeTruthy();</span>
-});
+<span class="cstat-no" title="statement not covered" >jest.mock('@react-navigation/native', <span class="fstat-no" title="function not covered" >()</span> =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+  useRoute: jest.fn(<span class="fstat-no" title="function not covered" >()</span> =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
+    params: {
+      destination: {
+        Address: 'Test Location',
+        Latitude: 45.5,
+        Longitude: -73.6,
+      },
+    },
+  })),
+}));
 &nbsp;
-// Transport Mode Buttons
-<span class="cstat-no" title="statement not covered" >it('changes transport mode on button click', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-  const { getByTestId } = <span class="cstat-no" title="statement not covered" >render(&lt;DirectionsScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  act(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >describe('DirectionsScreen', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  it('renders basic components', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const { getByText, getByTestId } = <span class="cstat-no" title="statement not covered" >render(&lt;DirectionsScreen /&gt;);</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('From')).toBeTruthy();</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('Destination')).toBeTruthy();</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByTestId('WALKING')).toBeTruthy();</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByTestId('DRIVING')).toBeTruthy();</span>
+  });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  it('changes transport mode', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const { getByTestId } = <span class="cstat-no" title="statement not covered" >render(&lt;DirectionsScreen /&gt;);</span>
 <span class="cstat-no" title="statement not covered" >    fireEvent.press(getByTestId('WALKING'));</span>
 <span class="cstat-no" title="statement not covered" >    fireEvent.press(getByTestId('DRIVING'));</span>
+<span class="cstat-no" title="statement not covered" >    fireEvent.press(getByTestId('TRANSIT'));</span>
+<span class="cstat-no" title="statement not covered" >    fireEvent.press(getByTestId('SHUTTLE'));</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByTestId('DRIVING')).toBeTruthy();</span>
   });
-<span class="cstat-no" title="statement not covered" >  expect(getByTestId('WALKING')).toBeTruthy();</span>
-<span class="cstat-no" title="statement not covered" >  expect(getByTestId('DRIVING')).toBeTruthy();</span>
-});
 &nbsp;
-// MapExplorerScreen.test.tsx
-import MapExplorerScreen from '../MapExplorerScreen';
-&nbsp;
-// Basic Rendering Test
-<span class="cstat-no" title="statement not covered" >it('renders MapExplorerScreen without crashing', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-  const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  expect(getByText('SGW')).toBeTruthy();</span>
-<span class="cstat-no" title="statement not covered" >  expect(getByText('Loyola')).toBeTruthy();</span>
-});
-&nbsp;
-// User Location Button
-<span class="cstat-no" title="statement not covered" >it('centers map on user location when ME button is pressed', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-  const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  act(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fireEvent.press(getByText('ME'));</span>
+<span class="cstat-no" title="statement not covered" >  it('triggers route calculation', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const { getByTestId } = <span class="cstat-no" title="statement not covered" >render(&lt;DirectionsScreen /&gt;);</span>
+<span class="cstat-no" title="statement not covered" >    fireEvent.press(getByTestId('ROUTE'));</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByTestId('ROUTE')).toBeTruthy();</span>
   });
-<span class="cstat-no" title="statement not covered" >  expect(getByText('ME')).toBeTruthy();</span>
-});
 &nbsp;
-// Campus Switching
-<span class="cstat-no" title="statement not covered" >it('switches campus when SGW button is pressed', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-  const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;MapExplorerScreen /&gt;);</span>
-<span class="cstat-no" title="statement not covered" >  act(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fireEvent.press(getByText('SGW'));</span>
+<span class="cstat-no" title="statement not covered" >  it('renders distance and duration', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+    const { getByText } = <span class="cstat-no" title="statement not covered" >render(&lt;DirectionsScreen /&gt;);</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('Distance:')).toBeTruthy();</span>
+<span class="cstat-no" title="statement not covered" >    expect(getByText('Duration:')).toBeTruthy();</span>
   });
-<span class="cstat-no" title="statement not covered" >  expect(getByText('SGW')).toBeTruthy();</span>
-});</pre></td></tr></table></pre>
+});
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-06T00:21:22.966Z
+                at 2025-04-06T03:40:31.354Z
             </div>
         <script src="../prettify.js"></script>
         <script>

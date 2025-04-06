@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">59.09% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/22</span>
+                <span class='fraction'>13/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -221,11 +221,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -349,36 +349,36 @@ interface MarkerInfoBoxProps {
     onDirections: () =&gt; void;
 }
 &nbsp;
-export const MarkerInfoBox: React.FC&lt;MarkerInfoBoxProps&gt; = <span class="fstat-no" title="function not covered" >({</span>
+export const MarkerInfoBox: React.FC&lt;MarkerInfoBoxProps&gt; = ({
     coordinate,
     title,
     properties,
     onClose,
     onDirections,
 }) =&gt; {
-    const displayProperties = <span class="cstat-no" title="statement not covered" >properties || {};</span>
+    const displayProperties = properties || {};
 &nbsp;
-    const { coordinate: _, ...displayProps } = <span class="cstat-no" title="statement not covered" >displayProperties;</span>
+    const { coordinate: _, ...displayProps } = displayProperties;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
         &lt;View style={MarkerInfoBoxStyles.overlay}&gt;
             &lt;Surface style={MarkerInfoBoxStyles.container}&gt;
                 &lt;ScrollView style={MarkerInfoBoxStyles.scrollView}&gt;
                     &lt;View style={MarkerInfoBoxStyles.coordinateContainer}&gt;
                         &lt;Text style={MarkerInfoBoxStyles.title}&gt;
-                            {title || 'Selected Location'}
+                            {title || <span class="branch-1 cbranch-no" title="branch not covered" >'Selected Location'}</span>
                         &lt;/Text&gt;
 &nbsp;
                         &lt;&gt;
                             &lt;Divider style={MarkerInfoBoxStyles.divider} /&gt;
                             &lt;Text style={MarkerInfoBoxStyles.sectionTitle}&gt;
-                                {properties?.poi_type ? 'Place Details' : 'Building Details'}
+                                {properties?.poi_type ? <span class="branch-0 cbranch-no" title="branch not covered" >'Place Details' </span>: 'Building Details'}
                             &lt;/Text&gt;
                             
                     
                             
                             {properties?.Building_Long_Name &amp;&amp; (
-                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;</span>
                                     &lt;Text style={MarkerInfoBoxStyles.propertyKey}&gt;Building Full Name:&lt;/Text&gt;
                                     &lt;Text style={MarkerInfoBoxStyles.propertyValue}&gt;{properties.Building_Long_Name}&lt;/Text&gt;
                                 &lt;/View&gt;
@@ -393,42 +393,42 @@ export const MarkerInfoBox: React.FC&lt;MarkerInfoBoxProps&gt; = <span class="fs
                             
                             {/* Display POI-specific information */}
                             {properties?.poi_type &amp;&amp; (
-                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;</span>
                                     &lt;Text style={MarkerInfoBoxStyles.propertyKey}&gt;Type:&lt;/Text&gt;
                                     &lt;Text style={MarkerInfoBoxStyles.propertyValue}&gt;{properties.poi_type}&lt;/Text&gt;
                                 &lt;/View&gt;
                             )}
                             
                             {properties?.rating &gt; 0 &amp;&amp; (
-                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;</span>
                                     &lt;Text style={MarkerInfoBoxStyles.propertyKey}&gt;Rating:&lt;/Text&gt;
                                     &lt;Text style={MarkerInfoBoxStyles.propertyValue}&gt;{properties.rating} ★&lt;/Text&gt;
                                 &lt;/View&gt;
                             )}
                             
                             {properties?.price_level &gt; 0 &amp;&amp; (
-                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;</span>
                                     &lt;Text style={MarkerInfoBoxStyles.propertyKey}&gt;Price Level:&lt;/Text&gt;
                                     &lt;Text style={MarkerInfoBoxStyles.propertyValue}&gt;{Array(properties.price_level).fill('$').join('')}&lt;/Text&gt;
                                 &lt;/View&gt;
                             )}
                             
                             {properties?.Building &amp;&amp; (
-                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;</span>
                                     &lt;Text style={MarkerInfoBoxStyles.propertyKey}&gt;Building Code:&lt;/Text&gt;
                                     &lt;Text style={MarkerInfoBoxStyles.propertyValue}&gt;{properties.Building}&lt;/Text&gt;
                                 &lt;/View&gt;
                             )}
                             
                             {properties?.Campus &amp;&amp; (
-                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >                                &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;</span>
                                     &lt;Text style={MarkerInfoBoxStyles.propertyKey}&gt;Campus:&lt;/Text&gt;
                                     &lt;Text style={MarkerInfoBoxStyles.propertyValue}&gt;{properties.Campus}&lt;/Text&gt;
                                 &lt;/View&gt;
                             )}
                             
                             {coordinate &amp;&amp; (
-                                &lt;&gt;
+<span class="branch-1 cbranch-no" title="branch not covered" >                                &lt;&gt;</span>
                                     &lt;Divider style={MarkerInfoBoxStyles.divider} /&gt;
                                     &lt;Text style={MarkerInfoBoxStyles.sectionTitle}&gt;Coordinates&lt;/Text&gt;
                                     &lt;View style={MarkerInfoBoxStyles.propertyRow}&gt;
@@ -475,7 +475,7 @@ export const MarkerInfoBox: React.FC&lt;MarkerInfoBoxProps&gt; = <span class="fs
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-06T00:21:22.966Z
+                at 2025-04-06T03:40:31.354Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
