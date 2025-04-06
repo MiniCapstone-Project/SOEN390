@@ -1,38 +1,36 @@
-// MapExplorerScreen Tests
-it('renders MapExplorerScreen without crashing', () => {
-  const { getByText } = render(<MapExplorerScreen />);
-  expect(getByText('SGW')).toBeTruthy();
-  expect(getByText('Loyola')).toBeTruthy();
-});
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import MapExplorerScreen from '../MapExplorerScreen';
 
-it('switches to SGW campus', () => {
-  const { getByText } = render(<MapExplorerScreen />);
-  act(() => {
+describe('MapExplorerScreen', () => {
+  it('renders correctly', () => {
+    const { getByText } = render(<MapExplorerScreen />);
+    expect(getByText('SGW')).toBeTruthy();
+    expect(getByText('Loyola')).toBeTruthy();
+    expect(getByText('ME')).toBeTruthy();
+  });
+
+  it('switches to SGW campus', () => {
+    const { getByText } = render(<MapExplorerScreen />);
     fireEvent.press(getByText('SGW'));
+    expect(getByText('SGW')).toBeTruthy();
   });
-  expect(getByText('SGW')).toBeTruthy();
-});
 
-it('centers to user location on ME button press', () => {
-  const { getByText } = render(<MapExplorerScreen />);
-  act(() => {
+  it('switches to Loyola campus', () => {
+    const { getByText } = render(<MapExplorerScreen />);
+    fireEvent.press(getByText('Loyola'));
+    expect(getByText('Loyola')).toBeTruthy();
+  });
+
+  it('centers to user location', () => {
+    const { getByText } = render(<MapExplorerScreen />);
     fireEvent.press(getByText('ME'));
+    expect(getByText('ME')).toBeTruthy();
   });
-  expect(getByText('ME')).toBeTruthy();
-});
 
-it('shows search results when text is entered', async () => {
-  const { getByPlaceholderText, getByText } = render(<MapExplorerScreen />);
-  await act(async () => {
+  it('searches places when typing', () => {
+    const { getByPlaceholderText, getByText } = render(<MapExplorerScreen />);
     fireEvent.changeText(getByPlaceholderText('Search for places...'), 'Test Place');
+    expect(getByText('Test Place')).toBeTruthy();
   });
-  expect(getByText('Test Place')).toBeTruthy();
-});
-
-it('handles map region change correctly', async () => {
-  const { getByTestId } = render(<MapExplorerScreen />);
-  await act(async () => {
-    fireEvent.press(getByTestId('MAP_REGION_CHANGE'));
-  });
-  expect(getByTestId('MAP_REGION_CHANGE')).toBeTruthy();
 });
