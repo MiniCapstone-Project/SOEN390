@@ -1,120 +1,138 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, Dimensions, SafeAreaView } from 'react-native';
-import CalendarView from '@/components/CalendarComponents/CalendarView';
-import EventList from '@/components/CalendarComponents/EventList';
-import { getEvents, getTodayString } from '../services/eventService';
-import { EventsType, Event } from '../types/eventTypes';
+import React from 'react';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import CalendarScreen from '@/screens/CalendarScreen';
 import NetInfo from '@react-native-community/netinfo';
-import {CalendarScreemStyles} from '@/Styles/CalendarStyles';
+import { getEvents, getTodayString } from '../services/eventService';
 
-// Define the calendar type enum
-enum CalendarType {
-  COURSES = 'Courses',
-  PERSONAL = 'Personal',
-  WORK = 'Work',
-}
+// Mock NetInfo to simulate offline and online status
+jest.mock('@react-native-community/netinfo', () => ({
+  addEventListener: jest.fn(() => () => {}),
+}));
 
-const CalendarScreen: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState<string>(getTodayString());
-  const [events, setEvents] = useState<{[key in CalendarType]?: EventsType}>({});
-  const [selectedDateEvents, setSelectedDateEvents] = useState<Event[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
-  const [isOffline, setIsOffline] = useState<boolean>(false);
-  const [activeCalendar, setActiveCalendar] = useState<CalendarType>(CalendarType.COURSES);
+// Mock the eventService functions
+jest.mock('../services/eventService', () => ({
+  getEvents: jest.fn(async (type: string) => {
+    if (type === 'courses') return { '2023-12-01': [{ id: 1, name: 'Course Event' }] };
+    if (type === 'personal') return { '2023-12-01': [{ id: 2, name: 'Personal Event' }] };
+    if (type === 'work') return { '2023-12-01': [{ id: 3, name: 'Work Event' }] };
+    throw new Error('Failed to fetch events');
+  }),
+  getTodayString: jest.fn(() => '2023-12-01'),
+}));
 
-  // Monitor network status
-  useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      setIsOffline(!state.isConnected);
+describe('CalendarScreen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders correctly and shows loading', async () => {
+    const { getByText, getByTestId } = render(<CalendarScreen />);
+    expect(getByText('Loading events...')).toBeTruthy();
+    expect(getByTestId('loading-indicator')).toBeTruthy();
+  });
+
+  it('shows events when fetched successfully', async () => {
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('Course Event')).toBeTruthy());
+    await waitFor(() => expect(getByText('Personal Event')).toBeTruthy());
+    await waitFor(() => expect(getByText('Work Event')).toBeTruthy());
+  });
+
+  it('displays an error message when event fetching fails', async () => {
+    (getEvents as jest.Mock).mockImplementationOnce(() => {
+      throw new Error('Network error');
     });
 
-    return () => unsubscribe();
-  }, []);
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('Failed to load events: Network error')).toBeTruthy());
+  });
 
-  // Load all events on component mount
-  useEffect(() => {
-    fetchEvents();
-  }, []);
+  it('handles network disconnection', async () => {
+    (NetInfo.addEventListener as jest.Mock).mockImplementationOnce((callback) =>
+      callback({ isConnected: false })
+    );
 
-  const fetchEvents = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      
-      // Fetch events for each calendar type
-      // In a real app, you would modify your getEvents function to support different calendar types
-      const coursesEvents = await getEvents('courses');
-      const personalEvents = await getEvents('personal');
-      const workEvents = await getEvents('work');
-      
-      setEvents({
-        [CalendarType.COURSES]: coursesEvents,
-        [CalendarType.PERSONAL]: personalEvents,
-        [CalendarType.WORK]: workEvents
-      });
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error('An unknown error occurred');
-      setError(error);
-      console.error('Failed to fetch events:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('You are offline. Please check your connection.')).toBeTruthy());
+  });
 
-  // Update selected day events when date or active calendar changes
-  useEffect(() => {
-    try {
-      const currentCalendarEvents = events[activeCalendar] || {};
-      const dayEvents = currentCalendarEvents[selectedDate] || [];
-      setSelectedDateEvents(dayEvents);
-    } catch (err) {
-      console.error('Error updating selected date events:', err);
-      setSelectedDateEvents([]);
-    }
-  }, [selectedDate, events, activeCalendar]);
+  it('retries fetching events when retry button is clicked', async () => {
+    (getEvents as jest.Mock).mockImplementationOnce(() => {
+      throw new Error('Initial failure');
+    });
 
-  // Handle date selection
-  const handleDateSelect = useCallback((date: string) => {
-    try {
-      setSelectedDate(date);
-    } catch (err) {
-      console.error('Error selecting date:', err);
-    }
-  }, []);
+    const { getByText, getByTestId } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('Failed to load events: Initial failure')).toBeTruthy());
 
-  // Retry loading events
-  const handleRetry = useCallback(() => {
-    fetchEvents();
-  }, [fetchEvents]);
+    (getEvents as jest.Mock).mockImplementationOnce(async () => ({
+      '2023-12-01': [{ id: 4, name: 'Recovered Event' }],
+    }));
 
-  return (
-    <SafeAreaView style={CalendarScreemStyles.container}>
-      {/* Calendar section - top half */}
-      <View style={CalendarScreemStyles.calendarContainer}>
-        <CalendarView 
-          events={events}
-          selectedDate={selectedDate}
-          onDateSelect={handleDateSelect}
-          isLoading={isLoading && !isOffline}
-          error={isOffline ? new Error('You are offline. Please check your connection.') : error}
-        />
-      </View>
+    const retryButton = getByTestId('retry-button');
+    fireEvent.press(retryButton);
+    await waitFor(() => expect(getByText('Recovered Event')).toBeTruthy());
+  });
 
-      {/* Events section - bottom half */}
-      <View style={CalendarScreemStyles.eventsContainer}>
-        <EventList 
-          date={selectedDate}
-          events={selectedDateEvents}
-          isLoading={isLoading && !isOffline && selectedDate !== getTodayString()}
-          error={isOffline ? new Error('You are offline. Please check your connection.') : error}
-        />
-      </View>
-    </SafeAreaView>
-  );
-};
+  it('updates selected date when a date is clicked', async () => {
+    const { getByText } = render(<CalendarScreen />);
+    const dateElement = getByText('2023-12-01');
+    fireEvent.press(dateElement);
+    expect(getByText('Course Event')).toBeTruthy();
+  });
 
-const { height } = Dimensions.get('window');
+  it('shows offline banner when disconnected', async () => {
+    (NetInfo.addEventListener as jest.Mock).mockImplementationOnce((callback) =>
+      callback({ isConnected: false })
+    );
 
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('You are offline. Please check your connection.')).toBeTruthy());
+  });
 
-export default CalendarScreen;
+  it('displays loading indicator during fetch', async () => {
+    const { getByTestId } = render(<CalendarScreen />);
+    expect(getByTestId('loading-indicator')).toBeTruthy();
+  });
+
+  it('displays correct calendar type buttons', async () => {
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('Courses')).toBeTruthy());
+    await waitFor(() => expect(getByText('Personal')).toBeTruthy());
+    await waitFor(() => expect(getByText('Work')).toBeTruthy());
+  });
+
+  it('handles calendar type toggle', async () => {
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('Courses')).toBeTruthy());
+    fireEvent.press(getByText('Personal'));
+    await waitFor(() => expect(getByText('Personal Event')).toBeTruthy());
+  });
+
+  it('handles event list update when changing dates', async () => {
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('Course Event')).toBeTruthy());
+
+    fireEvent.press(getByText('2023-12-02'));
+    await waitFor(() => expect(getByText('No events scheduled for this day')).toBeTruthy());
+  });
+
+  it('shows no events message when there are no events', async () => {
+    (getEvents as jest.Mock).mockResolvedValueOnce({});
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('No events scheduled for this day')).toBeTruthy());
+  });
+
+  it('correctly handles an empty calendar list', async () => {
+    (getEvents as jest.Mock).mockResolvedValueOnce(undefined);
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('No events scheduled for this day')).toBeTruthy());
+  });
+
+  it('displays error if offline mode is active', async () => {
+    (NetInfo.addEventListener as jest.Mock).mockImplementationOnce((callback) =>
+      callback({ isConnected: false })
+    );
+    const { getByText } = render(<CalendarScreen />);
+    await waitFor(() => expect(getByText('You are offline. Please check your connection.')).toBeTruthy());
+  });
+});

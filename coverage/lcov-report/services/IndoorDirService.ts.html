@@ -532,26 +532,8 @@
 <a name='L467'></a><a href='#L467'>467</a>
 <a name='L468'></a><a href='#L468'>468</a>
 <a name='L469'></a><a href='#L469'>469</a>
-<a name='L470'></a><a href='#L470'>470</a>
-<a name='L471'></a><a href='#L471'>471</a>
-<a name='L472'></a><a href='#L472'>472</a>
-<a name='L473'></a><a href='#L473'>473</a>
-<a name='L474'></a><a href='#L474'>474</a>
-<a name='L475'></a><a href='#L475'>475</a>
-<a name='L476'></a><a href='#L476'>476</a>
-<a name='L477'></a><a href='#L477'>477</a>
-<a name='L478'></a><a href='#L478'>478</a>
-<a name='L479'></a><a href='#L479'>479</a>
-<a name='L480'></a><a href='#L480'>480</a>
-<a name='L481'></a><a href='#L481'>481</a>
-<a name='L482'></a><a href='#L482'>482</a>
-<a name='L483'></a><a href='#L483'>483</a>
-<a name='L484'></a><a href='#L484'>484</a>
-<a name='L485'></a><a href='#L485'>485</a>
-<a name='L486'></a><a href='#L486'>486</a>
-<a name='L487'></a><a href='#L487'>487</a>
-<a name='L488'></a><a href='#L488'>488</a>
-<a name='L489'></a><a href='#L489'>489</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L470'></a><a href='#L470'>470</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -568,16 +550,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -692,10 +664,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -758,12 +726,6 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1052,6 +1014,7 @@ import mb2Hallways from "../gis/mb-2-hallways.json";
 import hall8Hallways from "../gis/hall-8-hallways.json";
 import hall9Hallways from "../gis/hall-9-hallways.json";
 import { FeatureCollection, Feature, MultiLineString } from 'geojson';
+import { Room, Hallway, Graph, Distances, PreviousNodes, PathResult } from '../types/IndoorDirServiceTypes';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 &nbsp;
@@ -1071,16 +1034,6 @@ const reverseLookup: Record&lt;string, any&gt; = {
 }
 &nbsp;
 &nbsp;
-export interface Room {
-    code: string;
-    coordinates: [number, number]; // [longitude, latitude]
-}
-&nbsp;
-interface Hallway {
-    name: string;
-    hallways: number[][][]; // MultiLineString format from JSON
-}
-&nbsp;
 &nbsp;
 // FUNCTIONS TO EXTRACT DATA FROM GIS JSON FILES
 export const extractRooms = (data: any): Room[] =&gt; {
@@ -1096,7 +1049,7 @@ export const extractHallways = (data: any, name: string): Hallway =&gt; ({
 });
 &nbsp;
 //"DATABASE" VARIABLES THAT HOLD HALLWAYS FOR EACH FLOOR AND ROOMS FOR EACH FLOOR
-const hallwaysList: Hallway[] = [
+export const hallwaysList: Hallway[] = [
     extractHallways(hall1Hallways, "hall-1-hallways"),
     extractHallways(hall2Hallways, "hall-2-hallways"),
     extractHallways(hall8Hallways, "hall-8-hallways"),
@@ -1179,10 +1132,6 @@ export const findClosestNode = (graph: Graph, target: string): string =&gt; {
   return closestNode;
 };
 &nbsp;
-export type Graph = Record&lt;string, string[]&gt;; // Adjacency list
-type Distances = Record&lt;string, number&gt;;
-type PreviousNodes = Record&lt;string, string | null&gt;;
-&nbsp;
 //DIJKSTRA FUNCTION
 export const dijkstra = (
   graph: Graph,
@@ -1247,12 +1196,6 @@ export const splitRoomCode = (roomCode: string): { letters: string; numbers: str
     if (!match) throw new Error(`Invalid room code format: ${roomCode}`);
     return { letters: match[1], numbers: match[2] };
 };
-&nbsp;
-// MAIN FUNCTION
-type PathResult =
-  | string[]  
-  | { path1: string[]; path2: string[] }  // Different floors
-  | { path1: string[]; path2: string[]; path3: string[]; path4: string[] };
 &nbsp;
 export const compareRooms = <span class="fstat-no" title="function not covered" >as</span>ync (room1: string, room2: string, forDisabled: boolean = <span class="branch-0 cbranch-no" title="branch not covered" >false)</span>: Promise&lt;PathResult&gt; =&gt; {
     const { letters: letters1, numbers: numbers1 } = <span class="cstat-no" title="statement not covered" >splitRoomCode(room1);</span>
@@ -1534,7 +1477,7 @@ export const routeToRoom = async (
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-06T05:32:18.716Z
+                at 2025-04-06T21:12:43.918Z
             </div>
         <script src="../prettify.js"></script>
         <script>
