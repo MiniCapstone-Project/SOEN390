@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1743901215902" clover="3.2.0">
-  <project timestamp="1743901215902" name="All files">
-    <metrics statements="288" coveredstatements="200" conditionals="168" coveredconditionals="119" methods="64" coveredmethods="37" elements="520" coveredelements="356" complexity="0" loc="288" ncloc="288" packages="7" files="18" classes="18"/>
+<coverage generated="1743901927372" clover="3.2.0">
+  <project timestamp="1743901927372" name="All files">
+    <metrics statements="287" coveredstatements="200" conditionals="168" coveredconditionals="119" methods="64" coveredmethods="37" elements="519" coveredelements="356" complexity="0" loc="287" ncloc="287" packages="7" files="18" classes="18"/>
     <package name="components.InputComponents">
       <metrics statements="82" coveredstatements="64" conditionals="46" coveredconditionals="20" methods="16" coveredmethods="13"/>
       <file name="AutoCompleteSearchWrapper.tsx" path="C:\Users\mosta\Documents\GitHub\SOEN390\components\InputComponents\AutoCompleteSearchWrapper.tsx">
@@ -169,9 +169,9 @@
       </file>
     </package>
     <package name="screens">
-      <metrics statements="69" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="25" coveredmethods="3"/>
+      <metrics statements="68" coveredstatements="9" conditionals="2" coveredconditionals="2" methods="25" coveredmethods="3"/>
       <file name="DirectionsScreen.tsx" path="C:\Users\mosta\Documents\GitHub\SOEN390\screens\DirectionsScreen.tsx">
-        <metrics statements="36" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="13" coveredmethods="0"/>
+        <metrics statements="35" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="13" coveredmethods="0"/>
         <line num="8" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -207,7 +207,6 @@
         <line num="55" count="0" type="stmt"/>
         <line num="58" count="0" type="stmt"/>
         <line num="59" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
       </file>
       <file name="MapExplorerScreen.tsx" path="C:\Users\mosta\Documents\GitHub\SOEN390\screens\MapExplorerScreen.tsx">
         <metrics statements="24" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="0"/>
