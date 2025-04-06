@@ -5,10 +5,34 @@
   "scripts": {
     "start": "expo start",
     "android": "GRADLE_OPTS='-Xmx4096m -XX:MaxMetaspaceSize=1024m' expo run:android",
-    "coverage": "jest --coverage",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "test": "jest"
+    "test": "jest --config jest.config.js"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "components/InputComponents/**/*.{js,jsx,ts,tsx}",
+      "components/MapComponents/**/*.{js,jsx,ts,tsx}",
+      "screens/**/*.{js,jsx,ts,tsx}",
+      "services/**/*.{js,jsx,ts,tsx}",
+      "navigation/**/*.{js,jsx,ts,tsx}",
+      "hooks/**/*.{js,jsx,ts,tsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1"
+    },
+    "setupFiles": [
+      "<rootDir>/navigation/setupTests.js"
+    ],
+    "testMatch": ["**/__tests__/**/*.[jt]s?(x)", "**/_tests_/**/*.[jt]s?(x)"]
   },
   "overrides": {
     "@testing-library/react-hooks": {
@@ -36,24 +60,19 @@
     }
   },
   "dependencies": {
-    "@babel/runtime": "^7.26.10",
     "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-community/slider": "4.5.5",
     "@react-native/gradle-plugin": "^0.77.1",
-    "@react-navigation/bottom-tabs": "^7.3.1",
-    "@react-navigation/native": "^7.0.15",
+    "@react-navigation/native": "^7.0.14",
     "eas-cli": "^15.0.15",
     "expo": "~52.0.39",
-    "expo-auth-session": "~6.0.3",
     "expo-dev-client": "^5.0.14",
     "expo-font": "~13.0.4",
     "expo-linking": "~7.0.5",
     "expo-location": "~18.0.8",
-    "expo-modules-autolinking": "^2.0.8",
     "expo-modules-core": "^2.2.3",
-    "expo-random": "^14.0.1",
     "expo-router": "~4.0.19",
     "expo-splash-screen": "~0.29.22",
     "expo-status-bar": "~2.0.1",
@@ -62,11 +81,10 @@
     "lodash": "^4.17.21",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-native": "^0.76.7",
+    "react-native": "0.76.7",
     "react-native-async-storage": "^0.0.1",
     "react-native-config": "^1.5.5",
     "react-native-elements": "^3.4.3",
-    "react-native-gesture-handler": "~2.20.2",
     "react-native-get-random-values": "^1.11.0",
     "react-native-google-places-autocomplete": "^2.5.7",
     "react-native-maps": "1.18.0",
@@ -81,6 +99,7 @@
     "@babel/core": "^7.26.10",
     "@eslint/js": "^9.22.0",
     "@react-native-community/cli": "latest",
+    "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/react-native": "^13.2.0",
@@ -101,7 +120,6 @@
     "metro-react-native-babel-preset": "^0.77.0",
     "react-test-renderer": "^18.3.1",
     "ts-jest": "^29.2.6",
-    "tsconfig-paths": "^4.2.0",
     "typescript": "~5.3.3",
     "typescript-eslint": "^8.26.1"
   },
