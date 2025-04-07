@@ -1,0 +1,16 @@
+appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name or bundle identifier)
+---
+
+- tapOn: "ES Building. "
+- tapOn: "Directions"
+- tapOn: "Current Location → Selected Building"
+- tapOn: "Map"
+- tapOn: "Close"
+- tapOn: "Loyola"
+- tapOn: "AD Building. "
+- tapOn: "Directions"
+- tapOn: "Current Location → Selected Building"
+- tapOn:
+    id: "DRIVING"
+- tapOn:
+    point: "10%,26%"

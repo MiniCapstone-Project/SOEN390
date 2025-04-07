@@ -4,6 +4,6 @@ appId: "com.i_amtheguy.potato"  # Replace with your actual app ID (package name 
 
 - tapOn: "Settings"
 
-- tapOn: "Sign in with Google"
+- tapOn: "Connect Google Calendar"
 
 
